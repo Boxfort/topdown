@@ -127,7 +127,7 @@ func is_too_small(polygon: PackedVector2Array) -> bool:
     print("VALS ARE: " + str(maxX) + " " + str(minX) + " " + str(maxY) + " " + str(minY))
     print("VALS ARE: " + str(maxX - minX) + " " + str(maxY - minY))
     print("AREA CALCULATED IS: " + str((maxX - minX) * (maxY - minY)))
-    return (maxX - minX) * (maxY - minY) < 20 
+    return (maxX - minX) * (maxY - minY) < 20
 
 func _is_hole(clipped_polygons):
     """

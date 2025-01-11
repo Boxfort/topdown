@@ -6,7 +6,6 @@
 extends Node2D
 
 @export var tilemap: TileMapLayer
-@export var slicer: CollisionPolygon2D
 @export var polygon_mask: Polygon2D
 @export var occluders_container: Node2D
 
@@ -17,10 +16,76 @@ func _ready() -> void:
     if tilemap:
         combine_occluders(tilemap)
         handle_walls(tilemap)
-        carve(slicer)
 
 
-func carve(clipping_polygon: CollisionPolygon2D):
+func carve_occluders(clipping_polygon: CollisionPolygon2D):
+    """
+    Carves the clipping_polygon away from the quadrant
+    """
+    for maybe_light_occluder in occluders_container.get_children():
+        if (!maybe_light_occluder is LightOccluder2D):
+            return
+
+        var light_occluder: LightOccluder2D = maybe_light_occluder
+
+        var global_clipping_polygon = clipping_polygon.polygon * clipping_polygon.transform.affine_inverse()
+        var clipped_polygons = Geometry2D.clip_polygons(light_occluder.occluder.polygon, global_clipping_polygon)
+        var n_clipped_polygons = len(clipped_polygons)
+        print("CLIPPED: " + str(n_clipped_polygons))
+        match n_clipped_polygons:
+            0:
+                # clipping_polygon completely overlaps colpol
+                remove_occluder(light_occluder)
+                #light_occluder.free()
+            1:
+                # Clipping produces only one polygon
+                light_occluder.occluder.polygon = clipped_polygons[0]
+                if (is_too_small(light_occluder.occluder.polygon, true)):
+                    remove_occluder(light_occluder)
+                    #light_occluder.free()
+            2:
+                # Check if you carved a hole (one of the two polygons
+                # is clockwise). If so, split the polygon in two that
+                # together make a "hollow" collision shape
+                if _is_hole(clipped_polygons):
+                    # split and add
+                    for p in _split_polygon(global_clipping_polygon):
+                        var colpol = LightOccluder2D.new()
+                        colpol.occluder = OccluderPolygon2D.new()
+                        colpol.occluder.polygon = Geometry2D.intersect_polygons(p,light_occluder.occluder.polygon)[0]
+                        if (!is_too_small(colpol.occluder.polygon, true)):
+                            light_occluder.add_child(colpol)
+                    remove_occluder(light_occluder)
+                    #light_occluder.free()
+                # if its not a hole, behave as in match _
+                else:
+                    light_occluder.occluder.polygon = clipped_polygons[0]
+                    if (is_too_small(light_occluder.occluder.polygon, true)):
+                        remove_occluder(light_occluder)
+                        #light_occluder.free()
+                    for i in range(n_clipped_polygons-1):
+                        var colpol = LightOccluder2D.new()
+                        colpol.occluder = OccluderPolygon2D.new()
+                        colpol.occluder.polygon = clipped_polygons[i+1]
+                        if (!is_too_small(colpol.occluder.polygon, true)):
+                            occluders_container.add_child(colpol)
+            
+            # if more than two polygons, simply add all of
+            # them to the quadrant
+            _:
+                light_occluder.occluder.polygon = clipped_polygons[0]
+                if (is_too_small(light_occluder.occluder.polygon, true)):
+                    remove_occluder(light_occluder)
+                    #light_occluder.free()
+                for i in range(n_clipped_polygons-1):
+                    var colpol = LightOccluder2D.new()
+                    colpol.occluder = OccluderPolygon2D.new()
+                    colpol.occluder.polygon = clipped_polygons[i+1]
+                    if (!is_too_small(colpol.occluder.polygon, true)):
+                        occluders_container.add_child(colpol)
+
+
+func carve_geometry(clipping_polygon: CollisionPolygon2D):
     """
     Carves the clipping_polygon away from the quadrant
     """
@@ -34,16 +99,17 @@ func carve(clipping_polygon: CollisionPolygon2D):
         var global_clipping_polygon = clipping_polygon.polygon * clipping_polygon.transform.affine_inverse()
         var clipped_polygons = Geometry2D.clip_polygons(collisionShape.polygon, global_clipping_polygon)
         var n_clipped_polygons = len(clipped_polygons)
-        print("CLIPPED: " + str(n_clipped_polygons))
         match n_clipped_polygons:
             0:
                 # clipping_polygon completely overlaps colpol
-                collisionShape.free()
+                remove_polygon(collisionShape)
+                #collisionShape.free()
             1:
                 # Clipping produces only one polygon
                 collisionShape.polygon = clipped_polygons[0]
                 if (is_too_small(collisionShape.polygon)):
-                    collisionShape.free()
+                    remove_polygon(collisionShape)
+                    #collisionShape.free()
                 print(clipped_polygons)
             2:
                 # Check if you carved a hole (one of the two polygons
@@ -56,12 +122,14 @@ func carve(clipping_polygon: CollisionPolygon2D):
                         colpol.polygon = Geometry2D.intersect_polygons(p, collisionShape.polygon)[0]
                         if (!is_too_small(colpol.polygon)):
                             staticbody.add_child(colpol)
-                    collisionShape.free()
+                    remove_polygon(collisionShape)
+                    #collisionShape.free()
                 # if its not a hole, behave as in match _
                 else:
                     collisionShape.polygon = clipped_polygons[0]
                     if (is_too_small(collisionShape.polygon)):
-                        collisionShape.free()
+                        remove_polygon(collisionShape)
+                        #collisionShape.free()
                     for i in range(n_clipped_polygons-1):
                         var colpol = CollisionPolygon2D.new()
                         colpol.polygon = clipped_polygons[i+1]
@@ -73,7 +141,8 @@ func carve(clipping_polygon: CollisionPolygon2D):
             _:
                 collisionShape.polygon = clipped_polygons[0]
                 if (is_too_small(collisionShape.polygon)):
-                    collisionShape.free()
+                    remove_polygon(collisionShape)
+                    #collisionShape.free()
                 for i in range(n_clipped_polygons-1):
                     var colpol = CollisionPolygon2D.new()
                     colpol.polygon = clipped_polygons[i+1]
@@ -87,20 +156,11 @@ func carve(clipping_polygon: CollisionPolygon2D):
     var polygon_count: int = 0;
     var new_polygon: PackedVector2Array = [];
 
-    for child in occluders_container.get_children():
-        child.free()
+    await get_tree().process_frame
 
+    # Construct the visiblity mask
     for maybePolygon in staticbody.get_children():
         new_polygon.append_array(maybePolygon.polygon)
-
-        # add occluder 
-        if (maybePolygon.get_child_count()>0):
-            maybePolygon.get_child(0).free()
-        var occluder = LightOccluder2D.new()
-        occluder.occluder = OccluderPolygon2D.new()
-        occluder.occluder.cull_mode = OccluderPolygon2D.CULL_COUNTER_CLOCKWISE
-        occluder.occluder.polygon = maybePolygon.polygon
-        #occluders_container.add_child(occluder)
 
         var a: PackedInt32Array = []
         polygon_mask.polygons.insert(polygon_count, a)
@@ -112,7 +172,13 @@ func carve(clipping_polygon: CollisionPolygon2D):
     polygon_mask.polygon = new_polygon
 
 
-func is_too_small(polygon: PackedVector2Array) -> bool:
+func remove_polygon(polygon: CollisionPolygon2D):
+    polygon.free()
+
+func remove_occluder(occluder: LightOccluder2D):
+    occluder.free()
+
+func is_too_small(polygon: PackedVector2Array, is_occluder: bool = false) -> bool:
     var maxX = 0;
     var minX = polygon[0].x;
     var maxY = 0;
@@ -127,10 +193,8 @@ func is_too_small(polygon: PackedVector2Array) -> bool:
         if point.x < minX:
             minX = point.x
 
-    print("VALS ARE: " + str(maxX) + " " + str(minX) + " " + str(maxY) + " " + str(minY))
-    print("VALS ARE: " + str(maxX - minX) + " " + str(maxY - minY))
-    print("AREA CALCULATED IS: " + str((maxX - minX) * (maxY - minY)))
-    return (maxX - minX) * (maxY - minY) < 20 
+    print("is_occluder " + str(is_occluder) + " size: " + str((maxX - minX) * (maxY - minY)))
+    return (maxX - minX) * (maxY - minY) < (5 if is_occluder else 25)
 
 func _is_hole(clipped_polygons):
     """
@@ -173,8 +237,8 @@ func _avg_position(array: Array):
 func combine_occluders(tile_map: TileMapLayer) -> void:
     # This static body will have all the polygons
     # genereted as childs
-    var occluder_container = Node2D.new()
-    tile_map.add_child(occluder_container)
+    #var occluder_container = Node2D.new()
+    #tile_map.add_child(occluder_container)
 
     var occluder_polygons: Array[PackedVector2Array] = []
     var used_cells_coords := tile_map.get_used_cells()
@@ -187,12 +251,12 @@ func combine_occluders(tile_map: TileMapLayer) -> void:
             for pos in occluder.polygon:
                 var global_cell_pos: Vector2 = tilemap.global_position + Vector2((cell_coords * cell_size) + (cell_size/2))
                 adjusted_polygon.append(pos + global_cell_pos)
-            print("OCCLUDER POLY - " + str(adjusted_polygon))
             occluder_polygons.append(adjusted_polygon)
-            #tile_data.set_occluder(0, null) # Remove the occluder, were going to construct a new one
         #tile_map._tile_data_runtime_update(cell_coords, tile_data)
 
-    print("found " + str(occluder_polygons.size()) + " occluders");
+    for cell_coords in used_cells_coords:
+        var tile_data = tile_map.get_cell_tile_data(cell_coords)
+        tile_data.set_occluder(0, null) # Remove the occluder, were going to construct a new one
 
     var occluders_to_remove := []
     var index_to_remove := {}
@@ -245,8 +309,7 @@ func combine_occluders(tile_map: TileMapLayer) -> void:
         var occluder_polygon_2d = OccluderPolygon2D.new()
         occluder_polygon_2d.polygon = occluder
         light_occluder.occluder = occluder_polygon_2d
-        occluder_container.add_child(light_occluder)
-        print("weehaa")
+        occluders_container.add_child(light_occluder)
 
 
 # Ignore all tilemaps not named walls
