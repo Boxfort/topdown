@@ -91,7 +91,7 @@ func carve(clipping_polygon: CollisionPolygon2D):
         new_polygon.append_array(maybePolygon.polygon)
 
         # add occluder 
-        if (maybePolygon.get_child(0)):
+        if (maybePolygon.get_child_count()>0):
             maybePolygon.get_child(0).free()
         var occluder = LightOccluder2D.new()
         occluder.occluder = OccluderPolygon2D.new()
