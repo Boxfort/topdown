@@ -1,9 +1,10 @@
-[gd_scene load_steps=27 format=4 uid="uid://dhb64vl06ya0g"]
+[gd_scene load_steps=28 format=4 uid="uid://dhb64vl06ya0g"]
 
 [ext_resource type="Script" path="res://PlayerController.cs" id="1_5hbdm"]
 [ext_resource type="Script" path="res://CameraController.cs" id="1_8o3lw"]
 [ext_resource type="Texture2D" uid="uid://btb1padwqwe2f" path="res://icon.svg" id="2_lfjo1"]
 [ext_resource type="Script" path="res://ActiveViewport.cs" id="2_yjwdp"]
+[ext_resource type="Script" path="res://ViewportResizeListener.cs" id="3_rhprs"]
 [ext_resource type="Script" path="res://tile_mesher.gd" id="4_xa6fp"]
 [ext_resource type="Texture2D" uid="uid://b1ds8wdj7w85x" path="res://assets/8x8.png" id="5_0iglp"]
 [ext_resource type="Script" path="res://SlicerScript.gd" id="6_58o1p"]
@@ -204,6 +205,7 @@ mouse_filter = 2
 texture = SubResource("ViewportTexture_i8yn4")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
 offset_right = 40.0
 offset_bottom = 40.0
 
@@ -214,6 +216,9 @@ canvas_item_default_texture_filter = 0
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 script = ExtResource("2_yjwdp")
+
+[node name="ResizeListener" type="Node" parent="SubViewportContainer/ActiveViewport"]
+script = ExtResource("3_rhprs")
 
 [node name="MainCamera" type="Camera2D" parent="SubViewportContainer/ActiveViewport" node_paths=PackedStringArray("cameraTarget")]
 zoom = Vector2(4, 4)
@@ -273,7 +278,9 @@ transparent_bg = true
 canvas_item_default_texture_filter = 0
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
-script = ExtResource("2_yjwdp")
+
+[node name="ResizeListener" type="Node" parent="UnlitViewport"]
+script = ExtResource("3_rhprs")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="UnlitViewport"]
 color = Color(0.321728, 0.321728, 0.321728, 1)
@@ -293,6 +300,9 @@ transparent_bg = true
 canvas_item_default_texture_filter = 0
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
+
+[node name="ResizeListener" type="Node" parent="VisiblityViewport"]
+script = ExtResource("3_rhprs")
 
 [node name="VisCam" type="Camera2D" parent="VisiblityViewport" node_paths=PackedStringArray("cameraTarget")]
 zoom = Vector2(4, 4)

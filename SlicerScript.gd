@@ -3,6 +3,7 @@ extends CollisionPolygon2D
 
 @export var target: Node2D
 @export var tiler: Node2D
+@export var camera_shaker: Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,6 +17,7 @@ func _process(_delta: float) -> void:
 
     if (Input.is_action_just_pressed("fire")):
         print("=====")
+        camera_shaker.ApplyNoiseShake();
         tiler.carve_geometry(self)
         tiler.carve_occluders(self)
         print("=====")

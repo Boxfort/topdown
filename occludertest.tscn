@@ -1,14 +1,17 @@
-[gd_scene load_steps=38 format=4 uid="uid://iiy8nfvj47mb"]
+[gd_scene load_steps=42 format=4 uid="uid://iiy8nfvj47mb"]
 
 [ext_resource type="Shader" path="res://masked_texture.gdshader" id="1_g4h2b"]
 [ext_resource type="Script" path="res://ActiveViewport.cs" id="2_e7lni"]
+[ext_resource type="Script" path="res://ViewportResizeListener.cs" id="3_540a5"]
 [ext_resource type="Script" path="res://CameraController.cs" id="3_vdmfa"]
 [ext_resource type="Texture2D" uid="uid://b1ds8wdj7w85x" path="res://assets/8x8.png" id="4_3ihqt"]
+[ext_resource type="Script" path="res://CameraShaker.cs" id="5_har2l"]
 [ext_resource type="Script" path="res://destruction_mesh_handler.gd" id="5_uj078"]
 [ext_resource type="Script" path="res://SlicerScript.gd" id="6_82whi"]
 [ext_resource type="Script" path="res://PlayerController.cs" id="7_074nq"]
 [ext_resource type="Texture2D" uid="uid://btb1padwqwe2f" path="res://icon.svg" id="8_74j1g"]
 [ext_resource type="Shader" path="res://full_white.gdshader" id="9_36kq5"]
+[ext_resource type="Script" path="res://DummyCamera.cs" id="10_f5b65"]
 [ext_resource type="Script" path="res://FollowTarget.cs" id="10_ke1t6"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2kdu2"]
@@ -20,6 +23,9 @@ viewport_path = NodePath("VisiblityViewport")
 [sub_resource type="ViewportTexture" id="ViewportTexture_dump0"]
 viewport_path = NodePath("VisiblityViewport")
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_po5po"]
+viewport_path = NodePath("SubViewportContainer/ActiveViewport")
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_i61p2"]
 viewport_path = NodePath("UnlitViewport")
 
@@ -27,6 +33,7 @@ viewport_path = NodePath("UnlitViewport")
 resource_local_to_scene = true
 shader = ExtResource("1_g4h2b")
 shader_parameter/mask_texture = SubResource("ViewportTexture_dump0")
+shader_parameter/over_mask_texture = SubResource("ViewportTexture_po5po")
 shader_parameter/under_mask_texture = SubResource("ViewportTexture_i61p2")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_i8yn4"]
@@ -222,12 +229,13 @@ height = 512
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[node name="World" type="Node2D"]
+[node name="GameContainer" type="Node2D"]
 texture_filter = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ViewportDebug" type="TextureRect" parent="CanvasLayer"]
+visible = false
 visibility_layer = 2
 z_index = 1
 material = SubResource("CanvasItemMaterial_2kdu2")
@@ -237,13 +245,18 @@ scale = Vector2(0.05, 0.05)
 texture = SubResource("ViewportTexture_va2h5")
 
 [node name="CombinedView" type="TextureRect" parent="CanvasLayer"]
-texture_filter = 2
+texture_filter = 1
 material = SubResource("ShaderMaterial_j3yl5")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -1920.0
+offset_top = -1080.0
+offset_right = -1920.0
+offset_bottom = -1080.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(4, 4)
 mouse_filter = 2
 texture = SubResource("ViewportTexture_i8yn4")
 
@@ -252,17 +265,21 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="ActiveViewport" type="SubViewport" parent="SubViewportContainer"]
-transparent_bg = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 script = ExtResource("2_e7lni")
 
+[node name="ResizeListener" type="Node" parent="SubViewportContainer/ActiveViewport"]
+script = ExtResource("3_540a5")
+
 [node name="MainCamera" type="Camera2D" parent="SubViewportContainer/ActiveViewport" node_paths=PackedStringArray("cameraTarget")]
-zoom = Vector2(4, 4)
 script = ExtResource("3_vdmfa")
 cameraTarget = NodePath("../Player")
+
+[node name="CameraShaker" type="Node2D" parent="SubViewportContainer/ActiveViewport/MainCamera"]
+script = ExtResource("5_har2l")
 
 [node name="Floors" type="TileMapLayer" parent="SubViewportContainer/ActiveViewport"]
 texture_filter = 1
@@ -284,11 +301,17 @@ texture_filter = 1
 tile_map_data = PackedByteArray("AAAeAAgAAQABAAIAAAAdAAgAAQABAAIAAAAcAAgAAQABAAIAAAAbAAgAAQABAAIAAAAaAAgAAQABAAIAAAAgAAgAAQABAAIAAAAhAAgAAQABAAIAAAAiAAgAAQABAAIAAAAjAAgAAQABAAIAAAAkAAgAAQABAAIAAAAlAAgAAQABAAIAAAAmAAgAAQACAAIAAAAZAAgAAQAAAAIAAAAZAAcAAQAAAAEAAAAZAAYAAQAAAAEAAAAZAAUAAQAAAAEAAAAmAAcAAQACAAEAAAAmAAYAAQACAAEAAAAmAAUAAQACAAEAAAAmAAQAAQACAAEAAAAZAAQAAQAAAAEAAAAYAAMAAQABAAIAAAAXAAMAAQABAAIAAAAWAAMAAQABAAIAAAAnAAMAAQABAAIAAAAoAAMAAQABAAIAAAApAAMAAQABAAIAAAAmAAMAAQADAAAAAAAZAAMAAQAEAAAAAAA=")
 tile_set = SubResource("TileSet_vfjjl")
 
-[node name="Slicer" type="CollisionPolygon2D" parent="SubViewportContainer/ActiveViewport" node_paths=PackedStringArray("target", "tiler")]
+[node name="Slicer" type="CollisionPolygon2D" parent="SubViewportContainer/ActiveViewport" node_paths=PackedStringArray("target", "tiler", "camera_shaker")]
 polygon = PackedVector2Array(-2, 0, 2, 0, 2, 90, -2, 90)
 script = ExtResource("6_82whi")
 target = NodePath("../Player")
 tiler = NodePath("../Tiler")
+camera_shaker = NodePath("../MainCamera/CameraShaker")
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/ActiveViewport"]
+position = Vector2(236, 63)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("8_74j1g")
 
 [node name="Player" type="CharacterBody2D" parent="SubViewportContainer/ActiveViewport"]
 position = Vector2(80, 19)
@@ -318,13 +341,16 @@ size = Vector2i(1280, 720)
 render_target_update_mode = 4
 script = ExtResource("2_e7lni")
 
+[node name="ResizeListener" type="Node" parent="UnlitViewport"]
+script = ExtResource("3_540a5")
+
 [node name="CanvasModulate" type="CanvasModulate" parent="UnlitViewport"]
 color = Color(0.321728, 0.321728, 0.321728, 1)
 
-[node name="MainCamera" type="Camera2D" parent="UnlitViewport" node_paths=PackedStringArray("cameraTarget")]
+[node name="UnlitCamera" type="Camera2D" parent="UnlitViewport" node_paths=PackedStringArray("mainCamera")]
 zoom = Vector2(4, 4)
-script = ExtResource("3_vdmfa")
-cameraTarget = NodePath("../../SubViewportContainer/ActiveViewport/Player")
+script = ExtResource("10_f5b65")
+mainCamera = NodePath("../../SubViewportContainer/ActiveViewport/MainCamera")
 
 [node name="Floors" type="TileMapLayer" parent="UnlitViewport"]
 texture_filter = 1
@@ -342,14 +368,17 @@ canvas_item_default_texture_filter = 0
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
-[node name="VisCam" type="Camera2D" parent="VisiblityViewport" node_paths=PackedStringArray("cameraTarget")]
-zoom = Vector2(4, 4)
-script = ExtResource("3_vdmfa")
-cameraTarget = NodePath("../../SubViewportContainer/ActiveViewport/Player")
+[node name="ResizeListener" type="Node" parent="VisiblityViewport"]
+script = ExtResource("3_540a5")
 
-[node name="Quad" type="Sprite2D" parent="VisiblityViewport/VisCam"]
+[node name="VisibilityCamera" type="Camera2D" parent="VisiblityViewport" node_paths=PackedStringArray("mainCamera")]
+zoom = Vector2(4, 4)
+script = ExtResource("10_f5b65")
+mainCamera = NodePath("../../SubViewportContainer/ActiveViewport/MainCamera")
+
+[node name="Quad" type="Sprite2D" parent="VisiblityViewport/VisibilityCamera"]
 material = SubResource("ShaderMaterial_pfnab")
-scale = Vector2(10, 10)
+scale = Vector2(100, 100)
 texture = ExtResource("8_74j1g")
 
 [node name="PointLight2D" type="PointLight2D" parent="VisiblityViewport"]
@@ -367,8 +396,3 @@ shadow_enabled = true
 texture = SubResource("GradientTexture2D_6x8qp")
 script = ExtResource("10_ke1t6")
 target = NodePath("../../SubViewportContainer/ActiveViewport/Player")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(236, 63)
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("8_74j1g")
