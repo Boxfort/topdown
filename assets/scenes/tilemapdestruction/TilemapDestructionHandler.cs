@@ -34,102 +34,169 @@ public partial class TilemapDestructionHandler : Node
         }
     }
 
-    public void CarveOccluders(CollisionPolygon2D clippingPolygon) {
-        foreach (Node child in mainOccludersContainer.GetChildren()) {
-            if (child is LightOccluder2D lightOccluder2D) {
-                Carve(clippingPolygon);
+    public void Carve(CollisionPolygon2D clippingPolygon) {
+        CarveColliders(clippingPolygon);
+        CarveOccluders(clippingPolygon);
+    }
+
+    private void CarveOccluders(CollisionPolygon2D clippingPolygon)
+    {
+        foreach (Node child in mainOccludersContainer.GetChildren())
+        {
+            if (child is LightOccluder2D lightOccluder2D)
+            {
+                CarveNode<LightOccluder2D>(
+                    clippingPolygon,
+                    mainOccludersContainer,
+                    lightOccluder2D,
+                    (node) => node.Occluder.Polygon,
+                    (node, polygon) => node.Occluder.Polygon = polygon,
+                    (polygon) =>
+                    {
+                        LightOccluder2D newLightOccluder2D = new()
+                        {
+                            Occluder = new()
+                        };
+                        newLightOccluder2D.Occluder.Polygon = polygon;
+                        return newLightOccluder2D;
+                    }
+                );
             }
+        }
+
+        // Clear occluder copies, and duplicate over the newly sliced occluders.
+        foreach(Node child in copyOccludersContainer.GetChildren())
+        {
+            child.Free();
+        }
+
+        foreach(Node child in mainOccludersContainer.GetChildren())
+        {
+            copyOccludersContainer.AddChild(child.Duplicate());
         }
     }
 
-    public void CarveColliders(CollisionPolygon2D clippingPolygon) {
-        Carve(clippingPolygon);
+    private void CarveColliders(CollisionPolygon2D clippingPolygon)
+    {
+        foreach (Node child in collisionContainer.GetChildren())
+        {
+            if (child is CollisionPolygon2D collisionPolygon2D)
+            {
+                CarveNode<CollisionPolygon2D>(
+                    clippingPolygon,
+                    collisionContainer,
+                    collisionPolygon2D,
+                    (node) => node.Polygon,
+                    (node, polygon) => node.Polygon = polygon,
+                    (polygon) =>
+                    {
+                        CollisionPolygon2D newCollisionPolygon2D = new()
+                        {
+                            Polygon = polygon
+                        };
+                        return newCollisionPolygon2D;
+                    }
+                );
+            }
+        }
+
+        polygonMask.Polygons.Clear();
+        int indicesCount = 0;
+        List<Vector2> newPolygon = new();
+        Godot.Collections.Array<int> polygonsIndices = new();
+
+        foreach (CollisionPolygon2D collisionPolygon in collisionContainer.GetChildren()) 
+        {
+            newPolygon.AddRange(collisionPolygon.Polygon);
+
+            for (int i = 0; i < collisionPolygon.Polygon.Length; i++) {
+                polygonsIndices.Add(indicesCount + i);
+            }
+            indicesCount += collisionPolygon.Polygon.Length;
+        }
+
+        polygonMask.Polygons = (Godot.Collections.Array)polygonsIndices;
+        polygonMask.Polygon = newPolygon.ToArray();
     }
 
     /// <summary>
     /// Carves the clippingPolygon away from the collision and occluders in the tilemap.
     /// </summary>
     /// <param name="clippingPolygon">The polygon to carve out of the tilemap.</param>
-    public void Carve(CollisionPolygon2D clippingPolygon)
+    private static void CarveNode<T>(
+        CollisionPolygon2D clippingPolygon,
+        Node2D nodeContainer,
+        T polygonNode,
+        Func<T, Vector2[]> getPolygon,
+        Action<T, Vector2[]> setPolygon,
+        Func<Vector2[], T> constructNode
+    )
+        where T : Node
     {
-        foreach (Node child in mainOccludersContainer.GetChildren())
-        {
-            if (child is LightOccluder2D lightOccluder2D)
-            {
-                Vector2[] globalClippingPolygon = clippingPolygon.Polygon * clippingPolygon.Transform.AffineInverse();
-                List<Vector2[]> clippedPolygons = Geometry2D.ClipPolygons(lightOccluder2D.Occluder.Polygon, globalClippingPolygon).ToList();
+        Vector2[] globalClippingPolygon = clippingPolygon.Polygon * clippingPolygon.Transform.AffineInverse();
+        List<Vector2[]> clippedPolygons = Geometry2D.ClipPolygons(getPolygon(polygonNode), globalClippingPolygon).ToList();
 
-                switch (clippedPolygons.Count)
+        switch (clippedPolygons.Count)
+        {
+            case 0:
+                polygonNode.Free();
+                break;
+            case 1:
+                setPolygon(polygonNode, clippedPolygons[0]);
+                if (IsPolygonTooSmall(getPolygon(polygonNode), true))
                 {
-                    case 0:
-                        lightOccluder2D.Free();
-                        break;
-                    case 1:
-                        lightOccluder2D.Occluder.Polygon = clippedPolygons[0];
-                        if (IsPolygonTooSmall(lightOccluder2D.Occluder.Polygon, true))
-                        {
-                            lightOccluder2D.Free();
-                        }
-                        break;
-                    case 2:
-                        if (IsHole(clippedPolygons))
-                        {
-                            foreach (Vector2[] polygon in SplitPolygon(globalClippingPolygon))
-                            {
-                                LightOccluder2D newLightOccluder2D = new()
-                                {
-                                    Occluder = new()
-                                };
-                                newLightOccluder2D.Occluder.Polygon = Geometry2D.IntersectPolygons(polygon, lightOccluder2D.Occluder.Polygon)[0];
-                                if (!IsPolygonTooSmall(newLightOccluder2D.Occluder.Polygon, true))
-                                {
-                                    mainOccludersContainer.AddChild(newLightOccluder2D);
-                                }
-                            }
-                            lightOccluder2D.Free();
-                        }
-                        else
-                        {
-                            lightOccluder2D.Occluder.Polygon = clippedPolygons[0];
-                            if (IsPolygonTooSmall(lightOccluder2D.Occluder.Polygon, true))
-                            {
-                                lightOccluder2D.Free();
-                            }
-                            for (int i = 1; i < clippedPolygons.Count; i++)
-                            {
-                                LightOccluder2D newLightOccluder2D = new()
-                                {
-                                    Occluder = new()
-                                };
-                                newLightOccluder2D.Occluder.Polygon = clippedPolygons[i];
-                                if (!IsPolygonTooSmall(newLightOccluder2D.Occluder.Polygon, true))
-                                {
-                                    mainOccludersContainer.AddChild(newLightOccluder2D);
-                                }
-                            }
-                        }
-                        break;
-                    default:
-                        lightOccluder2D.Occluder.Polygon = clippedPolygons[0];
-                        if (IsPolygonTooSmall(lightOccluder2D.Occluder.Polygon, true))
-                        {
-                            lightOccluder2D.Free();
-                        }
-                        for (int i = 1; i < clippedPolygons.Count; i++)
-                        {
-                            LightOccluder2D newLightOccluder2D = new()
-                            {
-                                Occluder = new()
-                            };
-                            newLightOccluder2D.Occluder.Polygon = clippedPolygons[i];
-                            if (!IsPolygonTooSmall(newLightOccluder2D.Occluder.Polygon, true))
-                            {
-                                mainOccludersContainer.AddChild(newLightOccluder2D);
-                            }
-                        }
-                        break;
+                    polygonNode.Free();
                 }
-            }
+                break;
+            case 2:
+                if (IsHole(clippedPolygons))
+                {
+                    // NOTE: maybe just ignore
+                    /*
+                    foreach (Vector2[] polygon in SplitPolygon(globalClippingPolygon))
+                    {
+                        T newNode = constructNode(Geometry2D.IntersectPolygons(polygon, getPolygon(polygonNode))[0]);
+
+                        if (!IsPolygonTooSmall(getPolygon(newNode), true))
+                        {
+                            nodeContainer.AddChild(newNode);
+                        }
+                    }
+                    polygonNode.Free();
+                    */
+                }
+                else
+                {
+                    setPolygon(polygonNode, clippedPolygons[0]);
+                    if (IsPolygonTooSmall(getPolygon(polygonNode), true))
+                    {
+                        polygonNode.Free();
+                    }
+                    for (int i = 1; i < clippedPolygons.Count; i++)
+                    {
+                        T newNode = constructNode(clippedPolygons[i]);
+                        if (!IsPolygonTooSmall(getPolygon(newNode), true))
+                        {
+                            nodeContainer.AddChild(newNode);
+                        }
+                    }
+                }
+                break;
+            default:
+                setPolygon(polygonNode, clippedPolygons[0]);
+                if (IsPolygonTooSmall(getPolygon(polygonNode), true))
+                {
+                    polygonNode.Free();
+                }
+                for (int i = 1; i < clippedPolygons.Count; i++)
+                {
+                    T newNode = constructNode(clippedPolygons[i]);
+                    if (!IsPolygonTooSmall(getPolygon(newNode), true))
+                    {
+                        nodeContainer.AddChild(newNode);
+                    }
+                }
+                break;
         }
     }
 
@@ -142,13 +209,16 @@ public partial class TilemapDestructionHandler : Node
     private static List<Vector2[]> SplitPolygon(Vector2[] polygon)
     {
         float avgXPos = AvgPos(polygon).X;
-        Vector2[] leftSubquadrant = Array.Empty<Vector2>();
+        float minY = polygon.MinBy((x) => x.Y).Y;
+        float maxY = polygon.MaxBy((x) => x.Y).Y;
+
+        Vector2[] leftSubquadrant = (Vector2[])polygon.Clone();
         leftSubquadrant[1] = new Vector2(avgXPos, leftSubquadrant[1].Y);
         leftSubquadrant[2] = new Vector2(avgXPos, leftSubquadrant[2].Y);
 
-        Vector2[] rightSubquadrant = Array.Empty<Vector2>();
-        rightSubquadrant[0] = new Vector2(avgXPos, rightSubquadrant[1].Y);
-        rightSubquadrant[3] = new Vector2(avgXPos, rightSubquadrant[2].Y);
+        Vector2[] rightSubquadrant = (Vector2[])polygon.Clone();
+        rightSubquadrant[0] = new Vector2(avgXPos, rightSubquadrant[0].Y);
+        rightSubquadrant[3] = new Vector2(avgXPos, rightSubquadrant[3].Y);
 
         Vector2[] polygonA = Geometry2D.ClipPolygons(leftSubquadrant, polygon)[0];
         Vector2[] polygonB = Geometry2D.ClipPolygons(rightSubquadrant, polygon)[0];
@@ -199,13 +269,14 @@ public partial class TilemapDestructionHandler : Node
 
     private void ConstructColliders(TileMapLayer tilemap)
     {
+        GD.Print("Constructing colliders");
         List<Vector2[]> collisionPolygons = new();
         Godot.Collections.Array<Vector2I> usedCellCoords = tilemap.GetUsedCells();
 
         foreach (Vector2 cellCoord in usedCellCoords)
         {
             Vector2[] polygon = GetTilePolygon(GetTilePoints(cellCoord, cellSize));
-            _ = collisionPolygons.Append(polygon);
+            collisionPolygons.Add(polygon);
         }
 
         collisionPolygons = CombinePolygons(collisionPolygons);
@@ -218,10 +289,13 @@ public partial class TilemapDestructionHandler : Node
             };
             collisionContainer.AddChild(collisionPolygon2D);
         }
+
+        GD.Print("Constructing colliders DONE");
     }
 
     private void CombineOccluders(TileMapLayer tilemap)
     {
+        GD.Print("Combining occluders");
         List<Vector2[]> occluderPolygons = new();
         Godot.Collections.Array<Vector2I> usedCellCoords = tilemap.GetUsedCells();
 
@@ -236,9 +310,11 @@ public partial class TilemapDestructionHandler : Node
                 foreach (Vector2 pos in occluder.Polygon)
                 {
                     Vector2 globalCellPos = tileMap.GlobalPosition + ((cellCoords * cellSize) + (cellSize / 2));
-                    _ = adjustedPolygon.Append(pos + globalCellPos);
+                    adjustedPolygon.Add(pos + globalCellPos);
                 }
-                _ = occluderPolygons.Append(adjustedPolygon.ToArray());
+                GD.Print("ADJ POLY: " + adjustedPolygon.Count);
+                occluderPolygons.Add(adjustedPolygon.ToArray());
+                GD.Print("BRUH " + occluderPolygons.Count);
             }
         }
 
@@ -249,7 +325,9 @@ public partial class TilemapDestructionHandler : Node
             tileData.SetOccluder(0, null);
         }
 
+        GD.Print(occluderPolygons.Count);
         occluderPolygons = CombinePolygons(occluderPolygons);
+        GD.Print(occluderPolygons.Count);
 
         foreach (Vector2[] occluderPolygon in occluderPolygons)
         {
@@ -262,10 +340,12 @@ public partial class TilemapDestructionHandler : Node
             mainOccludersContainer.AddChild(lightOccluder);
             copyOccludersContainer.AddChild(lightOccluder.Duplicate());
         }
+        GD.Print("Combining occluders DONE");
     }
 
     private static List<Vector2[]> CombinePolygons(List<Vector2[]> polygons)
     {
+        GD.Print("Combining polygons");
         List<Vector2[]> polygonsToRemove = new();
         Dictionary<int, bool> indexToRemove = new();
 
@@ -292,7 +372,7 @@ public partial class TilemapDestructionHandler : Node
 
                     polygons[j] = mergedPolygons[0];
 
-                    _ = polygonsToRemove.Append(polygonA);
+                    polygonsToRemove.Add(polygonA);
                     indexToRemove[i] = true;
                     break;
                 }
@@ -307,6 +387,7 @@ public partial class TilemapDestructionHandler : Node
             }
         }
 
+        GD.Print("Combining DONE");
         return polygons;
     }
 

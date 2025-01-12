@@ -16,8 +16,5 @@ func _process(_delta: float) -> void:
     global_rotation = self.global_position.angle_to_point(get_viewport().get_canvas_transform().affine_inverse() * get_viewport().get_mouse_position()) - deg_to_rad(90)
 
     if (Input.is_action_just_pressed("fire")):
-        print("=====")
         camera_shaker.ApplyNoiseShake();
-        tiler.carve_geometry(self)
-        tiler.carve_occluders(self)
-        print("=====")
+        tiler.Carve(self)
