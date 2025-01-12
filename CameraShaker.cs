@@ -5,14 +5,14 @@ public partial class CameraShaker : Node2D
 {
 
     // How quickly to move through the noise
-    const float NOISE_SHAKE_SPEED = 60.0f;
+    const float NOISE_SHAKE_SPEED = 80.0f;
 
     // Noise returns values in the range (-1, 1)
     // So this is how much to multiply the returned value by
-    const float NOISE_SHAKE_STRENGTH = 5.0f;
+    const float NOISE_SHAKE_STRENGTH = 10f;
 
     // Multiplier for lerping the shake strength to zero
-    const float SHAKE_DECAY_RATE = 10.0f;
+    const float SHAKE_DECAY_RATE = 5.0f;
 
     Camera2D camera;
     RandomNumberGenerator rand = new RandomNumberGenerator();

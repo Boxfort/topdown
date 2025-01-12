@@ -37,6 +37,7 @@ public partial class TilemapDestructionHandler : Node2D
 
     public void Carve(CollisionPolygon2D clippingPolygon)
     {
+        GD.Print("carvy warvy");
         CarveColliders(clippingPolygon);
         CarveOccluders(clippingPolygon);
     }
@@ -142,10 +143,7 @@ public partial class TilemapDestructionHandler : Node2D
     )
         where T : Node
     {
-
-        // Clip, Verify, 
-
-        List<Vector2> globalClippingPolygon = (clippingPolygon.Polygon * clippingPolygon.Transform.AffineInverse()).ToList();
+        List<Vector2> globalClippingPolygon = (clippingPolygon.Polygon * clippingPolygon.GlobalTransform.AffineInverse()).ToList();
 
         List<Vector2> offsets = new() { Vector2.Zero, Vector2.Up, Vector2.Down, Vector2.Left, Vector2.Right };
 
@@ -183,6 +181,8 @@ public partial class TilemapDestructionHandler : Node2D
             GD.PushWarning("Could not find a way to clip polygon.");
             return;
         }
+
+        GD.Print("ROunded clip count: " + roundedClippedPolygons.Count);
 
         switch (roundedClippedPolygons.Count)
         {
@@ -393,9 +393,7 @@ public partial class TilemapDestructionHandler : Node2D
                     Vector2 globalCellPos = tileMap.GlobalPosition + ((cellCoords * cellSize) + (cellSize / 2));
                     adjustedPolygon.Add(pos + globalCellPos);
                 }
-                GD.Print("ADJ POLY: " + adjustedPolygon.Count);
                 occluderPolygons.Add(adjustedPolygon.ToArray());
-                GD.Print("BRUH " + occluderPolygons.Count);
             }
         }
 

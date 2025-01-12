@@ -6,6 +6,7 @@ public partial class PlayerController : CharacterBody2D
     public const float speed = 100.0f;
     public const float friction = 15.0f;
 
+
     public override void _PhysicsProcess(double delta)
     {
         Vector2 velocity = Velocity;
