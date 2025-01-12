@@ -10,7 +10,11 @@ void fragment() {
     vec4 underMask = texture(under_mask_texture, UV);
     vec4 overMask = texture(over_mask_texture, UV);
 	if(mask.r > 0.5) {
-		color = underMask;
+        if (underMask.a == 0.0) {
+            color = overMask;
+        } else {
+            color = underMask;
+        }
 	} else {
         color = overMask;
     }
