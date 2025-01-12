@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=4 uid="uid://iiy8nfvj47mb"]
+[gd_scene load_steps=53 format=4 uid="uid://iiy8nfvj47mb"]
 
 [ext_resource type="Shader" path="res://masked_texture.gdshader" id="1_g4h2b"]
 [ext_resource type="Script" path="res://GameManager.cs" id="1_q4lvc"]
@@ -17,6 +17,9 @@
 [ext_resource type="Script" path="res://FollowTarget.cs" id="10_ke1t6"]
 [ext_resource type="Texture2D" uid="uid://c50fx3e64ychv" path="res://assets/scenes/player/indicator.png" id="13_h26t2"]
 [ext_resource type="Texture2D" uid="uid://c6fxusw5wgq5v" path="res://assets/scenes/player/frogman.png" id="13_n0d0l"]
+[ext_resource type="Texture2D" uid="uid://dhc478rb8v3vh" path="res://assets/sprites/guard.png" id="16_7isdr"]
+[ext_resource type="Texture2D" uid="uid://1ac7nmslatvj" path="res://assets/sprites/guard_lying.png" id="17_gyvt6"]
+[ext_resource type="Texture2D" uid="uid://bgbvapbcl1uu4" path="res://assets/sprites/blood.png" id="18_b0153"]
 [ext_resource type="PackedScene" uid="uid://cypyw57ja7qlm" path="res://assets/scenes/Fireball.tscn" id="18_smwiu"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2kdu2"]
@@ -117,20 +120,42 @@ texture = ExtResource("8_gkf4k")
 occlusion_layer_0/light_mask = 1
 sources/0 = SubResource("TileSetAtlasSource_65id4")
 
+[sub_resource type="Gradient" id="Gradient_ja3us"]
+offsets = PackedFloat32Array(0, 0.655367)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8lhqv"]
+gradient = SubResource("Gradient_ja3us")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_2pyid"]
 radius = 7.5
 
-[sub_resource type="Gradient" id="Gradient_cer7y"]
+[sub_resource type="Gradient" id="Gradient_jd4p1"]
 offsets = PackedFloat32Array(0.355932, 0.745763)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_qo6jc"]
-gradient = SubResource("Gradient_cer7y")
+gradient = SubResource("Gradient_jd4p1")
 width = 256
 height = 256
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 1)
+
+[sub_resource type="Gradient" id="Gradient_xbtij"]
+offsets = PackedFloat32Array(0, 0.655367)
+colors = PackedColorArray(1, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4ry7h"]
+gradient = SubResource("Gradient_xbtij")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pfnab"]
 shader = ExtResource("9_36kq5")
@@ -296,6 +321,11 @@ tile_set = SubResource("TileSet_5rsfm")
 position = Vector2(150, 50)
 script = ExtResource("7_074nq")
 
+[node name="Highlight" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Player"]
+modulate = Color(1, 1, 1, 0.25098)
+show_behind_parent = true
+texture = SubResource("GradientTexture2D_8lhqv")
+
 [node name="PlayerSprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Player"]
 texture = ExtResource("13_n0d0l")
 
@@ -319,6 +349,31 @@ texture = SubResource("GradientTexture2D_qo6jc")
 
 [node name="CanvasModulate2" type="CanvasModulate" parent="SubViewportContainer/ActiveViewport"]
 color = Color(0.313726, 0.313726, 0.313726, 1)
+
+[node name="Guard" type="Sprite2D" parent="SubViewportContainer/ActiveViewport"]
+position = Vector2(456, 72)
+texture = ExtResource("16_7isdr")
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Guard"]
+modulate = Color(1, 1, 1, 0.25098)
+show_behind_parent = true
+texture = SubResource("GradientTexture2D_4ry7h")
+
+[node name="Guard2" type="Sprite2D" parent="SubViewportContainer/ActiveViewport"]
+modulate = Color(0.533037, 0.533037, 0.533037, 1)
+position = Vector2(424, 72)
+rotation = -1.5708
+texture = ExtResource("17_gyvt6")
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Guard2"]
+visible = false
+modulate = Color(1, 1, 1, 0.25098)
+show_behind_parent = true
+texture = SubResource("GradientTexture2D_4ry7h")
+
+[node name="Sprite2D2" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Guard2"]
+show_behind_parent = true
+texture = ExtResource("18_b0153")
 
 [node name="UnlitViewport" type="SubViewport" parent="."]
 transparent_bg = true
