@@ -8,6 +8,7 @@ extends Node2D
 @export var tilemap: TileMapLayer
 @export var polygon_mask: Polygon2D
 @export var occluders_container: Node2D
+@export var occluders_container_copy: Node2D
 
 const walls_layer := 2
 const cell_size = Vector2i(8,8) 
@@ -54,7 +55,7 @@ func carve_occluders(clipping_polygon: CollisionPolygon2D):
                         colpol.occluder = OccluderPolygon2D.new()
                         colpol.occluder.polygon = Geometry2D.intersect_polygons(p,light_occluder.occluder.polygon)[0]
                         if (!is_too_small(colpol.occluder.polygon, true)):
-                            light_occluder.add_child(colpol)
+                            occluders_container.add_child(colpol)
                     remove_occluder(light_occluder)
                     #light_occluder.free()
                 # if its not a hole, behave as in match _
@@ -83,6 +84,13 @@ func carve_occluders(clipping_polygon: CollisionPolygon2D):
                     colpol.occluder.polygon = clipped_polygons[i+1]
                     if (!is_too_small(colpol.occluder.polygon, true)):
                         occluders_container.add_child(colpol)
+
+    for child in occluders_container_copy.get_children():
+        child.free();
+
+    for child in occluders_container.get_children():
+        var child_copy = child.duplicate()
+        occluders_container_copy.add_child(child_copy)
 
 
 func carve_geometry(clipping_polygon: CollisionPolygon2D):
@@ -310,6 +318,12 @@ func combine_occluders(tile_map: TileMapLayer) -> void:
         occluder_polygon_2d.polygon = occluder
         light_occluder.occluder = occluder_polygon_2d
         occluders_container.add_child(light_occluder)
+
+        var light_occluder_copy = LightOccluder2D.new()
+        var occluder_polygon_2d_copy = OccluderPolygon2D.new()
+        occluder_polygon_2d_copy.polygon = occluder
+        light_occluder_copy.occluder = occluder_polygon_2d_copy
+        occluders_container_copy.add_child(light_occluder_copy)
 
 
 # Ignore all tilemaps not named walls
