@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-public partial class TilemapDestructionHandler : Node
+public partial class TilemapDestructionHandler : Node2D
 {
     [Export(PropertyHint.NodeType, "TileMapLayer")]
     TileMapLayer tileMap;
@@ -34,7 +34,8 @@ public partial class TilemapDestructionHandler : Node
         }
     }
 
-    public void Carve(CollisionPolygon2D clippingPolygon) {
+    public void Carve(CollisionPolygon2D clippingPolygon)
+    {
         CarveColliders(clippingPolygon);
         CarveOccluders(clippingPolygon);
     }
@@ -59,18 +60,19 @@ public partial class TilemapDestructionHandler : Node
                         };
                         newLightOccluder2D.Occluder.Polygon = polygon;
                         return newLightOccluder2D;
-                    }
+                    },
+                    true
                 );
             }
         }
 
         // Clear occluder copies, and duplicate over the newly sliced occluders.
-        foreach(Node child in copyOccludersContainer.GetChildren())
+        foreach (Node child in copyOccludersContainer.GetChildren())
         {
             child.Free();
         }
 
-        foreach(Node child in mainOccludersContainer.GetChildren())
+        foreach (Node child in mainOccludersContainer.GetChildren())
         {
             copyOccludersContainer.AddChild(child.Duplicate());
         }
@@ -95,7 +97,8 @@ public partial class TilemapDestructionHandler : Node
                             Polygon = polygon
                         };
                         return newCollisionPolygon2D;
-                    }
+                    },
+                    false
                 );
             }
         }
@@ -103,21 +106,25 @@ public partial class TilemapDestructionHandler : Node
         polygonMask.Polygons.Clear();
         int indicesCount = 0;
         List<Vector2> newPolygon = new();
-        Godot.Collections.Array<int> polygonsIndices = new();
+        Godot.Collections.Array<Godot.Collections.Array<int>> polygonsIndices = new();
 
-        foreach (CollisionPolygon2D collisionPolygon in collisionContainer.GetChildren()) 
+        foreach (CollisionPolygon2D collisionPolygon in collisionContainer.GetChildren())
         {
             newPolygon.AddRange(collisionPolygon.Polygon);
 
-            for (int i = 0; i < collisionPolygon.Polygon.Length; i++) {
-                polygonsIndices.Add(indicesCount + i);
+            Godot.Collections.Array<int> polygonIndices = new();
+            for (int i = 0; i < collisionPolygon.Polygon.Length; i++)
+            {
+                polygonIndices.Add(indicesCount + i);
             }
             indicesCount += collisionPolygon.Polygon.Length;
+            polygonsIndices.Add(polygonIndices);
         }
 
         polygonMask.Polygons = (Godot.Collections.Array)polygonsIndices;
         polygonMask.Polygon = newPolygon.ToArray();
     }
+
 
     /// <summary>
     /// Carves the clippingPolygon away from the collision and occluders in the tilemap.
@@ -129,27 +136,67 @@ public partial class TilemapDestructionHandler : Node
         T polygonNode,
         Func<T, Vector2[]> getPolygon,
         Action<T, Vector2[]> setPolygon,
-        Func<Vector2[], T> constructNode
+        Func<Vector2[], T> constructNode,
+        bool isOccluder
     )
         where T : Node
     {
-        Vector2[] globalClippingPolygon = clippingPolygon.Polygon * clippingPolygon.Transform.AffineInverse();
-        List<Vector2[]> clippedPolygons = Geometry2D.ClipPolygons(getPolygon(polygonNode), globalClippingPolygon).ToList();
 
-        switch (clippedPolygons.Count)
+        // Clip, Verify, 
+
+        List<Vector2> globalClippingPolygon = (clippingPolygon.Polygon * clippingPolygon.Transform.AffineInverse()).ToList();
+
+        List<Vector2> offsets = new() { Vector2.Zero, Vector2.Up, Vector2.Down, Vector2.Left, Vector2.Right };
+
+        Godot.Collections.Array<Vector2[]> roundedClippedPolygons = new();
+        int err = 0;
+
+        foreach (Vector2 offset in offsets)
+        {
+            Vector2[] offsetClippingPolygon = globalClippingPolygon.Select((x) => x + offset).ToArray();
+            Godot.Collections.Array<Vector2[]> clippedPolygons = Geometry2D.ClipPolygons(getPolygon(polygonNode), offsetClippingPolygon);
+
+            Godot.Collections.Array<Vector2[]> roundedPolygons = new();
+            foreach (Vector2[] polygon in clippedPolygons)
+            {
+                Vector2[] roundedPolygon = RoundPolygon(polygon, out err);
+                if (err == 2) break;
+                roundedPolygons.Add(roundedPolygon);
+            }
+
+            // We can't construct the polygon
+            if (err == 2)
+            {
+                GD.PushWarning("Count not construct polygon, retrying with offset.");
+                continue;
+            }
+            else
+            {
+                roundedClippedPolygons = roundedPolygons;
+                break;
+            }
+        }
+
+        // We can't find a way to do this clip so just exit.
+        if (err == 2){
+            GD.PushWarning("Could not find a way to clip polygon.");
+            return;
+        }
+
+        switch (roundedClippedPolygons.Count)
         {
             case 0:
                 polygonNode.Free();
                 break;
             case 1:
-                setPolygon(polygonNode, clippedPolygons[0]);
-                if (IsPolygonTooSmall(getPolygon(polygonNode), true))
+                setPolygon(polygonNode, roundedClippedPolygons[0]);
+                if (IsPolygonTooSmall(getPolygon(polygonNode), isOccluder))
                 {
                     polygonNode.Free();
                 }
                 break;
             case 2:
-                if (IsHole(clippedPolygons))
+                if (IsHole(roundedClippedPolygons.ToList()))
                 {
                     // NOTE: maybe just ignore
                     /*
@@ -167,15 +214,15 @@ public partial class TilemapDestructionHandler : Node
                 }
                 else
                 {
-                    setPolygon(polygonNode, clippedPolygons[0]);
-                    if (IsPolygonTooSmall(getPolygon(polygonNode), true))
+                    setPolygon(polygonNode, roundedClippedPolygons[0]);
+                    if (IsPolygonTooSmall(getPolygon(polygonNode), isOccluder))
                     {
                         polygonNode.Free();
                     }
-                    for (int i = 1; i < clippedPolygons.Count; i++)
+                    for (int i = 1; i < roundedClippedPolygons.Count; i++)
                     {
-                        T newNode = constructNode(clippedPolygons[i]);
-                        if (!IsPolygonTooSmall(getPolygon(newNode), true))
+                        T newNode = constructNode( roundedClippedPolygons[i]);
+                        if (!IsPolygonTooSmall(getPolygon(newNode), isOccluder))
                         {
                             nodeContainer.AddChild(newNode);
                         }
@@ -183,20 +230,51 @@ public partial class TilemapDestructionHandler : Node
                 }
                 break;
             default:
-                setPolygon(polygonNode, clippedPolygons[0]);
-                if (IsPolygonTooSmall(getPolygon(polygonNode), true))
+                setPolygon(polygonNode, roundedClippedPolygons[0]);
+                if (IsPolygonTooSmall(getPolygon(polygonNode), isOccluder))
                 {
                     polygonNode.Free();
                 }
-                for (int i = 1; i < clippedPolygons.Count; i++)
+                for (int i = 1; i < roundedClippedPolygons.Count; i++)
                 {
-                    T newNode = constructNode(clippedPolygons[i]);
-                    if (!IsPolygonTooSmall(getPolygon(newNode), true))
+                    T newNode = constructNode( roundedClippedPolygons[i]);
+                    if (!IsPolygonTooSmall(getPolygon(newNode), isOccluder))
                     {
                         nodeContainer.AddChild(newNode);
                     }
                 }
                 break;
+        }
+    }
+
+    private static Vector2[] RoundPolygon(Vector2[] polygon, out int err)
+    {
+        List<Vector2> newPolygon = new();
+        foreach (Vector2 vertex in polygon)
+        {
+            Vector2 roundedVertex = vertex.Round();
+            if (!newPolygon.Contains(roundedVertex))
+            {
+                newPolygon.Add(roundedVertex);
+            }
+        }
+        if (newPolygon.Count < 3)
+        {
+            GD.PushWarning("Rounded polygon invalid.");
+            err = 1;
+            return Array.Empty<Vector2>();
+        }
+        else
+        {
+            // Confirm we can actually build the polygon.
+            var res = Geometry2D.DecomposePolygonInConvex(newPolygon.ToArray());
+            if (res.Count < 1)
+            {
+                err = 2;
+                return Array.Empty<Vector2>();
+            }
+            err = 0;
+            return newPolygon.ToArray();
         }
     }
 
@@ -238,6 +316,8 @@ public partial class TilemapDestructionHandler : Node
 
     private static bool IsPolygonTooSmall(Vector2[] polygon, bool isOccluder = false)
     {
+        if (polygon.Length < 3) return true;
+
         float maxX = 0;
         float minX = polygon[0].X;
         float maxY = 0;
@@ -263,7 +343,7 @@ public partial class TilemapDestructionHandler : Node
             }
         }
 
-        return (maxX - minX) * (maxY - minY) < (isOccluder ? 5 : 25);
+        return (maxX - minX) * (maxY - minY) < (isOccluder ? 5 : 30);
     }
 
 

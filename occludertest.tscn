@@ -268,7 +268,6 @@ offset_right = -4480.0
 offset_bottom = -2520.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(8, 8)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
@@ -348,6 +347,8 @@ script = ExtResource("2_e7lni")
 script = ExtResource("3_540a5")
 
 [node name="MainCamera" type="Camera2D" parent="SubViewportContainer/ActiveViewport" node_paths=PackedStringArray("cameraTarget")]
+rotation = 0.0872665
+zoom = Vector2(4, 4)
 script = ExtResource("3_vdmfa")
 cameraTarget = NodePath("../Player")
 
@@ -361,7 +362,7 @@ tile_set = SubResource("TileSet_vfjjl")
 
 [node name="DestructableTiles" type="Node2D" parent="SubViewportContainer/ActiveViewport" node_paths=PackedStringArray("tileMap", "polygonMask", "collisionContainer", "mainOccludersContainer", "copyOccludersContainer")]
 script = ExtResource("9_xcfod")
-tileMap = NodePath("Polygon2D/Walls")
+tileMap = NodePath("Polygon2D/Tiles")
 polygonMask = NodePath("Polygon2D")
 collisionContainer = NodePath("StaticBody2D")
 mainOccludersContainer = NodePath("../../../VisiblityViewport/Occluders")
@@ -371,19 +372,12 @@ copyOccludersContainer = NodePath("../Occluders2")
 clip_children = 1
 polygons = [null]
 
-[node name="Walls" type="TileMapLayer" parent="SubViewportContainer/ActiveViewport/DestructableTiles/Polygon2D"]
+[node name="Tiles" type="TileMapLayer" parent="SubViewportContainer/ActiveViewport/DestructableTiles/Polygon2D"]
 texture_filter = 1
 tile_map_data = PackedByteArray("AAAeAAgAAQABAAIAAAAdAAgAAQABAAIAAAAcAAgAAQABAAIAAAAbAAgAAQABAAIAAAAaAAgAAQABAAIAAAAgAAgAAQABAAIAAAAhAAgAAQABAAIAAAAiAAgAAQABAAIAAAAjAAgAAQABAAIAAAAkAAgAAQABAAIAAAAlAAgAAQABAAIAAAAmAAgAAQACAAIAAAAZAAgAAQAAAAIAAAAZAAcAAQAAAAEAAAAZAAYAAQAAAAEAAAAZAAUAAQAAAAEAAAAmAAcAAQACAAEAAAAmAAYAAQACAAEAAAAmAAUAAQACAAEAAAAmAAQAAQACAAEAAAAZAAQAAQAAAAEAAAAYAAMAAQABAAIAAAAXAAMAAQABAAIAAAAWAAMAAQABAAIAAAAnAAMAAQABAAIAAAAoAAMAAQABAAIAAAApAAMAAQABAAIAAAAmAAMAAQADAAAAAAAZAAMAAQAEAAAAAAAQAAsAAQABAAAAAAAPAAwAAQAAAAEAAAARAAwAAQACAAEAAAAQAA0AAQABAAIAAAARAA0AAQACAAIAAAAPAA0AAQAAAAIAAAAPAAsAAQAAAAAAAAARAAsAAQACAAAAAAAQAAwAAQABAAEAAAA=")
 tile_set = SubResource("TileSet_vfjjl")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/DestructableTiles"]
-
-[node name="Slicer" type="CollisionPolygon2D" parent="SubViewportContainer/ActiveViewport" node_paths=PackedStringArray("target", "tiler", "camera_shaker")]
-polygon = PackedVector2Array(-1, 31, 1, 31, 1, 33, -1, 33)
-script = ExtResource("6_82whi")
-target = NodePath("../Player")
-tiler = NodePath("../DestructableTiles")
-camera_shaker = NodePath("../MainCamera/CameraShaker")
 
 [node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/ActiveViewport"]
 position = Vector2(236, 63)
@@ -391,6 +385,18 @@ scale = Vector2(0.05, 0.05)
 texture = ExtResource("8_74j1g")
 
 [node name="Occluders2" type="Node2D" parent="SubViewportContainer/ActiveViewport"]
+
+[node name="Slicer" type="CollisionPolygon2D" parent="SubViewportContainer/ActiveViewport" node_paths=PackedStringArray("target", "tiler", "camera_shaker")]
+polygon = PackedVector2Array(-4, 11, -2, 9, 1, 9, 3, 11, 3, 14, 1, 16, -2, 16, -4, 14)
+script = ExtResource("6_82whi")
+target = NodePath("../Player")
+tiler = NodePath("../DestructableTiles")
+camera_shaker = NodePath("../MainCamera/CameraShaker")
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Slicer"]
+position = Vector2(-0.565, 12.205)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("8_74j1g")
 
 [node name="Player" type="CharacterBody2D" parent="SubViewportContainer/ActiveViewport"]
 position = Vector2(80, 19)
@@ -466,6 +472,7 @@ scale = Vector2(100, 100)
 texture = ExtResource("8_74j1g")
 
 [node name="Occluders" type="Node2D" parent="VisiblityViewport"]
+visible = false
 
 [node name="VisiblityLight2" type="PointLight2D" parent="VisiblityViewport" node_paths=PackedStringArray("target")]
 position = Vector2(266.74, 150)
