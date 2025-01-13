@@ -8,9 +8,10 @@ public partial class PlayerDivingState : PlayerState
     const float diveScaleFactor = 0.5f;
     float diveTimer = 0.0f;
     float slideTimer = 0.0f;
-    float diveInitialSpeed = 200;
-    float diveAirFriction = 10;
-    float diveSlideFriction = 200;
+    const float diveInitialSpeed = 200;
+    const float diveAirFriction = 10;
+    const float diveSlideFriction = 200;
+    private const int diveSlideFrictionIncreaseFactor = 10;
 
     bool hasBonked = false;
 
@@ -81,7 +82,7 @@ public partial class PlayerDivingState : PlayerState
         else if (player.Velocity != Vector2.Zero)
         {
             slideTimer += (float)delta;
-            velocity = velocity.MoveToward(Vector2.Zero, diveSlideFriction * Mathf.Max(1, diveTimer * 10) * (float)delta);
+            velocity = velocity.MoveToward(Vector2.Zero, diveSlideFriction * Mathf.Max(1, slideTimer * diveSlideFrictionIncreaseFactor) * (float)delta);
             player.MoveAndSlide();
         }
         else

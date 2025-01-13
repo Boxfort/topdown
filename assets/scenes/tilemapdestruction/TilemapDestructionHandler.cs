@@ -30,6 +30,10 @@ public partial class TilemapDestructionHandler : Node2D
         cellSize = tileMap.TileSet.TileSize;
         if (tileMap != null)
         {
+            // Make the tileset data unique so we can fuck with it.
+            var tileset = tileMap.TileSet;
+            tileMap.TileSet = (TileSet)tileset.Duplicate();
+            tileMap.CollisionEnabled = false;
             CombineOccluders(tileMap);
             ConstructColliders(tileMap);
         }

@@ -4,7 +4,7 @@ using System;
 public partial class PlayerController : CharacterBody2D
 {
     public const float speed = 100.0f;
-    public const float friction = 250.0f;
+    public const float friction = 350.0f;
 
     AnimatedSprite2D playerSprite;
     public AnimatedSprite2D PlayerSprite { get => playerSprite; }
