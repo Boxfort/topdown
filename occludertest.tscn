@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=4 uid="uid://iiy8nfvj47mb"]
+[gd_scene load_steps=46 format=4 uid="uid://iiy8nfvj47mb"]
 
 [ext_resource type="Shader" path="res://masked_texture.gdshader" id="1_g4h2b"]
 [ext_resource type="Script" path="res://GameManager.cs" id="1_q4lvc"]
@@ -7,20 +7,16 @@
 [ext_resource type="Script" path="res://ViewportResizeListener.cs" id="3_540a5"]
 [ext_resource type="Script" path="res://CameraController.cs" id="3_vdmfa"]
 [ext_resource type="Script" path="res://CameraShaker.cs" id="5_har2l"]
-[ext_resource type="Script" path="res://SlicerScript.gd" id="6_82whi"]
-[ext_resource type="Script" path="res://PlayerController.cs" id="7_074nq"]
 [ext_resource type="Texture2D" uid="uid://btb1padwqwe2f" path="res://icon.svg" id="8_74j1g"]
 [ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="8_gkf4k"]
 [ext_resource type="Shader" path="res://full_white.gdshader" id="9_36kq5"]
 [ext_resource type="Script" path="res://assets/scenes/tilemapdestruction/TilemapDestructionHandler.cs" id="9_xcfod"]
 [ext_resource type="Script" path="res://DummyCamera.cs" id="10_f5b65"]
 [ext_resource type="Script" path="res://FollowTarget.cs" id="10_ke1t6"]
-[ext_resource type="Texture2D" uid="uid://c50fx3e64ychv" path="res://assets/scenes/player/indicator.png" id="13_h26t2"]
-[ext_resource type="Texture2D" uid="uid://c6fxusw5wgq5v" path="res://assets/scenes/player/frogman.png" id="13_n0d0l"]
+[ext_resource type="PackedScene" uid="uid://cw3jq6xrdjxp0" path="res://assets/scenes/player/Player.tscn" id="11_07x3l"]
 [ext_resource type="Texture2D" uid="uid://dhc478rb8v3vh" path="res://assets/sprites/guard.png" id="16_7isdr"]
 [ext_resource type="Texture2D" uid="uid://1ac7nmslatvj" path="res://assets/sprites/guard_lying.png" id="17_gyvt6"]
 [ext_resource type="Texture2D" uid="uid://bgbvapbcl1uu4" path="res://assets/sprites/blood.png" id="18_b0153"]
-[ext_resource type="PackedScene" uid="uid://cypyw57ja7qlm" path="res://assets/scenes/Fireball.tscn" id="18_smwiu"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2kdu2"]
 light_mode = 1
@@ -119,20 +115,6 @@ texture = ExtResource("8_gkf4k")
 [sub_resource type="TileSet" id="TileSet_5rsfm"]
 occlusion_layer_0/light_mask = 1
 sources/0 = SubResource("TileSetAtlasSource_65id4")
-
-[sub_resource type="Gradient" id="Gradient_ja3us"]
-offsets = PackedFloat32Array(0, 0.655367)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_8lhqv"]
-gradient = SubResource("Gradient_ja3us")
-width = 32
-height = 32
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_2pyid"]
-radius = 7.5
 
 [sub_resource type="Gradient" id="Gradient_jd4p1"]
 offsets = PackedFloat32Array(0.355932, 0.745763)
@@ -284,6 +266,9 @@ destructableTiles = NodePath("Map/DestructableTiles/Polygon2D/DestructibleTiles"
 [node name="ResizeListener" type="Node" parent="SubViewportContainer/ActiveViewport"]
 script = ExtResource("3_540a5")
 
+[node name="CanvasModulate" type="CanvasModulate" parent="SubViewportContainer/ActiveViewport"]
+color = Color(0.313726, 0.313726, 0.313726, 1)
+
 [node name="MainCamera" type="Camera2D" parent="SubViewportContainer/ActiveViewport" node_paths=PackedStringArray("cameraTarget")]
 script = ExtResource("3_vdmfa")
 cameraTarget = NodePath("../Player")
@@ -317,38 +302,14 @@ tile_set = SubResource("TileSet_5rsfm")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/Map/DestructableTiles"]
 
-[node name="Player" type="CharacterBody2D" parent="SubViewportContainer/ActiveViewport"]
-position = Vector2(150, 50)
-script = ExtResource("7_074nq")
-
-[node name="Highlight" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Player"]
-modulate = Color(1, 1, 1, 0.25098)
-show_behind_parent = true
-texture = SubResource("GradientTexture2D_8lhqv")
-
-[node name="PlayerSprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Player"]
-texture = ExtResource("13_n0d0l")
-
-[node name="Indicator" type="Node2D" parent="SubViewportContainer/ActiveViewport/Player" node_paths=PackedStringArray("camera_shaker")]
-script = ExtResource("6_82whi")
-camera_shaker = NodePath("../../MainCamera/CameraShaker")
-fireball = ExtResource("18_smwiu")
-
-[node name="IndicatorSprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Player/Indicator"]
-position = Vector2(0, -10)
-texture = ExtResource("13_h26t2")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/Player"]
-shape = SubResource("CircleShape2D_2pyid")
+[node name="Player" parent="SubViewportContainer/ActiveViewport" instance=ExtResource("11_07x3l")]
+position = Vector2(300, 64)
 
 [node name="PointLight2D" type="PointLight2D" parent="SubViewportContainer/ActiveViewport"]
 position = Vector2(400, 150)
 color = Color(1, 0.584314, 0.329412, 1)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_qo6jc")
-
-[node name="CanvasModulate2" type="CanvasModulate" parent="SubViewportContainer/ActiveViewport"]
-color = Color(0.313726, 0.313726, 0.313726, 1)
 
 [node name="Guard" type="Sprite2D" parent="SubViewportContainer/ActiveViewport"]
 position = Vector2(456, 72)
@@ -423,5 +384,3 @@ shadow_enabled = true
 texture = SubResource("GradientTexture2D_6x8qp")
 script = ExtResource("10_ke1t6")
 target = NodePath("../../SubViewportContainer/ActiveViewport/Player")
-
-[node name="Fireball" parent="." instance=ExtResource("18_smwiu")]

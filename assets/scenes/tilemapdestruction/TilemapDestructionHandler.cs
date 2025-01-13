@@ -37,7 +37,6 @@ public partial class TilemapDestructionHandler : Node2D
 
     public void Carve(CollisionPolygon2D clippingPolygon)
     {
-        GD.Print("carvy warvy");
         CarveColliders(clippingPolygon);
         CarveOccluders(clippingPolygon);
     }
@@ -181,8 +180,6 @@ public partial class TilemapDestructionHandler : Node2D
             GD.PushWarning("Could not find a way to clip polygon.");
             return;
         }
-
-        GD.Print("ROunded clip count: " + roundedClippedPolygons.Count);
 
         switch (roundedClippedPolygons.Count)
         {

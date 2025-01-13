@@ -1,0 +1,110 @@
+[gd_scene load_steps=18 format=3 uid="uid://cw3jq6xrdjxp0"]
+
+[ext_resource type="Script" path="res://assets/scenes/player/PlayerController.cs" id="1_a7bsg"]
+[ext_resource type="Texture2D" uid="uid://c6fxusw5wgq5v" path="res://assets/scenes/player/frogman.png" id="2_8c276"]
+[ext_resource type="Script" path="res://assets/scripts/statemachine/StateMachine.cs" id="2_llubj"]
+[ext_resource type="Script" path="res://assets/scenes/player/StateDebug.cs" id="2_xvvel"]
+[ext_resource type="Script" path="res://assets/scenes/player/PlayerRunningState.cs" id="3_6x4dy"]
+[ext_resource type="Script" path="res://assets/scenes/player/statemachine/PlayerIdleState.cs" id="3_cph75"]
+[ext_resource type="Script" path="res://SlicerScript.gd" id="3_sg3rh"]
+[ext_resource type="PackedScene" uid="uid://cypyw57ja7qlm" path="res://assets/scenes/Fireball.tscn" id="4_wpk4b"]
+[ext_resource type="Texture2D" uid="uid://c50fx3e64ychv" path="res://assets/scenes/player/indicator.png" id="5_7sd44"]
+[ext_resource type="Script" path="res://assets/scenes/player/statemachine/PlayerDivingState.cs" id="5_e22lo"]
+[ext_resource type="Texture2D" uid="uid://r75aa3o8414n" path="res://assets/scenes/player/frogman_dive.png" id="7_8e1fb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_el61i"]
+atlas = ExtResource("7_8e1fb")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wq2e"]
+atlas = ExtResource("2_8c276")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7j47i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_el61i")
+}],
+"loop": true,
+"name": &"diving",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8wq2e")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_ja3us"]
+offsets = PackedFloat32Array(0, 0.655367)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8lhqv"]
+gradient = SubResource("Gradient_ja3us")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2pyid"]
+radius = 7.5
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_a7bsg")
+
+[node name="Debug" type="Node2D" parent="."]
+
+[node name="StateDebug" type="Label" parent="Debug"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = 8.0
+offset_right = 45.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 8
+text = "DebugState"
+horizontal_alignment = 1
+script = ExtResource("2_xvvel")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState")]
+script = ExtResource("2_llubj")
+initialState = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("3_cph75")
+
+[node name="Running" type="Node" parent="StateMachine"]
+script = ExtResource("3_6x4dy")
+
+[node name="Diving" type="Node" parent="StateMachine"]
+script = ExtResource("5_e22lo")
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7j47i")
+animation = &"idle"
+
+[node name="Highlight" type="Sprite2D" parent="PlayerSprite"]
+modulate = Color(1, 1, 1, 0.25098)
+show_behind_parent = true
+texture = SubResource("GradientTexture2D_8lhqv")
+
+[node name="Indicator" type="Node2D" parent="."]
+script = ExtResource("3_sg3rh")
+fireball = ExtResource("4_wpk4b")
+
+[node name="IndicatorSprite" type="Sprite2D" parent="Indicator"]
+position = Vector2(0, -10)
+texture = ExtResource("5_7sd44")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_2pyid")
