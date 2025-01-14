@@ -5,11 +5,13 @@ public abstract partial class GuardState : State
 {
     public enum GuardStates 
     {
-        Following
+        Following,
+        Attacking
     }
 
     protected GuardController guard;
     protected CombinedView combinedView;
+    protected Node2D weaponContainer;
 
 
     // Called when the node enters the scene tree for the first time.
@@ -25,5 +27,6 @@ public abstract partial class GuardState : State
         }
 
         combinedView = (CombinedView)GetTree().GetFirstNodeInGroup("combined_view");
+        weaponContainer = (Node2D)guard.GetNode("Weapon");
     }
 }

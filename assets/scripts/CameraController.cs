@@ -7,7 +7,7 @@ public partial class CameraController : Camera2D
     [Export(PropertyHint.NodeType, "Node2D")]
     Node2D cameraTarget;
 
-    float followSpeed = 30f;
+    float followSpeed = 20f;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

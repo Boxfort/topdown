@@ -35,6 +35,6 @@ public partial class PlayerIdleState : PlayerState
     public override void PhysicsProcess(double delta)
     {
         Vector2 direction = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-        if (direction != Vector2.Zero) EmitSignal(State.SignalName.Finished, PlayerStates.Running.ToString(), noData);
+        if (direction != Vector2.Zero) EmitSignal(State.SignalName.Finished, PlayerStates.Running.ToString(), NO_DATA);
     }
 }

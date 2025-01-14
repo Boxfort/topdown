@@ -1,12 +1,83 @@
-[gd_scene load_steps=21 format=3 uid="uid://ds0fhkjrapp1q"]
+[gd_scene load_steps=32 format=3 uid="uid://ds0fhkjrapp1q"]
 
 [ext_resource type="Script" path="res://assets/scenes/player/StateDebug.cs" id="1_8qui6"]
 [ext_resource type="Script" path="res://assets/scenes/guard/GuardController.cs" id="1_ljpdm"]
 [ext_resource type="Script" path="res://assets/scripts/statemachine/StateMachine.cs" id="3_4hlvi"]
 [ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardFollowingState.cs" id="4_bmv3l"]
 [ext_resource type="Texture2D" uid="uid://dhc478rb8v3vh" path="res://assets/scenes/guard/sprites/guard.png" id="5_ge18s"]
+[ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardAttackingState.cs" id="5_twjtg"]
 [ext_resource type="Texture2D" uid="uid://br1ir4yvm56st" path="res://assets/sprites/torch_sheet.png" id="6_aobos"]
 [ext_resource type="Texture2D" uid="uid://jop2p1csvdc8" path="res://assets/sprites/sword.png" id="7_2y3x1"]
+[ext_resource type="Texture2D" uid="uid://ch3gvtvo8rw2g" path="res://assets/sprites/slash.png" id="8_yq8da"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpnqq"]
+atlas = ExtResource("8_yq8da")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_of8aj"]
+atlas = ExtResource("8_yq8da")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l2j36"]
+atlas = ExtResource("8_yq8da")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mkm2n"]
+atlas = ExtResource("8_yq8da")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2u12"]
+atlas = ExtResource("8_yq8da")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vcbp1"]
+atlas = ExtResource("8_yq8da")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4j0w2"]
+atlas = ExtResource("8_yq8da")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jfpmy"]
+atlas = ExtResource("8_yq8da")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n8p1u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lpnqq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_of8aj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l2j36")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mkm2n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2u12")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vcbp1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4j0w2")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jfpmy")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cwig6"]
 atlas = ExtResource("5_ge18s")
@@ -121,6 +192,23 @@ initialState = NodePath("Following")
 [node name="Following" type="Node" parent="StateMachine"]
 script = ExtResource("4_bmv3l")
 
+[node name="Attacking" type="Node" parent="StateMachine"]
+script = ExtResource("5_twjtg")
+
+[node name="WeaponContainer" type="Node2D" parent="."]
+
+[node name="Sword" type="Sprite2D" parent="WeaponContainer"]
+position = Vector2(-8.99998, -2.22122e-06)
+rotation = -3.14159
+scale = Vector2(1, -1)
+texture = ExtResource("7_2y3x1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="WeaponContainer"]
+position = Vector2(-15, -2.22122e-06)
+sprite_frames = SubResource("SpriteFrames_n8p1u")
+animation = &"attack"
+frame = 6
+
 [node name="GuardSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_55r8e")
 animation = &"idle"
@@ -130,24 +218,19 @@ modulate = Color(1, 1, 1, 0.25098)
 show_behind_parent = true
 texture = SubResource("GradientTexture2D_4ry7h")
 
+[node name="Node2D" type="Node2D" parent="GuardSprite"]
+
 [node name="Torch" type="AnimatedSprite2D" parent="GuardSprite"]
 position = Vector2(8, 0)
 sprite_frames = SubResource("SpriteFrames_xtg21")
 autoplay = "default"
-frame_progress = 0.397558
+frame_progress = 0.59594
 
 [node name="PointLight2D2" type="PointLight2D" parent="GuardSprite/Torch"]
 position = Vector2(-8, 0)
 color = Color(1, 0.584314, 0.329412, 1)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_hdkg6")
-
-[node name="Node2D" type="Node2D" parent="GuardSprite"]
-
-[node name="Sword" type="Sprite2D" parent="GuardSprite/Node2D"]
-position = Vector2(-8, 0)
-scale = Vector2(-1, 1)
-texture = ExtResource("7_2y3x1")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 1.0

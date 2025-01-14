@@ -7,7 +7,7 @@ public abstract partial class State : Node
     [Signal]
     public delegate void FinishedEventHandler(string nextState, Godot.Collections.Dictionary data);
 
-    protected readonly Godot.Collections.Dictionary noData = new();
+    protected readonly Godot.Collections.Dictionary NO_DATA = new();
 
     public bool hasExited = false;
 

@@ -90,12 +90,12 @@ public partial class PlayerDivingState : PlayerState
             if (player.GlobalPosition.DistanceTo(lastPos) < .1f)
             {
                 player.SetVelocity(this, Vector2.Zero);
-                EmitSignal(SignalName.Finished, PlayerStates.Idle.ToString(), noData);
+                EmitSignal(SignalName.Finished, PlayerStates.Idle.ToString(), NO_DATA);
             }
         }
         else
         {
-            EmitSignal(SignalName.Finished, PlayerStates.Idle.ToString(), noData);
+            EmitSignal(SignalName.Finished, PlayerStates.Idle.ToString(), NO_DATA);
         }
 
         player.SetVelocity(this, velocity);

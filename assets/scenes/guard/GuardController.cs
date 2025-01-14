@@ -4,10 +4,12 @@ using System;
 public partial class GuardController : CharacterBody2D
 {
     AnimatedSprite2D guardSprite;
+    Node2D weaponContainer;
     NavigationAgent2D navAgent;
 
     public NavigationAgent2D NavAgent { get => navAgent; }
     public AnimatedSprite2D GuardSprite { get => guardSprite; }
+    public Node2D WeaponContainer { get => weaponContainer; }
 
     public const float Speed = 50.0f;
 
@@ -15,6 +17,7 @@ public partial class GuardController : CharacterBody2D
     {
         guardSprite = GetNode<AnimatedSprite2D>("GuardSprite");
         navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
+        weaponContainer = GetNode<Node2D>("WeaponContainer");
     }
 
     public void SetVelocity(State from, Vector2 v)

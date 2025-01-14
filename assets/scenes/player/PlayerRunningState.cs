@@ -69,7 +69,7 @@ public partial class PlayerRunningState : PlayerState
 
         if (player.Velocity == Vector2.Zero)
         {
-            EmitSignal(State.SignalName.Finished, PlayerStates.Idle.ToString(), noData);
+            EmitSignal(State.SignalName.Finished, PlayerStates.Idle.ToString(), NO_DATA);
         }
     }
 }

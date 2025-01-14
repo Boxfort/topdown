@@ -18,6 +18,14 @@ public partial class CombinedView : TextureRect
         OnWindowSizeChanged();
     }
 
+    public Vector2 GetGameWorldMousePosition(Viewport fromViewport)
+    {
+        Vector2 viewportMousePos = fromViewport.CanvasTransform.AffineInverse() * fromViewport.GetMousePosition();
+        Vector2 cameraPosition = fromViewport.GetCamera2D().Position;
+
+        return (viewportMousePos + (cameraPosition * (Scale.X - 1))) / Scale.X;
+    }
+
     private void OnWindowSizeChanged()
     {
         Vector2I windowSize = GetTree().Root.GetWindow().Size;
@@ -26,27 +34,31 @@ public partial class CombinedView : TextureRect
 
         SetDesiredZoom(desiredZoom);
         Size = windowSize;
-        Position = Size * -((Scale.X-1) * 0.5f);
+        Position = Size * -((Scale.X - 1) * 0.5f);
     }
 
-    public void SetDesiredZoom(float zoom) {
+    public void SetDesiredZoom(float zoom)
+    {
         desiredZoom = zoom;
-        Vector2 newScale = Vector2.One * desiredZoom * (1/currentFactor);
-        Scale = new Vector2(Mathf.Max(1, newScale.X) ,Mathf.Max(1, newScale.Y));
+        Vector2 newScale = Vector2.One * desiredZoom * (1 / currentFactor);
+        Scale = new Vector2(Mathf.Max(1, newScale.X), Mathf.Max(1, newScale.Y));
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        if (Input.IsActionJustPressed("zoom_in")){
-            if (desiredZoom <= 4){
+        if (Input.IsActionJustPressed("zoom_in"))
+        {
+            if (desiredZoom <= 4)
+            {
                 desiredZoom += 1;
                 OnWindowSizeChanged();
             }
         }
-        if(Input.IsActionJustPressed("zoom_out"))
+        if (Input.IsActionJustPressed("zoom_out"))
         {
-            if (desiredZoom > 1){
+            if (desiredZoom > 1)
+            {
                 desiredZoom -= 1;
                 OnWindowSizeChanged();
             }
