@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6fxusw5wgq5v"
-path="res://.godot/imported/frogman.png-14a9451cdd8c03d3630dab5b4d753f86.ctex"
+uid="uid://dhc478rb8v3vh"
+path="res://.godot/imported/guard.png-3be7fae2f88e40fa9e2753f0f092735c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/scenes/player/frogman.png"
-dest_files=["res://.godot/imported/frogman.png-14a9451cdd8c03d3630dab5b4d753f86.ctex"]
+source_file="res://assets/scenes/guard/sprites/guard.png"
+dest_files=["res://.godot/imported/guard.png-3be7fae2f88e40fa9e2753f0f092735c.ctex"]
 
 [params]
 

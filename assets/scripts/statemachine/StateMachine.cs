@@ -36,8 +36,6 @@ public partial class StateMachine : Node
         string previousState = currentState.Name;
         currentState.PreExit();
 
-        GD.Print("WANTS TO CHANGE");
-
         currentState = (State)GetNode(nextState);
         currentState.PreEnter(previousState, data);
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://cw3jq6xrdjxp0"]
 
 [ext_resource type="Script" path="res://assets/scenes/player/PlayerController.cs" id="1_a7bsg"]
-[ext_resource type="Texture2D" uid="uid://c6fxusw5wgq5v" path="res://assets/scenes/player/frogman.png" id="2_8c276"]
+[ext_resource type="Texture2D" uid="uid://c6fxusw5wgq5v" path="res://assets/scenes/player/sprites/frogman.png" id="2_8c276"]
 [ext_resource type="Script" path="res://assets/scripts/statemachine/StateMachine.cs" id="2_llubj"]
 [ext_resource type="Script" path="res://assets/scenes/player/StateDebug.cs" id="2_xvvel"]
 [ext_resource type="Script" path="res://assets/scenes/player/PlayerRunningState.cs" id="3_6x4dy"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cypyw57ja7qlm" path="res://assets/scenes/Fireball.tscn" id="4_wpk4b"]
 [ext_resource type="Texture2D" uid="uid://c50fx3e64ychv" path="res://assets/scenes/player/indicator.png" id="5_7sd44"]
 [ext_resource type="Script" path="res://assets/scenes/player/statemachine/PlayerDivingState.cs" id="5_e22lo"]
-[ext_resource type="Texture2D" uid="uid://r75aa3o8414n" path="res://assets/scenes/player/frogman_dive.png" id="7_8e1fb"]
+[ext_resource type="Texture2D" uid="uid://r75aa3o8414n" path="res://assets/scenes/player/sprites/frogman_dive.png" id="7_8e1fb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_el61i"]
 atlas = ExtResource("7_8e1fb")

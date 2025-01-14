@@ -21,6 +21,9 @@ public partial class TilemapDestructionHandler : Node2D
     [Export(PropertyHint.NodeType, "Node2D")]
     Node2D copyOccludersContainer;
 
+    [Export(PropertyHint.NodeType, "NavigationRegion2D")]
+    NavigationRegion2D navigationRegion;
+
     const float wallsLayer = 2.0f;
     Vector2I cellSize = new(8, 8);
 
@@ -43,6 +46,9 @@ public partial class TilemapDestructionHandler : Node2D
     {
         CarveColliders(clippingPolygon);
         CarveOccluders(clippingPolygon);
+
+        // TODO: Do this on a timer, its very slow.
+        navigationRegion.BakeNavigationPolygon();
     }
 
     private void CarveOccluders(CollisionPolygon2D clippingPolygon)
@@ -355,10 +361,16 @@ public partial class TilemapDestructionHandler : Node2D
         List<Vector2[]> collisionPolygons = new();
         Godot.Collections.Array<Vector2I> usedCellCoords = tilemap.GetUsedCells();
 
-        foreach (Vector2 cellCoord in usedCellCoords)
+        foreach (Vector2I cellCoord in usedCellCoords)
         {
             Vector2[] polygon = GetTilePolygon(GetTilePoints(cellCoord, cellSize));
             collisionPolygons.Add(polygon);
+
+            // Remove the collision polygons, we're using our own
+            TileData tileData = tileMap.GetCellTileData(cellCoord);
+            for(int i = 0; i < tileData.GetCollisionPolygonsCount(0); i++) {
+                tileData.SetCollisionPolygonPoints(0, i, null);
+            }
         }
 
         collisionPolygons = CombinePolygons(collisionPolygons);
@@ -371,8 +383,6 @@ public partial class TilemapDestructionHandler : Node2D
             };
             collisionContainer.AddChild(collisionPolygon2D);
         }
-
-        GD.Print("Constructing colliders DONE");
     }
 
     private void CombineOccluders(TileMapLayer tilemap)
@@ -405,9 +415,7 @@ public partial class TilemapDestructionHandler : Node2D
             tileData.SetOccluder(0, null);
         }
 
-        GD.Print(occluderPolygons.Count);
         occluderPolygons = CombinePolygons(occluderPolygons);
-        GD.Print(occluderPolygons.Count);
 
         foreach (Vector2[] occluderPolygon in occluderPolygons)
         {
@@ -420,7 +428,6 @@ public partial class TilemapDestructionHandler : Node2D
             mainOccludersContainer.AddChild(lightOccluder);
             copyOccludersContainer.AddChild(lightOccluder.Duplicate());
         }
-        GD.Print("Combining occluders DONE");
     }
 
     private static List<Vector2[]> CombinePolygons(List<Vector2[]> polygons)
@@ -467,7 +474,6 @@ public partial class TilemapDestructionHandler : Node2D
             }
         }
 
-        GD.Print("Combining DONE");
         return polygons;
     }
 

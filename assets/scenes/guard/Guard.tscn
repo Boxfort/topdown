@@ -1,0 +1,83 @@
+[gd_scene load_steps=11 format=3 uid="uid://ds0fhkjrapp1q"]
+
+[ext_resource type="Script" path="res://assets/scenes/player/StateDebug.cs" id="1_8qui6"]
+[ext_resource type="Script" path="res://assets/scenes/guard/GuardController.cs" id="1_ljpdm"]
+[ext_resource type="Script" path="res://assets/scripts/statemachine/StateMachine.cs" id="3_4hlvi"]
+[ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardFollowingState.cs" id="4_bmv3l"]
+[ext_resource type="Texture2D" uid="uid://dhc478rb8v3vh" path="res://assets/scenes/guard/sprites/guard.png" id="5_ge18s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwig6"]
+atlas = ExtResource("5_ge18s")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_55r8e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cwig6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_xbtij"]
+offsets = PackedFloat32Array(0, 0.655367)
+colors = PackedColorArray(1, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4ry7h"]
+gradient = SubResource("Gradient_xbtij")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a3upy"]
+radius = 7.5
+
+[node name="Guard" type="CharacterBody2D"]
+script = ExtResource("1_ljpdm")
+
+[node name="Debug" type="Node2D" parent="."]
+
+[node name="StateDebug" type="Label" parent="Debug"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = 8.0
+offset_right = 45.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 8
+text = "DebugState"
+horizontal_alignment = 1
+script = ExtResource("1_8qui6")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState")]
+script = ExtResource("3_4hlvi")
+initialState = NodePath("Following")
+
+[node name="Following" type="Node" parent="StateMachine"]
+script = ExtResource("4_bmv3l")
+
+[node name="GuardSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_55r8e")
+animation = &"idle"
+
+[node name="Highlight" type="Sprite2D" parent="GuardSprite"]
+modulate = Color(1, 1, 1, 0.25098)
+show_behind_parent = true
+texture = SubResource("GradientTexture2D_4ry7h")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 0.1
+path_max_distance = 10.0
+debug_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_a3upy")

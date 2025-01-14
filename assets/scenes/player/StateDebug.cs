@@ -7,11 +7,9 @@ public partial class StateDebug : Label
     public override async void _Ready()
     {
         await ToSignal(Owner, Node.SignalName.Ready);
-        if (Owner is PlayerController playerController) {
-            StateMachine stateMachine = (StateMachine)playerController.GetNode("StateMachine");
-            Text = stateMachine.CurrentStateName;
-            stateMachine.OnStateChanged += OnStateChanged;
-        }
+        StateMachine stateMachine = (StateMachine)Owner.GetNode("StateMachine");
+        Text = stateMachine.CurrentStateName;
+        stateMachine.OnStateChanged += OnStateChanged;
     }
 
     private void OnStateChanged(string stateName) 
