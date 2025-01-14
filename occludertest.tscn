@@ -208,7 +208,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("ViewportTexture_mtfno")
-expand_mode = 1
 
 [node name="CombinedView" type="TextureRect" parent="CanvasLayer" groups=["combined_view"]]
 texture_filter = 1
@@ -228,11 +227,12 @@ script = ExtResource("2_7s1kb")
 [node name="UIViewport" type="SubViewport" parent="."]
 transparent_bg = true
 canvas_item_default_texture_filter = 0
-size = Vector2i(1280, 720)
+size = Vector2i(640, 360)
 script = ExtResource("2_e7lni")
 
 [node name="ResizeListener" type="Node" parent="UIViewport"]
 script = ExtResource("4_npdh4")
+designedResolution = Vector2(640, 360)
 
 [node name="Control" type="Control" parent="UIViewport"]
 layout_mode = 3
@@ -245,7 +245,13 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
 
-[node name="TextureRect3" type="TextureRect" parent="UIViewport/Control"]
+[node name="Debug" type="Control" parent="UIViewport/Control"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect3" type="TextureRect" parent="UIViewport/Control/Debug"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 1
@@ -256,14 +262,15 @@ texture = ExtResource("8_74j1g")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="TextureRect4" type="TextureRect" parent="UIViewport/Control"]
+[node name="TextureRect4" type="TextureRect" parent="UIViewport/Control/Debug"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
+offset_left = 1200.0
+offset_right = 1240.0
 offset_bottom = 40.0
 grow_horizontal = 0
 size_flags_horizontal = 3
@@ -271,22 +278,23 @@ texture = ExtResource("8_74j1g")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="TextureRect5" type="TextureRect" parent="UIViewport/Control"]
+[node name="TextureRect5" type="TextureRect" parent="UIViewport/Control/Debug"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -40.0
+offset_top = 640.0
 offset_right = 40.0
+offset_bottom = 680.0
 grow_vertical = 0
 size_flags_horizontal = 3
 texture = ExtResource("8_74j1g")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="TextureRect6" type="TextureRect" parent="UIViewport/Control"]
+[node name="TextureRect6" type="TextureRect" parent="UIViewport/Control/Debug"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 1
@@ -295,8 +303,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -40.0
+offset_left = 1200.0
+offset_top = 640.0
+offset_right = 1240.0
+offset_bottom = 680.0
 grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 3
@@ -304,63 +314,32 @@ texture = ExtResource("8_74j1g")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="Control" type="Control" parent="UIViewport/Control"]
-custom_minimum_size = Vector2(0, 64)
+[node name="Health" type="Control" parent="UIViewport/Control"]
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 0
+anchors_preset = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UIViewport/Control/Control"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -163.0
-offset_top = -20.0
-offset_right = -24.0
-offset_bottom = 20.0
-grow_horizontal = 0
-grow_vertical = 2
-
-[node name="TextureRect2" type="TextureRect" parent="UIViewport/Control/Control/HBoxContainer"]
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-texture = ExtResource("8_74j1g")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="Label" type="Label" parent="UIViewport/Control/Control/HBoxContainer"]
-layout_mode = 2
-text = "100"
-
-[node name="TextureRect" type="TextureRect" parent="UIViewport/Control/Control/HBoxContainer"]
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-texture = ExtResource("8_74j1g")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="Label2" type="Label" parent="UIViewport/Control/Control/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 1
-text = "50"
-vertical_alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="UIViewport/Control"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UIViewport/Control/Health"]
 layout_mode = 0
-offset_left = 64.655
-offset_right = 104.655
+offset_left = 16.0
+offset_top = 8.0
+offset_right = 112.0
 offset_bottom = 40.0
-scale = Vector2(2, 2)
+theme_override_constants/separation = -15
+
+[node name="TextureRect" type="TextureRect" parent="UIViewport/Control/Health/HBoxContainer"]
+layout_mode = 2
 texture = ExtResource("7_20p4w")
+stretch_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="UIViewport/Control/Health/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("7_20p4w")
+stretch_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="UIViewport/Control/Health/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("7_20p4w")
+stretch_mode = 2
 
 [node name="UnlitViewport" type="SubViewport" parent="."]
 transparent_bg = true
