@@ -12,6 +12,7 @@ public partial class UIResizeListener : Node
     public override void _Ready()
     {
         GetTree().Root.SizeChanged += OnWindowSizeChanged;
+        OnWindowSizeChanged();
     }
 
     private void OnWindowSizeChanged()
@@ -22,6 +23,8 @@ public partial class UIResizeListener : Node
         currentFactor = designedResolution.Y / windowSize.Y;
 
         viewport.Size = (Vector2I)((Vector2)windowSize * currentFactor);
+
+        GD.Print(currentFactor);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

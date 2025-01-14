@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=4 uid="uid://iiy8nfvj47mb"]
+[gd_scene load_steps=46 format=4 uid="uid://iiy8nfvj47mb"]
 
 [ext_resource type="Shader" path="res://masked_texture.gdshader" id="1_g4h2b"]
 [ext_resource type="Script" path="res://GameManager.cs" id="1_q4lvc"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://CameraController.cs" id="3_vdmfa"]
 [ext_resource type="Script" path="res://UIResizeListener.cs" id="4_npdh4"]
 [ext_resource type="Script" path="res://CameraShaker.cs" id="5_har2l"]
+[ext_resource type="Texture2D" uid="uid://crnliurwdt65m" path="res://assets/sprites/heart.png" id="7_20p4w"]
 [ext_resource type="Texture2D" uid="uid://btb1padwqwe2f" path="res://icon.svg" id="8_74j1g"]
 [ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="8_gkf4k"]
 [ext_resource type="Shader" path="res://full_white.gdshader" id="9_36kq5"]
@@ -175,6 +176,14 @@ visibilityMapContainer = NodePath("VisiblityViewport/Map")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="ViewportDebug" type="TextureRect" parent="CanvasLayer"]
 visible = false
 visibility_layer = 2
@@ -191,6 +200,7 @@ texture = SubResource("ViewportTexture_va2h5")
 [node name="UITexture" type="TextureRect" parent="CanvasLayer"]
 visibility_layer = 2
 z_index = 1
+texture_filter = 1
 material = SubResource("CanvasItemMaterial_2kdu2")
 anchors_preset = 15
 anchor_right = 1.0
@@ -215,58 +225,9 @@ mouse_filter = 2
 texture = SubResource("ViewportTexture_i8yn4")
 script = ExtResource("2_7s1kb")
 
-[node name="UnlitViewport" type="SubViewport" parent="."]
-transparent_bg = true
-canvas_item_default_texture_filter = 0
-size = Vector2i(1280, 720)
-render_target_update_mode = 4
-
-[node name="ResizeListener" type="Node" parent="UnlitViewport"]
-script = ExtResource("3_540a5")
-
-[node name="CanvasModulate" type="CanvasModulate" parent="UnlitViewport"]
-color = Color(0.12549, 0.12549, 0.12549, 1)
-
-[node name="UnlitCamera" type="Camera2D" parent="UnlitViewport" node_paths=PackedStringArray("mainCamera")]
-zoom = Vector2(4, 4)
-script = ExtResource("10_f5b65")
-mainCamera = NodePath("../../SubViewportContainer/ActiveViewport/MainCamera")
-
-[node name="Map" type="Node2D" parent="UnlitViewport"]
-
-[node name="VisiblityViewport" type="SubViewport" parent="."]
-transparent_bg = true
-canvas_item_default_texture_filter = 0
-size = Vector2i(1280, 720)
-render_target_update_mode = 4
-
-[node name="ResizeListener" type="Node" parent="VisiblityViewport"]
-script = ExtResource("3_540a5")
-
-[node name="Map" type="Node2D" parent="VisiblityViewport"]
-
-[node name="VisibilityCamera" type="Camera2D" parent="VisiblityViewport" node_paths=PackedStringArray("mainCamera")]
-zoom = Vector2(4, 4)
-script = ExtResource("10_f5b65")
-mainCamera = NodePath("../../SubViewportContainer/ActiveViewport/MainCamera")
-
-[node name="Quad" type="Sprite2D" parent="VisiblityViewport/VisibilityCamera"]
-material = SubResource("ShaderMaterial_pfnab")
-scale = Vector2(100, 100)
-texture = ExtResource("8_74j1g")
-
-[node name="Occluders" type="Node2D" parent="VisiblityViewport"]
-
-[node name="VisiblityLight2" type="PointLight2D" parent="VisiblityViewport" node_paths=PackedStringArray("target")]
-position = Vector2(266.74, 150)
-blend_mode = 1
-shadow_enabled = true
-texture = SubResource("GradientTexture2D_6x8qp")
-script = ExtResource("10_ke1t6")
-target = NodePath("../../SubViewportContainer/ActiveViewport/Player")
-
 [node name="UIViewport" type="SubViewport" parent="."]
 transparent_bg = true
+canvas_item_default_texture_filter = 0
 size = Vector2i(1280, 720)
 script = ExtResource("2_e7lni")
 
@@ -393,21 +354,63 @@ size_flags_vertical = 1
 text = "50"
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="UIViewport"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -56.5
-offset_top = -25.0
-offset_right = 56.5
-offset_bottom = 25.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_default_cursor_shape = 2
-theme_override_colors/font_hover_color = Color(1, 0, 0, 1)
-text = "This is button"
+[node name="TextureRect" type="TextureRect" parent="UIViewport/Control"]
+layout_mode = 0
+offset_left = 64.655
+offset_right = 104.655
+offset_bottom = 40.0
+scale = Vector2(2, 2)
+texture = ExtResource("7_20p4w")
+
+[node name="UnlitViewport" type="SubViewport" parent="."]
+transparent_bg = true
+canvas_item_default_texture_filter = 0
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="ResizeListener" type="Node" parent="UnlitViewport"]
+script = ExtResource("3_540a5")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="UnlitViewport"]
+color = Color(0.12549, 0.12549, 0.12549, 1)
+
+[node name="UnlitCamera" type="Camera2D" parent="UnlitViewport" node_paths=PackedStringArray("mainCamera")]
+zoom = Vector2(4, 4)
+script = ExtResource("10_f5b65")
+mainCamera = NodePath("../../SubViewportContainer/ActiveViewport/MainCamera")
+
+[node name="Map" type="Node2D" parent="UnlitViewport"]
+
+[node name="VisiblityViewport" type="SubViewport" parent="."]
+transparent_bg = true
+canvas_item_default_texture_filter = 0
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="ResizeListener" type="Node" parent="VisiblityViewport"]
+script = ExtResource("3_540a5")
+
+[node name="Map" type="Node2D" parent="VisiblityViewport"]
+
+[node name="VisibilityCamera" type="Camera2D" parent="VisiblityViewport" node_paths=PackedStringArray("mainCamera")]
+zoom = Vector2(4, 4)
+script = ExtResource("10_f5b65")
+mainCamera = NodePath("../../SubViewportContainer/ActiveViewport/MainCamera")
+
+[node name="Quad" type="Sprite2D" parent="VisiblityViewport/VisibilityCamera"]
+material = SubResource("ShaderMaterial_pfnab")
+scale = Vector2(100, 100)
+texture = ExtResource("8_74j1g")
+
+[node name="Occluders" type="Node2D" parent="VisiblityViewport"]
+
+[node name="VisiblityLight2" type="PointLight2D" parent="VisiblityViewport" node_paths=PackedStringArray("target")]
+position = Vector2(266.74, 150)
+blend_mode = 1
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_6x8qp")
+script = ExtResource("10_ke1t6")
+target = NodePath("../../SubViewportContainer/ActiveViewport/Player")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 offset_right = 1280.0

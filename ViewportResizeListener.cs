@@ -7,6 +7,7 @@ public partial class ViewportResizeListener : Node
     public override void _Ready()
     {
         GetTree().Root.SizeChanged += OnWindowSizeChanged;
+        OnWindowSizeChanged();
     }
 
     private void OnWindowSizeChanged()
