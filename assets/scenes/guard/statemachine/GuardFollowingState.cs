@@ -43,14 +43,15 @@ public partial class GuardFollowingState : GuardState
 
         guard.NavAgent.TargetPosition = GetGameWorldMousePosition();
 
-        GD.Print("Going to: " + GetGameWorldMousePosition());
-
         direction = guard.GlobalPosition.DirectionTo(guard.NavAgent.GetNextPathPosition());
 
-        guard.SetVelocity(direction * GuardController.Speed);
+        if (!guard.NavAgent.IsNavigationFinished())
+        {
+            guard.SetVelocity(direction * GuardController.Speed);
 
-        guard.MoveAndSlide();
+            guard.MoveAndSlide();
 
-        guard.HandleWalkingAnimation(delta);
+            guard.HandleWalkingAnimation(delta);
+        }
     }
 }

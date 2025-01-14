@@ -3,12 +3,12 @@
 [ext_resource type="Texture2D" uid="uid://x3568b5h8jh8" path="res://assets/sprites/Fire Effect and Bullet 16x16.png" id="1_3eky1"]
 [ext_resource type="Script" path="res://assets/scenes/Fireball.cs" id="1_bo164"]
 
-[sub_resource type="Gradient" id="Gradient_krqtc"]
+[sub_resource type="Gradient" id="Gradient_mxaoc"]
 offsets = PackedFloat32Array(0, 0.745763)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_qqlih"]
-gradient = SubResource("Gradient_krqtc")
+gradient = SubResource("Gradient_mxaoc")
 width = 96
 height = 96
 fill = 1

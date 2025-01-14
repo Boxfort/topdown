@@ -18,16 +18,19 @@ public partial class ActiveViewport : SubViewport
 
     public override void _Input(InputEvent @event)
     {
+        return;
         foreach(Node child in GetChildren())
         {   
             if (@event is InputEventMouse mouseEvent)
             {
                 InputEventMouse duplicateEvent = (InputEventMouse)mouseEvent.Duplicate();
                 duplicateEvent.Position = GlobalCanvasTransform.AffineInverse() * duplicateEvent.Position;
+                GD.Print("bruh: " + mouseEvent.Position);
                 child._UnhandledInput(duplicateEvent);
             } else {
                 child._UnhandledInput(@event);
             }
         }
     }
+
 }

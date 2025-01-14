@@ -68,11 +68,11 @@ public partial class PlayerDivingState : PlayerState
             player.PlayerSprite.Scale = new Vector2(scale, scale);
             velocity = velocity.MoveToward(Vector2.Zero, diveAirFriction * (float)delta);
 
-            KinematicCollision2D collision = player.MoveAndCollide(velocity *(float)delta);
+            KinematicCollision2D collision = player.MoveAndCollide(velocity * (float)delta);
 
-            if (collision != null) 
+            if (collision != null)
             {
-                velocity = velocity.Bounce(collision.GetNormal())/2;
+                velocity = velocity.Bounce(collision.GetNormal()) / 2;
                 player.PlayerSprite.LookAt(player.Position + velocity.Normalized());
                 player.PlayerSprite.Rotate(Mathf.DegToRad(90));
 
@@ -83,7 +83,15 @@ public partial class PlayerDivingState : PlayerState
         {
             slideTimer += (float)delta;
             velocity = velocity.MoveToward(Vector2.Zero, diveSlideFriction * Mathf.Max(1, slideTimer * diveSlideFrictionIncreaseFactor) * (float)delta);
+
+            Vector2 lastPos = player.GlobalPosition;
             player.MoveAndSlide();
+
+            if (player.GlobalPosition.DistanceTo(lastPos) < .1f)
+            {
+                player.SetVelocity(this, Vector2.Zero);
+                EmitSignal(SignalName.Finished, PlayerStates.Idle.ToString(), noData);
+            }
         }
         else
         {

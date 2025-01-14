@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://ds0fhkjrapp1q"]
+[gd_scene load_steps=21 format=3 uid="uid://ds0fhkjrapp1q"]
 
 [ext_resource type="Script" path="res://assets/scenes/player/StateDebug.cs" id="1_8qui6"]
 [ext_resource type="Script" path="res://assets/scenes/guard/GuardController.cs" id="1_ljpdm"]
 [ext_resource type="Script" path="res://assets/scripts/statemachine/StateMachine.cs" id="3_4hlvi"]
 [ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardFollowingState.cs" id="4_bmv3l"]
 [ext_resource type="Texture2D" uid="uid://dhc478rb8v3vh" path="res://assets/scenes/guard/sprites/guard.png" id="5_ge18s"]
+[ext_resource type="Texture2D" uid="uid://br1ir4yvm56st" path="res://assets/sprites/torch_sheet.png" id="6_aobos"]
+[ext_resource type="Texture2D" uid="uid://jop2p1csvdc8" path="res://assets/sprites/sword.png" id="7_2y3x1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cwig6"]
 atlas = ExtResource("5_ge18s")
@@ -31,6 +33,61 @@ width = 32
 height = 32
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l3qvr"]
+atlas = ExtResource("6_aobos")
+region = Rect2(0, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_leopu"]
+atlas = ExtResource("6_aobos")
+region = Rect2(8, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0mx4f"]
+atlas = ExtResource("6_aobos")
+region = Rect2(16, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpdnk"]
+atlas = ExtResource("6_aobos")
+region = Rect2(24, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxif5"]
+atlas = ExtResource("6_aobos")
+region = Rect2(32, 0, 8, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xtg21"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l3qvr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_leopu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0mx4f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lpdnk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxif5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_krqtc"]
+offsets = PackedFloat32Array(0, 0.745763)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hdkg6"]
+gradient = SubResource("Gradient_krqtc")
+width = 96
+height = 96
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a3upy"]
 radius = 7.5
@@ -73,8 +130,27 @@ modulate = Color(1, 1, 1, 0.25098)
 show_behind_parent = true
 texture = SubResource("GradientTexture2D_4ry7h")
 
+[node name="Torch" type="AnimatedSprite2D" parent="GuardSprite"]
+position = Vector2(8, 0)
+sprite_frames = SubResource("SpriteFrames_xtg21")
+autoplay = "default"
+frame_progress = 0.397558
+
+[node name="PointLight2D2" type="PointLight2D" parent="GuardSprite/Torch"]
+position = Vector2(-8, 0)
+color = Color(1, 0.584314, 0.329412, 1)
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_hdkg6")
+
+[node name="Node2D" type="Node2D" parent="GuardSprite"]
+
+[node name="Sword" type="Sprite2D" parent="GuardSprite/Node2D"]
+position = Vector2(-8, 0)
+scale = Vector2(-1, 1)
+texture = ExtResource("7_2y3x1")
+
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 0.1
+path_desired_distance = 1.0
 path_max_distance = 10.0
 debug_enabled = true
 
