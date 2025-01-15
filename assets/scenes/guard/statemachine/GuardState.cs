@@ -6,7 +6,9 @@ public abstract partial class GuardState : State
     public enum GuardStates 
     {
         Idle,
-        Following,
+        Investigating,
+        Chase,
+        MoveTowards,
         Attacking
     }
 

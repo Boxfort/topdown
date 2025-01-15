@@ -105,7 +105,7 @@ animations = [{
 collision_layer = 2
 script = ExtResource("1_bo164")
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." groups=["player_light"]]
 color = Color(1, 0.584314, 0.329412, 1)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_qqlih")

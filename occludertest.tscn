@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=4 uid="uid://iiy8nfvj47mb"]
+[gd_scene load_steps=60 format=4 uid="uid://iiy8nfvj47mb"]
 
 [ext_resource type="Shader" path="res://masked_texture.gdshader" id="1_g4h2b"]
 [ext_resource type="Script" path="res://GameManager.cs" id="1_q4lvc"]
@@ -15,8 +15,10 @@
 [ext_resource type="Shader" path="res://full_white.gdshader" id="9_36kq5"]
 [ext_resource type="Texture2D" uid="uid://c742yxx1a1127" path="res://assets/sprites/heart_empty.png" id="9_isurd"]
 [ext_resource type="Script" path="res://assets/scenes/tilemapdestruction/TilemapDestructionHandler.cs" id="9_xcfod"]
+[ext_resource type="Texture2D" uid="uid://c8kbxaya0ee0u" path="res://assets/sprites/light_gem-sheet.png" id="10_b3js1"]
 [ext_resource type="Script" path="res://assets/scripts/DummyCamera.cs" id="10_f5b65"]
 [ext_resource type="Script" path="res://FollowTarget.cs" id="10_ke1t6"]
+[ext_resource type="Script" path="res://assets/scenes/ui/lightgem/LightGem.cs" id="10_xu63g"]
 [ext_resource type="PackedScene" uid="uid://cw3jq6xrdjxp0" path="res://assets/scenes/player/Player.tscn" id="11_07x3l"]
 [ext_resource type="PackedScene" uid="uid://ds0fhkjrapp1q" path="res://assets/scenes/guard/Guard.tscn" id="15_x63v2"]
 [ext_resource type="Texture2D" uid="uid://cxqwt76cwcldo" path="res://assets/sprites/crate.png" id="20_xed7a"]
@@ -48,6 +50,56 @@ shader_parameter/under_mask_texture = SubResource("ViewportTexture_i61p2")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_i8yn4"]
 viewport_path = NodePath("SubViewportContainer/ActiveViewport")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ia04w"]
+atlas = ExtResource("10_b3js1")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i1exu"]
+atlas = ExtResource("10_b3js1")
+region = Rect2(64, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhw4p"]
+atlas = ExtResource("10_b3js1")
+region = Rect2(128, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubqk8"]
+atlas = ExtResource("10_b3js1")
+region = Rect2(192, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4vyn3"]
+atlas = ExtResource("10_b3js1")
+region = Rect2(256, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hubus"]
+atlas = ExtResource("10_b3js1")
+region = Rect2(320, 0, 64, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8g2jj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ia04w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i1exu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhw4p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubqk8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4vyn3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hubus")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pfnab"]
 shader = ExtResource("9_36kq5")
@@ -342,6 +394,21 @@ stretch_mode = 2
 layout_mode = 2
 texture = ExtResource("9_isurd")
 stretch_mode = 2
+
+[node name="LightGem" type="Control" parent="UIViewport/Control"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("10_xu63g")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UIViewport/Control/LightGem"]
+sprite_frames = SubResource("SpriteFrames_8g2jj")
 
 [node name="UnlitViewport" type="SubViewport" parent="."]
 transparent_bg = true

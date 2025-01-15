@@ -7,15 +7,17 @@ using System.Linq;
 public partial class PlayerController : CharacterBody2D
 {
     public const float speed = 100.0f;
-    public const float friction = 350.0f;
+    public const float friction = 450.0f;
 
-    public const float lightRecalculateTime = 0.3f;
-    public float lightRecalculateTimer = 0f;
+    const float lightRecalculateTime = 0.15f;
+    float lightRecalculateTimer = 0f;
+
+    private float currentLightValue = 0;
 
     readonly List<Vector2> spriteCorners = new() { new(6, -8), new(-6, -8), new(6, 8), new(-6, 8) };
-
     AnimatedSprite2D playerSprite;
     public AnimatedSprite2D PlayerSprite { get => playerSprite; }
+    public float CurrentLightValue { get => currentLightValue; }
 
     public override void _Ready()
     {
@@ -115,7 +117,7 @@ public partial class PlayerController : CharacterBody2D
                     float samplePoint = Mathf.Clamp(1 - (distanceToLight / lightRadius), 0, 1);
 
                     // NOTE: using the red channel to determine brightness, assume gradient is white->black
-                    float sample = 1 - gradientTexture.Gradient.Sample(samplePoint).R;
+                    float sample = 1 - lightGradient.Sample(samplePoint).R;
 
                     lightValues.Add(sample * light.Energy);
                 }
@@ -125,7 +127,6 @@ public partial class PlayerController : CharacterBody2D
             cornerLightValues.Add(sumOfLight);
         }
 
-        GD.Print("Corners lit: " + cornerLightValues.Count);
-        GD.Print("Current light value: " + cornerLightValues.Average());
+        currentLightValue = cornerLightValues.Count > 0 ? cornerLightValues.Average() : 0;
     }
 }

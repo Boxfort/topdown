@@ -4,19 +4,25 @@ using System;
 public partial class GuardController : CharacterBody2D
 {
     AnimatedSprite2D guardSprite;
+    AnimatedSprite2D questionMarkSprite;
+    AnimatedSprite2D exclaimationMarkSprite;
     Node2D weaponContainer;
     NavigationAgent2D navAgent;
 
     public NavigationAgent2D NavAgent { get => navAgent; }
     public AnimatedSprite2D GuardSprite { get => guardSprite; }
+    public AnimatedSprite2D QuestionMarkSprite { get => questionMarkSprite; }
+    public AnimatedSprite2D ExclaimationMarkSprite { get => exclaimationMarkSprite; }
     public Node2D WeaponContainer { get => weaponContainer; }
 
     public const float Speed = 50.0f;
-    public const float DetectionRadius = 255.0f;
+    public const float DetectionRadius = 256.0f;
 
     public override void _Ready()
     {
         guardSprite = GetNode<AnimatedSprite2D>("GuardSprite");
+        questionMarkSprite = GetNode<AnimatedSprite2D>("Detection/QuestionMark");
+        exclaimationMarkSprite = GetNode<AnimatedSprite2D>("Detection/ExclaimationMark");
         navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
         weaponContainer = GetNode<Node2D>("WeaponContainer");
     }
@@ -32,6 +38,24 @@ public partial class GuardController : CharacterBody2D
 
     public const float jiggleSpeed = 20.0f;
     float deltaCount = 0;
+
+    public bool CanSeeNode(Node2D node)
+    {
+        if (GlobalPosition.DistanceTo(node.GlobalPosition) <= GuardController.DetectionRadius)
+        {
+            var spaceState = GetViewport().GetWorld2D().DirectSpaceState;
+            var query = PhysicsRayQueryParameters2D.Create(GlobalPosition, node.GlobalPosition, 0b0000_0110);
+            var result = spaceState.IntersectRay(query);
+
+            if (result.Count > 0)
+            {
+                Node2D collidedNode = (Node2D)result["collider"];
+                return collidedNode == node;
+            }
+        }
+
+        return false;
+    }
 
     public void HandleWalkingAnimation(double delta)
     {

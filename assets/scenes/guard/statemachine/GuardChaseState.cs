@@ -2,7 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 
-public partial class GuardFollowingState : GuardState
+public partial class GuardChaseState : GuardState
 {
     public override void Enter(string previousState, Dictionary data)
     {

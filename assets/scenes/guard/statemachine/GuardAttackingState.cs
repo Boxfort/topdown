@@ -61,7 +61,7 @@ public partial class GuardAttackingState: GuardState
                 guard.SetVelocity(velocity);
                 guard.MoveAndSlide();
             } else {
-                EmitSignal(SignalName.Finished, GuardStates.Following.ToString(), NO_DATA );
+                EmitSignal(SignalName.Finished, GuardStates.Chase.ToString(), NO_DATA );
             }
         }
     }
