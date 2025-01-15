@@ -15,6 +15,9 @@ public partial class TilemapDestructionHandler : Node2D
     [Export(PropertyHint.NodeType, "StaticBody2D")]
     StaticBody2D collisionContainer;
 
+    [Export(PropertyHint.NodeType, "StaticBody2D")]
+    StaticBody2D visionCollisionContainer;
+
     [Export(PropertyHint.NodeType, "Node2D")]
     Node2D mainOccludersContainer;
 
@@ -83,9 +86,19 @@ public partial class TilemapDestructionHandler : Node2D
             child.Free();
         }
 
-        foreach (Node child in mainOccludersContainer.GetChildren())
+        foreach (Node child in visionCollisionContainer.GetChildren())
+        {
+            child.Free();
+        }
+
+        foreach (LightOccluder2D child in mainOccludersContainer.GetChildren())
         {
             copyOccludersContainer.AddChild(child.Duplicate());
+            CollisionPolygon2D collisionPolygon2D = new()
+            {
+                Polygon = child.Occluder.Polygon
+            };
+            visionCollisionContainer.AddChild(collisionPolygon2D);
         }
     }
 
@@ -427,6 +440,14 @@ public partial class TilemapDestructionHandler : Node2D
             lightOccluder.Occluder = occluderPolygon2D;
             mainOccludersContainer.AddChild(lightOccluder);
             copyOccludersContainer.AddChild(lightOccluder.Duplicate());
+
+            // TODO: Create a StaticBody2D for each occluder, put it on collision layer 2, and we can use that for raycasting?
+            //       this is because when we destroy the occluders the line of sight will change.
+            CollisionPolygon2D collisionPolygon2D = new()
+            {
+                Polygon = occluderPolygon
+            };
+            visionCollisionContainer.AddChild(collisionPolygon2D);
         }
     }
 

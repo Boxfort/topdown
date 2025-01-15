@@ -5,10 +5,12 @@ public abstract partial class GuardState : State
 {
     public enum GuardStates 
     {
+        Idle,
         Following,
         Attacking
     }
 
+    protected PlayerController player;
     protected GuardController guard;
     protected CombinedView combinedView;
     protected Node2D weaponContainer;
@@ -17,16 +19,15 @@ public abstract partial class GuardState : State
     // Called when the node enters the scene tree for the first time.
     public override async void _Ready()
     {
-        GD.Print("getting ready");
         await ToSignal(Owner, Node.SignalName.Ready);
         if (Owner is GuardController guardController) {
             guard = guardController;
-            GD.Print("set guard controller");
         } else {
-            GD.PushError("PlayerState must only be used in the PlayerController scene. It requires that the Owner is a PlayerController node.");
+            GD.PushError("GuardState must only be used in the GuardController scene. It requires that the Owner is a GuardController node.");
         }
 
         combinedView = (CombinedView)GetTree().GetFirstNodeInGroup("combined_view");
-        weaponContainer = (Node2D)guard.GetNode("Weapon");
+        player = (PlayerController)GetTree().GetFirstNodeInGroup("player");
+        weaponContainer = (Node2D)guard.GetNode("WeaponContainer");
     }
 }

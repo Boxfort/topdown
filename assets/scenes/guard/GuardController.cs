@@ -12,6 +12,7 @@ public partial class GuardController : CharacterBody2D
     public Node2D WeaponContainer { get => weaponContainer; }
 
     public const float Speed = 50.0f;
+    public const float DetectionRadius = 255.0f;
 
     public override void _Ready()
     {

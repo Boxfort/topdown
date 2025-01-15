@@ -65,7 +65,21 @@ public partial class PlayerRunningState : PlayerState
         }
 
         player.SetVelocity(this, velocity);
-        player.MoveAndSlide();
+        var collided = player.MoveAndSlide();
+
+        if (collided)
+        {
+            for (int i = 0; i < player.GetSlideCollisionCount(); i++)
+            {
+                // TODO: Make this not suck
+                //       maybe have a 'pushing' state where if we move in the same direction as the object we move it by some factor of its weight vs our speed?'
+                //       we can also squish the player sprite in the direction of the push to sell the illusion
+                var col = player.GetSlideCollision(i);
+                if (col.GetCollider() is RigidBody2D rigidbody) {
+                    rigidbody.ApplyCentralForce(col.GetNormal() * - 500);
+                }
+            }
+        }
 
         if (player.Velocity == Vector2.Zero)
         {

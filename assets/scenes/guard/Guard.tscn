@@ -1,9 +1,10 @@
-[gd_scene load_steps=32 format=3 uid="uid://ds0fhkjrapp1q"]
+[gd_scene load_steps=33 format=3 uid="uid://ds0fhkjrapp1q"]
 
 [ext_resource type="Script" path="res://assets/scenes/player/StateDebug.cs" id="1_8qui6"]
 [ext_resource type="Script" path="res://assets/scenes/guard/GuardController.cs" id="1_ljpdm"]
 [ext_resource type="Script" path="res://assets/scripts/statemachine/StateMachine.cs" id="3_4hlvi"]
 [ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardFollowingState.cs" id="4_bmv3l"]
+[ext_resource type="Script" path="res://assets/scenes/guard/GuardIdleState.cs" id="4_ro6np"]
 [ext_resource type="Texture2D" uid="uid://dhc478rb8v3vh" path="res://assets/scenes/guard/sprites/guard.png" id="5_ge18s"]
 [ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardAttackingState.cs" id="5_twjtg"]
 [ext_resource type="Texture2D" uid="uid://br1ir4yvm56st" path="res://assets/sprites/torch_sheet.png" id="6_aobos"]
@@ -187,7 +188,10 @@ script = ExtResource("1_8qui6")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState")]
 script = ExtResource("3_4hlvi")
-initialState = NodePath("Following")
+initialState = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("4_ro6np")
 
 [node name="Following" type="Node" parent="StateMachine"]
 script = ExtResource("4_bmv3l")
@@ -226,7 +230,7 @@ sprite_frames = SubResource("SpriteFrames_xtg21")
 autoplay = "default"
 frame_progress = 0.59594
 
-[node name="PointLight2D2" type="PointLight2D" parent="GuardSprite/Torch"]
+[node name="PointLight2D-guard" type="PointLight2D" parent="GuardSprite/Torch" groups=["player_light"]]
 position = Vector2(-8, 0)
 color = Color(1, 0.584314, 0.329412, 1)
 shadow_enabled = true

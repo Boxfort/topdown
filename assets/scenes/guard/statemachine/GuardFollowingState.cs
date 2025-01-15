@@ -28,7 +28,9 @@ public partial class GuardFollowingState : GuardState
     {
         Vector2 direction = Vector2.Zero;
 
-        guard.NavAgent.TargetPosition = combinedView.GetGameWorldMousePosition(GetViewport());
+        // TODO: This should be done in a thread on a timer so we're not calculating navigation every step
+        //guard.NavAgent.TargetPosition = combinedView.GetGameWorldMousePosition(GetViewport());
+        guard.NavAgent.TargetPosition = player.GlobalPosition;
 
         direction = guard.GlobalPosition.DirectionTo(guard.NavAgent.GetNextPathPosition());
         guard.WeaponContainer.LookAt(guard.Position + direction);
