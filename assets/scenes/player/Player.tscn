@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cw3jq6xrdjxp0"]
+[gd_scene load_steps=20 format=3 uid="uid://cw3jq6xrdjxp0"]
 
 [ext_resource type="Script" path="res://assets/scenes/player/PlayerController.cs" id="1_a7bsg"]
 [ext_resource type="Texture2D" uid="uid://c6fxusw5wgq5v" path="res://assets/scenes/player/sprites/frogman.png" id="2_8c276"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://c50fx3e64ychv" path="res://assets/scenes/player/indicator.png" id="5_7sd44"]
 [ext_resource type="Script" path="res://assets/scenes/player/statemachine/PlayerDivingState.cs" id="5_e22lo"]
 [ext_resource type="Texture2D" uid="uid://r75aa3o8414n" path="res://assets/scenes/player/sprites/frogman_dive.png" id="7_8e1fb"]
+[ext_resource type="Script" path="res://assets/scenes/player/PlayerSprite.cs" id="10_ff28s"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2pyid"]
 radius = 7.5
@@ -98,6 +99,7 @@ script = ExtResource("5_e22lo")
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7j47i")
 animation = &"idle"
+script = ExtResource("10_ff28s")
 
 [node name="Highlight" type="Sprite2D" parent="PlayerSprite"]
 modulate = Color(1, 1, 1, 0.25098)
