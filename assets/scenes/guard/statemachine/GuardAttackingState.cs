@@ -13,8 +13,8 @@ public partial class GuardAttackingState: GuardState
 
     bool startedAttack = false;
 
-    const float intialAttackVelocity = 50f; 
-    const float attackVelocityFriction = 100f; 
+    const float intialAttackVelocity = 100f; 
+    const float attackVelocityFriction = 150f; 
 
     public override void Enter(string previousState, Dictionary data)
     {

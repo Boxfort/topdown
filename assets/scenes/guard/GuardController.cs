@@ -24,7 +24,7 @@ public partial class GuardController : CharacterBody2D
     public Texture2D DeadSprite { get => deadSprite; }
     public bool CanBeHit { get => canBeHit; set => canBeHit = value; }
 
-    public const float Speed = 50.0f;
+    public const float Speed = 90.0f;
     public const float DetectionRadius = 256.0f;
     public const float AttackRange = 24.0f;
     public const int maxHealth = 3;
