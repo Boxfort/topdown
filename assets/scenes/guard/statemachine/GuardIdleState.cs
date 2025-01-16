@@ -36,19 +36,18 @@ public partial class GuardIdleState : GuardState
         {
             if (player.CurrentLightValue > 0.25f)
             {
-                // TODO: vary by distance to target
-                var distanceFactor = 1 - Mathf.Clamp(Mathf.Sqrt(guard.GlobalPosition.DistanceTo(player.GlobalPosition)-64) / Mathf.Sqrt(GuardController.DetectionRadius), 0, 1);
-                //distance
+                var distanceFactor = 1 - Mathf.Clamp(Mathf.Sqrt(guard.GlobalPosition.DistanceTo(player.GlobalPosition) - 64) / Mathf.Sqrt(GuardController.DetectionRadius), 0, 1);
                 detectionAmount += (float)delta * detectionRate * distanceFactor * player.CurrentLightValue;
 
                 if (detectionAmount > investigationThreshold)
                 {
                     EmitSignal(
-                        SignalName.Finished, 
-                        GuardStates.Investigating.ToString(), 
-                        new Godot.Collections.Dictionary() { 
-                            ["investigation_position"] = player.GlobalPosition, 
-                            ["initial_position"] = guard.GlobalPosition 
+                        SignalName.Finished,
+                        GuardStates.Investigating.ToString(),
+                        new Godot.Collections.Dictionary()
+                        {
+                            ["investigation_position"] = player.GlobalPosition,
+                            ["initial_position"] = guard.GlobalPosition
                         }
                     );
                 }
@@ -64,6 +63,13 @@ public partial class GuardIdleState : GuardState
         }
 
         HandleDetectionDisplay();
+
+        if (guard.KnockbackVelocity != Vector2.Zero)
+        {
+            guard.Velocity = guard.KnockbackVelocity;
+            guard.MoveAndSlide();
+        }
+
     }
 
     private void HandleDecreaseDetection(double delta)

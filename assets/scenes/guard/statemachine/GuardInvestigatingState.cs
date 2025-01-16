@@ -52,13 +52,14 @@ public partial class GuardInvestigatingState : GuardState
     const float alertedInitialVelocity = 50f;
     const float alertedVelocityFriction = 150f;
 
+    Vector2 velocity = Vector2.Zero;
+
     public override void PhysicsProcess(double delta)
     {
         if (alerted)
         {
             alertedTimer += (float)delta;
 
-            Vector2 velocity = guard.Velocity;
             velocity = velocity.MoveToward(Vector2.Zero, alertedVelocityFriction * (float)delta);
             guard.SetVelocity(velocity);
             guard.MoveAndSlide();
@@ -80,7 +81,8 @@ public partial class GuardInvestigatingState : GuardState
                 Vector2 direction = guard.GlobalPosition.DirectionTo(guard.NavAgent.GetNextPathPosition());
                 guard.WeaponContainer.LookAt(guard.Position + direction);
                 guard.WeaponContainer.Rotate(Mathf.DegToRad(180));
-                guard.SetVelocity(direction * GuardController.Speed / 2);
+                velocity = (direction * GuardController.Speed / 2) + guard.KnockbackVelocity;
+                guard.SetVelocity(velocity);
                 guard.MoveAndSlide();
             }
             else
@@ -111,7 +113,8 @@ public partial class GuardInvestigatingState : GuardState
                     guard.ExclaimationMarkSprite.Show();
                     guard.QuestionMarkSprite.Hide();
                     alerted = true;
-                    guard.SetVelocity(alertedInitialVelocity * player.GlobalPosition.DirectionTo(guard.GlobalPosition));
+                    velocity = (alertedInitialVelocity * player.GlobalPosition.DirectionTo(guard.GlobalPosition)) + guard.KnockbackVelocity;
+                    guard.SetVelocity(velocity);
                 }
             }
             else

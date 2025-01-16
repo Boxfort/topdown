@@ -9,6 +9,7 @@ public partial class PlayerController : CharacterBody2D
     [Signal]
     public delegate void HealthChangedEventHandler(int health);
 
+    CameraShaker cameraShaker;
     PlayerSprite playerSprite;
     Hurtbox hurtbox;
 
@@ -33,6 +34,7 @@ public partial class PlayerController : CharacterBody2D
 
     public override void _Ready()
     {
+        cameraShaker = (CameraShaker)GetTree().GetFirstNodeInGroup("camera_shaker");
         playerSprite = GetNode<PlayerSprite>("PlayerSprite");
         hurtbox = GetNode<Hurtbox>("Hurtbox");
         hurtbox.HitReceived += OnHitReceieved;
@@ -45,6 +47,8 @@ public partial class PlayerController : CharacterBody2D
             currentHealth = Math.Max(0, currentHealth - attackData.damage);
             EmitSignal(SignalName.HealthChanged, currentHealth);
             playerSprite.OnTakeDamage();
+
+            cameraShaker?.ApplyNoiseShake();
         }
     }
 

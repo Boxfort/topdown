@@ -3,30 +3,78 @@ using System;
 
 public partial class GuardController : CharacterBody2D
 {
-    AnimatedSprite2D guardSprite;
+    [Export]
+    Texture2D deadSprite;
+
+    // TODO: this obviously should be a PlayerSprite but im not sure how/if i want to commonise the damage visuals
+    PlayerSprite guardSprite;
     AnimatedSprite2D questionMarkSprite;
     AnimatedSprite2D exclaimationMarkSprite;
     Node2D weaponContainer;
     NavigationAgent2D navAgent;
+    Hurtbox hurtbox;
+    StateMachine stateMachine;
 
     public NavigationAgent2D NavAgent { get => navAgent; }
-    public AnimatedSprite2D GuardSprite { get => guardSprite; }
+    public PlayerSprite GuardSprite { get => guardSprite; }
     public AnimatedSprite2D QuestionMarkSprite { get => questionMarkSprite; }
     public AnimatedSprite2D ExclaimationMarkSprite { get => exclaimationMarkSprite; }
     public Node2D WeaponContainer { get => weaponContainer; }
+    public Vector2 KnockbackVelocity { get => knockbackVelocity; }
+    public Texture2D DeadSprite { get => deadSprite; }
+    public bool CanBeHit { get => canBeHit; set => canBeHit = value; }
 
     public const float Speed = 50.0f;
     public const float DetectionRadius = 256.0f;
     public const float AttackRange = 24.0f;
+    public const int maxHealth = 3;
+
+    Vector2 knockbackVelocity = Vector2.Zero;
+    float knockbackVelocityFriction = 200f;
+    bool canBeHit = true;
+    int currentHealth = maxHealth;
 
     public override void _Ready()
     {
-        guardSprite = GetNode<AnimatedSprite2D>("GuardSprite");
+        guardSprite = GetNode<PlayerSprite>("GuardSprite");
         questionMarkSprite = GetNode<AnimatedSprite2D>("Detection/QuestionMark");
         exclaimationMarkSprite = GetNode<AnimatedSprite2D>("Detection/ExclaimationMark");
         navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
         weaponContainer = GetNode<Node2D>("WeaponContainer");
+        stateMachine = GetNode<StateMachine>("StateMachine");
+        hurtbox = GetNode<Hurtbox>("Hurtbox");
+        hurtbox.HitReceived += OnHitReceieved;
     }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        HandleKnockback(delta);
+    }
+
+    private void OnHitReceieved(AttackData attackData)
+    {
+        GD.Print("has been hit");
+        if (canBeHit)
+        {
+            knockbackVelocity = attackData.fromPosition.DirectionTo(GlobalPosition) * attackData.knockbackForce;
+            currentHealth = Math.Max(0, currentHealth - attackData.damage);
+            guardSprite.OnTakeDamage();
+
+            if (currentHealth == 0) {
+                stateMachine.ForceStateSwitch(GuardState.GuardStates.Dead.ToString(), State.NO_DATA);
+            }
+        }
+    }
+
+    public void HandleKnockback(double delta)
+    {
+        if (knockbackVelocity != Vector2.Zero)
+        {
+            knockbackVelocity = knockbackVelocity.MoveToward(Vector2.Zero, knockbackVelocityFriction * (float)delta);
+            GD.Print(KnockbackVelocity);
+        }
+    }
+
 
     public void SetVelocity(State from, Vector2 v)
     {

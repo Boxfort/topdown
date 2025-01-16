@@ -1,7 +1,9 @@
-[gd_scene load_steps=79 format=3 uid="uid://ds0fhkjrapp1q"]
+[gd_scene load_steps=86 format=3 uid="uid://ds0fhkjrapp1q"]
 
 [ext_resource type="Script" path="res://assets/scenes/player/StateDebug.cs" id="1_8qui6"]
 [ext_resource type="Script" path="res://assets/scenes/guard/GuardController.cs" id="1_ljpdm"]
+[ext_resource type="FontFile" uid="uid://c1ymecm4o27k" path="res://assets/fonts/LanaPixel.ttf" id="2_aviix"]
+[ext_resource type="Texture2D" uid="uid://1ac7nmslatvj" path="res://assets/scenes/guard/sprites/guard_lying.png" id="2_mghjq"]
 [ext_resource type="Script" path="res://assets/scenes/components/statemachine/StateMachine.cs" id="3_4hlvi"]
 [ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardChaseState.cs" id="4_bmv3l"]
 [ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardIdleState.cs" id="4_ro6np"]
@@ -13,10 +15,16 @@
 [ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardMoveTowardsState.cs" id="7_3r7r8"]
 [ext_resource type="Texture2D" uid="uid://ch3gvtvo8rw2g" path="res://assets/sprites/slash.png" id="8_yq8da"]
 [ext_resource type="Script" path="res://assets/scenes/guard/Sword.cs" id="9_houpq"]
+[ext_resource type="Script" path="res://assets/scenes/components/hurtbox/Hurtbox.cs" id="10_dugmq"]
 [ext_resource type="Texture2D" uid="uid://b56nakmj51lsv" path="res://assets/sprites/question_mark-sheet.png" id="11_1bf5w"]
 [ext_resource type="Script" path="res://assets/scenes/components/hitbox/Hitbox.cs" id="11_7gir8"]
+[ext_resource type="Script" path="res://assets/scenes/guard/GuardDeadState.cs" id="11_37cs0"]
 [ext_resource type="Texture2D" uid="uid://df1xfqp2m8ens" path="res://assets/sprites/exclaimation_mark-sheet.png" id="12_fr5oj"]
 [ext_resource type="Texture2D" uid="uid://hlnijn04tn05" path="res://assets/sprites/question_mark_orange-sheet.png" id="14_k4t82"]
+[ext_resource type="Script" path="res://assets/scenes/player/PlayerSprite.cs" id="16_taurp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5tmi0"]
+radius = 7.5
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lpnqq"]
 atlas = ExtResource("8_yq8da")
@@ -89,12 +97,24 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mhttl"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_p6i75"]
+atlas = ExtResource("2_mghjq")
+region = Rect2(0, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_cwig6"]
 atlas = ExtResource("5_ge18s")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_55r8e"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p6i75")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cwig6")
@@ -447,7 +467,10 @@ animations = [{
 }]
 
 [node name="Guard" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 17
 script = ExtResource("1_ljpdm")
+deadSprite = ExtResource("2_mghjq")
 
 [node name="Debug" type="Node2D" parent="."]
 
@@ -463,7 +486,8 @@ offset_right = 45.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("2_aviix")
+theme_override_font_sizes/font_size = 10
 text = "DebugState"
 horizontal_alignment = 1
 script = ExtResource("1_8qui6")
@@ -487,6 +511,17 @@ script = ExtResource("7_3r7r8")
 [node name="Attacking" type="Node" parent="StateMachine"]
 script = ExtResource("5_twjtg")
 
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("11_37cs0")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 16
+script = ExtResource("10_dugmq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_5tmi0")
+
 [node name="WeaponContainer" type="Node2D" parent="."]
 
 [node name="Sword" type="Node2D" parent="WeaponContainer"]
@@ -500,6 +535,7 @@ frame = 6
 
 [node name="Hitbox" type="Area2D" parent="WeaponContainer/Sword"]
 position = Vector2(0, 6.82121e-13)
+collision_layer = 0
 collision_mask = 5
 script = ExtResource("11_7gir8")
 
@@ -514,6 +550,7 @@ texture = ExtResource("7_2y3x1")
 [node name="GuardSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_55r8e")
 animation = &"idle"
+script = ExtResource("16_taurp")
 
 [node name="Highlight" type="Sprite2D" parent="GuardSprite"]
 modulate = Color(1, 1, 1, 0.25098)
@@ -537,7 +574,6 @@ texture = SubResource("GradientTexture2D_hdkg6")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 1.0
 path_max_distance = 10.0
-debug_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -549,6 +585,7 @@ shape = SubResource("CircleShape2D_a3upy")
 visible = false
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_fnakd")
+animation = &"warning"
 
 [node name="ExclaimationMark" type="AnimatedSprite2D" parent="Detection"]
 visible = false

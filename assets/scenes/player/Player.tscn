@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cw3jq6xrdjxp0"]
+[gd_scene load_steps=21 format=3 uid="uid://cw3jq6xrdjxp0"]
 
 [ext_resource type="Script" path="res://assets/scenes/player/PlayerController.cs" id="1_a7bsg"]
 [ext_resource type="Texture2D" uid="uid://c6fxusw5wgq5v" path="res://assets/scenes/player/sprites/frogman.png" id="2_8c276"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://assets/scenes/player/StateDebug.cs" id="2_xvvel"]
 [ext_resource type="Script" path="res://assets/scenes/player/statemachine/PlayerRunningState.cs" id="3_6x4dy"]
 [ext_resource type="Script" path="res://assets/scenes/player/statemachine/PlayerIdleState.cs" id="3_cph75"]
+[ext_resource type="FontFile" uid="uid://c1ymecm4o27k" path="res://assets/fonts/LanaPixel.ttf" id="3_f1a4j"]
 [ext_resource type="Script" path="res://SlicerScript.gd" id="3_sg3rh"]
 [ext_resource type="PackedScene" uid="uid://cypyw57ja7qlm" path="res://assets/scenes/fireball/Fireball.tscn" id="4_wpk4b"]
 [ext_resource type="Texture2D" uid="uid://c50fx3e64ychv" path="res://assets/scenes/player/indicator.png" id="5_7sd44"]
@@ -59,6 +60,8 @@ fill_from = Vector2(0.5, 0.5)
 script = ExtResource("1_a7bsg")
 
 [node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("2_s4nyu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
@@ -78,7 +81,8 @@ offset_right = 45.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("3_f1a4j")
+theme_override_font_sizes/font_size = 10
 text = "DebugState"
 horizontal_alignment = 1
 script = ExtResource("2_xvvel")

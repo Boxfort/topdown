@@ -9,7 +9,8 @@ public abstract partial class GuardState : State
         Investigating,
         Chase,
         MoveTowards,
-        Attacking
+        Attacking,
+        Dead
     }
 
     protected PlayerController player;

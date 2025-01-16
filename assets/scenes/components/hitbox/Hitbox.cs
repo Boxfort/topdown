@@ -23,7 +23,7 @@ public partial class Hitbox : Area2D
         {
             hasCollidedWith.Add(hurtbox.GetRid());
             EmitSignal(SignalName.HitboxEntered, hurtbox);
-        }
+        } 
     }
 
     public void SetCollisionDisabled(bool isDisabled)

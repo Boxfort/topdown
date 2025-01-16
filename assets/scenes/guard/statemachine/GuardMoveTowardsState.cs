@@ -37,7 +37,7 @@ public partial class GuardMoveTowardsState : GuardState
 
         if (!guard.NavAgent.IsNavigationFinished())
         {
-            guard.SetVelocity(direction * GuardController.Speed);
+            guard.SetVelocity(direction * GuardController.Speed + guard.KnockbackVelocity);
             guard.MoveAndSlide();
         } else {
             guard.SetVelocity(Vector2.Zero);

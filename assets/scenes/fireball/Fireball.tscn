@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://cypyw57ja7qlm"]
+[gd_scene load_steps=19 format=3 uid="uid://cypyw57ja7qlm"]
 
 [ext_resource type="Texture2D" uid="uid://x3568b5h8jh8" path="res://assets/sprites/Fire Effect and Bullet 16x16.png" id="1_3eky1"]
 [ext_resource type="Script" path="res://assets/scenes/fireball/Fireball.cs" id="1_bo164"]
+[ext_resource type="Script" path="res://assets/scenes/components/hitbox/Hitbox.cs" id="3_xggt4"]
 
 [sub_resource type="Gradient" id="Gradient_mxaoc"]
 offsets = PackedFloat32Array(0, 0.745763)
@@ -16,7 +17,7 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p5acd"]
-radius = 8.0
+radius = 9.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a3pek"]
 atlas = ExtResource("1_3eky1")
@@ -101,8 +102,12 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_8igcb"]
+radius = 11.0
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
-collision_layer = 2
+collision_layer = 16
+collision_mask = 9
 script = ExtResource("1_bo164")
 
 [node name="PointLight2D" type="PointLight2D" parent="." groups=["player_light"]]
@@ -118,8 +123,16 @@ sprite_frames = SubResource("SpriteFrames_pdps3")
 animation = &"fire"
 autoplay = "fire"
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="TerrainDestructionPolygon" type="Node2D" parent="."]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Node2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TerrainDestructionPolygon"]
 position = Vector2(0, 8)
 polygon = PackedVector2Array(-3, -19, 3, -19, 11, -14, 11, -6, 10, 1, 5, 5, 1, 6, -1, 6, -5, 5, -10, 1, -11, -6, -11, -14)
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 9
+script = ExtResource("3_xggt4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_8igcb")

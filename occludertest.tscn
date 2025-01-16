@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=4 uid="uid://iiy8nfvj47mb"]
+[gd_scene load_steps=60 format=4 uid="uid://iiy8nfvj47mb"]
 
 [ext_resource type="Shader" path="res://masked_texture.gdshader" id="1_g4h2b"]
 [ext_resource type="Script" path="res://GameManager.cs" id="1_q4lvc"]
@@ -22,6 +22,7 @@
 [ext_resource type="Script" path="res://FollowTarget.cs" id="10_ke1t6"]
 [ext_resource type="Script" path="res://assets/scenes/ui/lightgem/LightGem.cs" id="10_xu63g"]
 [ext_resource type="PackedScene" uid="uid://cw3jq6xrdjxp0" path="res://assets/scenes/player/Player.tscn" id="11_07x3l"]
+[ext_resource type="FontFile" uid="uid://c1ymecm4o27k" path="res://assets/fonts/LanaPixel.ttf" id="13_gli4w"]
 [ext_resource type="PackedScene" uid="uid://ds0fhkjrapp1q" path="res://assets/scenes/guard/Guard.tscn" id="15_x63v2"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2kdu2"]
@@ -325,12 +326,12 @@ stretch_mode = 2
 
 [node name="Heart2" type="TextureRect" parent="UIViewport/UI/HUD/Health/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("8_w0w18")
+texture = ExtResource("7_20p4w")
 stretch_mode = 2
 
 [node name="Heart3" type="TextureRect" parent="UIViewport/UI/HUD/Health/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("9_isurd")
+texture = ExtResource("7_20p4w")
 stretch_mode = 2
 
 [node name="LightGem" type="Control" parent="UIViewport/UI/HUD"]
@@ -362,7 +363,8 @@ offset_right = 20.0
 offset_bottom = -15.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 12
+theme_override_fonts/font = ExtResource("13_gli4w")
+theme_override_font_sizes/font_size = 16
 text = "1234"
 horizontal_alignment = 1
 
@@ -524,5 +526,4 @@ shadow_enabled = true
 texture = SubResource("GradientTexture2D_qo6jc")
 
 [node name="Guard" parent="SubViewportContainer/ActiveViewport" instance=ExtResource("15_x63v2")]
-position = Vector2(1030, 230)
-collision_layer = 8
+position = Vector2(900, 230)

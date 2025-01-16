@@ -38,12 +38,12 @@ public partial class GuardChaseState : GuardState
 
         if (guard.NavAgent.IsNavigationFinished() || CanAttack(player))
         {
-            guard.SetVelocity(Vector2.Zero);
+            guard.SetVelocity(Vector2.Zero + guard.KnockbackVelocity);
             EmitSignal(SignalName.Finished, GuardStates.Attacking.ToString(), new Godot.Collections.Dictionary() { ["direction"] = direction });
         }
         else
         {
-            guard.SetVelocity(direction * GuardController.Speed);
+            guard.SetVelocity((direction * GuardController.Speed) + guard.KnockbackVelocity);
             guard.MoveAndSlide();
         }
 

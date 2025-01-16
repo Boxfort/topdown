@@ -23,7 +23,7 @@ public partial class GuardAttackingState: GuardState
         attackTimer = 0;
         startedAttack = false;
 
-        guard.SetVelocity(intialAttackVelocity * direction);
+        velocity = intialAttackVelocity * direction;
     }
 
     public override void Exit()
@@ -41,6 +41,8 @@ public partial class GuardAttackingState: GuardState
         // no-op
     }
 
+    Vector2 velocity = Vector2.Zero;
+
     public override void PhysicsProcess(double delta)
     {
         windUpTimer += (float)delta;
@@ -56,9 +58,8 @@ public partial class GuardAttackingState: GuardState
                 startedAttack = true;
                 attackTimer += (float)delta;
 
-                Vector2 velocity = guard.Velocity;
                 velocity = velocity.MoveToward(Vector2.Zero, attackVelocityFriction * (float)delta);
-                guard.SetVelocity(velocity);
+                guard.SetVelocity(velocity + guard.KnockbackVelocity);
                 guard.MoveAndSlide();
             } else {
                 EmitSignal(SignalName.Finished, GuardStates.Chase.ToString(), NO_DATA );

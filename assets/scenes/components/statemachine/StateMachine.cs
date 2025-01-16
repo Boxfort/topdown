@@ -25,6 +25,11 @@ public partial class StateMachine : Node
         }
     }
 
+    public void ForceStateSwitch(string nextState, Godot.Collections.Dictionary data)
+    {
+        OnStateFinished(nextState, data);
+    }
+
     private void OnStateFinished(string nextState, Godot.Collections.Dictionary data)
     {
         if (!HasNode(nextState))
