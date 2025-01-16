@@ -1,27 +1,28 @@
-[gd_scene load_steps=60 format=4 uid="uid://iiy8nfvj47mb"]
+[gd_scene load_steps=59 format=4 uid="uid://iiy8nfvj47mb"]
 
 [ext_resource type="Shader" path="res://masked_texture.gdshader" id="1_g4h2b"]
 [ext_resource type="Script" path="res://GameManager.cs" id="1_q4lvc"]
 [ext_resource type="Script" path="res://CombinedView.cs" id="2_7s1kb"]
 [ext_resource type="Script" path="res://ActiveViewport.cs" id="2_e7lni"]
-[ext_resource type="Script" path="res://ViewportResizeListener.cs" id="3_540a5"]
+[ext_resource type="Script" path="res://assets/scenes/ui/ViewportResizeListener.cs" id="3_540a5"]
 [ext_resource type="Script" path="res://assets/scripts/CameraController.cs" id="3_vdmfa"]
-[ext_resource type="Script" path="res://UIResizeListener.cs" id="4_npdh4"]
+[ext_resource type="Script" path="res://assets/scenes/ui/UIResizeListener.cs" id="4_npdh4"]
 [ext_resource type="Script" path="res://assets/scripts/CameraShaker.cs" id="5_har2l"]
-[ext_resource type="Texture2D" uid="uid://crnliurwdt65m" path="res://assets/sprites/heart.png" id="7_20p4w"]
+[ext_resource type="Script" path="res://assets/scenes/ui/HUD.cs" id="6_v61k7"]
+[ext_resource type="Script" path="res://assets/scenes/ui/health/HealthContainer.cs" id="7_6owc3"]
+[ext_resource type="Texture2D" uid="uid://crnliurwdt65m" path="res://assets/scenes/ui/health/heart.png" id="7_20p4w"]
 [ext_resource type="Texture2D" uid="uid://btb1padwqwe2f" path="res://icon.svg" id="8_74j1g"]
 [ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="8_gkf4k"]
-[ext_resource type="Texture2D" uid="uid://csuvpyw52cdwl" path="res://assets/sprites/heart_half.png" id="8_w0w18"]
+[ext_resource type="Texture2D" uid="uid://csuvpyw52cdwl" path="res://assets/scenes/ui/health/heart_half.png" id="8_w0w18"]
 [ext_resource type="Shader" path="res://full_white.gdshader" id="9_36kq5"]
-[ext_resource type="Texture2D" uid="uid://c742yxx1a1127" path="res://assets/sprites/heart_empty.png" id="9_isurd"]
+[ext_resource type="Texture2D" uid="uid://c742yxx1a1127" path="res://assets/scenes/ui/health/heart_empty.png" id="9_isurd"]
 [ext_resource type="Script" path="res://assets/scenes/tilemapdestruction/TilemapDestructionHandler.cs" id="9_xcfod"]
-[ext_resource type="Texture2D" uid="uid://c8kbxaya0ee0u" path="res://assets/sprites/light_gem-sheet.png" id="10_b3js1"]
+[ext_resource type="Texture2D" uid="uid://c8kbxaya0ee0u" path="res://assets/scenes/ui/lightgem/light_gem-sheet.png" id="10_b3js1"]
 [ext_resource type="Script" path="res://assets/scripts/DummyCamera.cs" id="10_f5b65"]
 [ext_resource type="Script" path="res://FollowTarget.cs" id="10_ke1t6"]
 [ext_resource type="Script" path="res://assets/scenes/ui/lightgem/LightGem.cs" id="10_xu63g"]
 [ext_resource type="PackedScene" uid="uid://cw3jq6xrdjxp0" path="res://assets/scenes/player/Player.tscn" id="11_07x3l"]
 [ext_resource type="PackedScene" uid="uid://ds0fhkjrapp1q" path="res://assets/scenes/guard/Guard.tscn" id="15_x63v2"]
-[ext_resource type="Texture2D" uid="uid://cxqwt76cwcldo" path="res://assets/sprites/crate.png" id="20_xed7a"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2kdu2"]
 light_mode = 1
@@ -223,12 +224,6 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 1)
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_nqg7r"]
-polygon = PackedVector2Array(-5, -5, -5, 5, 5, 5, 5, -5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qv2pv"]
-size = Vector2(14, 14)
-
 [node name="GameContainer" type="Node2D" node_paths=PackedStringArray("activeViewport", "unlitMapContainer", "visibilityMapContainer")]
 texture_filter = 1
 script = ExtResource("1_q4lvc")
@@ -290,91 +285,32 @@ script = ExtResource("2_e7lni")
 script = ExtResource("4_npdh4")
 designedResolution = Vector2(640, 360)
 
-[node name="Control" type="Control" parent="UIViewport"]
+[node name="UI" type="Control" parent="UIViewport"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-mouse_filter = 1
 
-[node name="Debug" type="Control" parent="UIViewport/Control"]
-visible = false
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="TextureRect3" type="TextureRect" parent="UIViewport/Control/Debug"]
-modulate = Color(0, 1, 0, 1)
-custom_minimum_size = Vector2(32, 0)
+[node name="HUD" type="Control" parent="UIViewport/UI"]
 layout_mode = 1
-offset_right = 40.0
-offset_bottom = 40.0
-size_flags_horizontal = 3
-texture = ExtResource("8_74j1g")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="TextureRect4" type="TextureRect" parent="UIViewport/Control/Debug"]
-modulate = Color(0, 1, 0, 1)
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 1200.0
-offset_right = 1240.0
-offset_bottom = 40.0
-grow_horizontal = 0
-size_flags_horizontal = 3
-texture = ExtResource("8_74j1g")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="TextureRect5" type="TextureRect" parent="UIViewport/Control/Debug"]
-modulate = Color(0, 1, 0, 1)
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = 640.0
-offset_right = 40.0
-offset_bottom = 680.0
-grow_vertical = 0
-size_flags_horizontal = 3
-texture = ExtResource("8_74j1g")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="TextureRect6" type="TextureRect" parent="UIViewport/Control/Debug"]
-modulate = Color(0, 1, 0, 1)
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1200.0
-offset_top = 640.0
-offset_right = 1240.0
-offset_bottom = 680.0
-grow_horizontal = 0
-grow_vertical = 0
-size_flags_horizontal = 3
-texture = ExtResource("8_74j1g")
-expand_mode = 2
-stretch_mode = 4
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_v61k7")
 
-[node name="Health" type="Control" parent="UIViewport/Control"]
-layout_mode = 1
+[node name="Health" type="Control" parent="UIViewport/UI/HUD"]
+layout_mode = 3
 anchors_preset = 0
+script = ExtResource("7_6owc3")
+fullHeart = ExtResource("7_20p4w")
+halfHeart = ExtResource("8_w0w18")
+emptyHeart = ExtResource("9_isurd")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UIViewport/Control/Health"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UIViewport/UI/HUD/Health"]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 8.0
@@ -382,22 +318,22 @@ offset_right = 112.0
 offset_bottom = 40.0
 theme_override_constants/separation = -15
 
-[node name="TextureRect" type="TextureRect" parent="UIViewport/Control/Health/HBoxContainer"]
+[node name="Heart1" type="TextureRect" parent="UIViewport/UI/HUD/Health/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("7_20p4w")
 stretch_mode = 2
 
-[node name="TextureRect2" type="TextureRect" parent="UIViewport/Control/Health/HBoxContainer"]
+[node name="Heart2" type="TextureRect" parent="UIViewport/UI/HUD/Health/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("8_w0w18")
 stretch_mode = 2
 
-[node name="TextureRect3" type="TextureRect" parent="UIViewport/Control/Health/HBoxContainer"]
+[node name="Heart3" type="TextureRect" parent="UIViewport/UI/HUD/Health/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("9_isurd")
 stretch_mode = 2
 
-[node name="LightGem" type="Control" parent="UIViewport/Control"]
+[node name="LightGem" type="Control" parent="UIViewport/UI/HUD"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 1
 anchors_preset = 7
@@ -405,12 +341,30 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
+offset_top = -24.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("10_xu63g")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UIViewport/Control/LightGem"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UIViewport/UI/HUD/LightGem"]
 sprite_frames = SubResource("SpriteFrames_8g2jj")
+
+[node name="Debug" type="Label" parent="UIViewport/UI/HUD/LightGem"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -38.0
+offset_right = 20.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "1234"
+horizontal_alignment = 1
 
 [node name="UnlitViewport" type="SubViewport" parent="."]
 transparent_bg = true
@@ -483,7 +437,7 @@ script = ExtResource("3_540a5")
 navigation_polygon = SubResource("NavigationPolygon_hjh4f")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="SubViewportContainer/ActiveViewport"]
-color = Color(0.313726, 0.313726, 0.313726, 1)
+color = Color(0.188235, 0.188235, 0.188235, 1)
 
 [node name="MainCamera" type="Camera2D" parent="SubViewportContainer/ActiveViewport" node_paths=PackedStringArray("cameraTarget")]
 script = ExtResource("3_vdmfa")
@@ -526,41 +480,43 @@ collision_mask = 2
 
 [node name="Player" parent="SubViewportContainer/ActiveViewport" instance=ExtResource("11_07x3l")]
 position = Vector2(600, 200)
-collision_layer = 5
+collision_layer = 4
 
-[node name="PointLight2D-red" type="PointLight2D" parent="SubViewportContainer/ActiveViewport" groups=["player_light"]]
+[node name="Lights" type="Node2D" parent="SubViewportContainer/ActiveViewport"]
+
+[node name="PointLight2D-red" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/Lights" groups=["player_light"]]
 position = Vector2(400, 150)
 color = Color(1, 0.584314, 0.329412, 1)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_qo6jc")
 
-[node name="PointLight2D-red2" type="PointLight2D" parent="SubViewportContainer/ActiveViewport" groups=["player_light"]]
+[node name="PointLight2D-red2" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/Lights" groups=["player_light"]]
 position = Vector2(800, 240)
 color = Color(1, 0.584314, 0.329412, 1)
 energy = 0.5
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_qo6jc")
 
-[node name="PointLight2D-red3" type="PointLight2D" parent="SubViewportContainer/ActiveViewport" groups=["player_light"]]
+[node name="PointLight2D-red3" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/Lights" groups=["player_light"]]
 position = Vector2(928, 240)
 color = Color(1, 0.584314, 0.329412, 1)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_qo6jc")
 
-[node name="PointLight2D-red4" type="PointLight2D" parent="SubViewportContainer/ActiveViewport" groups=["player_light"]]
+[node name="PointLight2D-red4" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/Lights" groups=["player_light"]]
 position = Vector2(600, 255.29)
 color = Color(1, 0.584314, 0.329412, 1)
 energy = 0.25
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_qo6jc")
 
-[node name="PointLight2D-yellow" type="PointLight2D" parent="SubViewportContainer/ActiveViewport" groups=["player_light"]]
+[node name="PointLight2D-yellow" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/Lights" groups=["player_light"]]
 position = Vector2(200, 200)
 color = Color(0.733879, 0.732497, 0.291437, 1)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_qo6jc")
 
-[node name="PointLight2D-yellow2" type="PointLight2D" parent="SubViewportContainer/ActiveViewport" groups=["player_light"]]
+[node name="PointLight2D-yellow2" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/Lights" groups=["player_light"]]
 position = Vector2(350, 400)
 color = Color(9.14484e-07, 0.848209, 0.337094, 1)
 energy = 0.25
@@ -569,15 +525,4 @@ texture = SubResource("GradientTexture2D_qo6jc")
 
 [node name="Guard" parent="SubViewportContainer/ActiveViewport" instance=ExtResource("15_x63v2")]
 position = Vector2(1030, 230)
-
-[node name="Node2D" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport"]
-position = Vector2(300, 250)
-
-[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Node2D"]
-texture = ExtResource("20_xed7a")
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="SubViewportContainer/ActiveViewport/Node2D/Sprite2D"]
-occluder = SubResource("OccluderPolygon2D_nqg7r")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/Node2D"]
-shape = SubResource("RectangleShape2D_qv2pv")
+collision_layer = 8

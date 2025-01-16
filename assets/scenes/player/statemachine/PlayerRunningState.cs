@@ -50,21 +50,27 @@ public partial class PlayerRunningState : PlayerState
         HandleMovement(delta);
     }
 
+    Vector2 velocity = Vector2.Zero;
+
     private void HandleMovement(double delta)
     {
-        Vector2 velocity = player.Velocity;
-        Vector2 direction = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+        Vector2 direction = Input.GetVector("move_left", "move_right", "move_up", "move_down").Normalized();
 
         if (direction != Vector2.Zero)
         {
-            velocity = direction * PlayerController.speed;
+            var velocityThreshold = Vector2.One * PlayerController.maxSpeed * direction.Abs();
+
+            Vector2 newVelocity = velocity + ((float)delta * direction * PlayerController.acceleration); 
+            newVelocity = newVelocity.Clamp(-velocityThreshold, velocityThreshold);
+
+            velocity = newVelocity;
         }
         else
         {
             velocity = velocity.MoveToward(Vector2.Zero, PlayerController.friction * (float)delta);
         }
 
-        player.SetVelocity(this, velocity);
+        player.SetVelocity(this, velocity + player.KnockbackVelocity);
         var collided = player.MoveAndSlide();
 
         if (collided)
@@ -81,7 +87,7 @@ public partial class PlayerRunningState : PlayerState
             }
         }
 
-        if (player.Velocity == Vector2.Zero)
+        if (velocity == Vector2.Zero)
         {
             EmitSignal(State.SignalName.Finished, PlayerStates.Idle.ToString(), NO_DATA);
         }

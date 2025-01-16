@@ -36,15 +36,22 @@ public partial class GuardChaseState : GuardState
         guard.WeaponContainer.LookAt(guard.Position + direction);
         guard.WeaponContainer.Rotate(Mathf.DegToRad(180));
 
-        if (!guard.NavAgent.IsNavigationFinished())
+        if (guard.NavAgent.IsNavigationFinished() || CanAttack(player))
+        {
+            guard.SetVelocity(Vector2.Zero);
+            EmitSignal(SignalName.Finished, GuardStates.Attacking.ToString(), new Godot.Collections.Dictionary() { ["direction"] = direction });
+        }
+        else
         {
             guard.SetVelocity(direction * GuardController.Speed);
             guard.MoveAndSlide();
-        } else {
-            guard.SetVelocity(Vector2.Zero);
-            EmitSignal(SignalName.Finished, GuardStates.Attacking.ToString(), new Godot.Collections.Dictionary() { ["direction"] = direction } );
         }
 
         guard.HandleWalkingAnimation(delta);
+    }
+
+    private bool CanAttack(Node2D node)
+    {
+        return guard.GlobalPosition.DistanceTo(node.GlobalPosition) < GuardController.AttackRange && guard.CanSeeNode(node);
     }
 }

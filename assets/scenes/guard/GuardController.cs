@@ -17,6 +17,7 @@ public partial class GuardController : CharacterBody2D
 
     public const float Speed = 50.0f;
     public const float DetectionRadius = 256.0f;
+    public const float AttackRange = 24.0f;
 
     public override void _Ready()
     {

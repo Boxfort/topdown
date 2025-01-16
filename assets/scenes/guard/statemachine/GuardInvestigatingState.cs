@@ -37,7 +37,7 @@ public partial class GuardInvestigatingState : GuardState
         // no-op
     }
 
-    const float detectionRate = 1f;
+    const float detectionRate = 2f;
     const float detectionLossRate = 1;
     const float minimumDetection = 0.5f;
     const float discoveryThreshold = 1.5f;

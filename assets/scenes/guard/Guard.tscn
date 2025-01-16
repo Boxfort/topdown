@@ -1,8 +1,8 @@
-[gd_scene load_steps=76 format=3 uid="uid://ds0fhkjrapp1q"]
+[gd_scene load_steps=79 format=3 uid="uid://ds0fhkjrapp1q"]
 
 [ext_resource type="Script" path="res://assets/scenes/player/StateDebug.cs" id="1_8qui6"]
 [ext_resource type="Script" path="res://assets/scenes/guard/GuardController.cs" id="1_ljpdm"]
-[ext_resource type="Script" path="res://assets/scripts/statemachine/StateMachine.cs" id="3_4hlvi"]
+[ext_resource type="Script" path="res://assets/scenes/components/statemachine/StateMachine.cs" id="3_4hlvi"]
 [ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardChaseState.cs" id="4_bmv3l"]
 [ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardIdleState.cs" id="4_ro6np"]
 [ext_resource type="Texture2D" uid="uid://dhc478rb8v3vh" path="res://assets/scenes/guard/sprites/guard.png" id="5_ge18s"]
@@ -12,7 +12,9 @@
 [ext_resource type="Texture2D" uid="uid://jop2p1csvdc8" path="res://assets/sprites/sword.png" id="7_2y3x1"]
 [ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardMoveTowardsState.cs" id="7_3r7r8"]
 [ext_resource type="Texture2D" uid="uid://ch3gvtvo8rw2g" path="res://assets/sprites/slash.png" id="8_yq8da"]
+[ext_resource type="Script" path="res://assets/scenes/guard/Sword.cs" id="9_houpq"]
 [ext_resource type="Texture2D" uid="uid://b56nakmj51lsv" path="res://assets/sprites/question_mark-sheet.png" id="11_1bf5w"]
+[ext_resource type="Script" path="res://assets/scenes/components/hitbox/Hitbox.cs" id="11_7gir8"]
 [ext_resource type="Texture2D" uid="uid://df1xfqp2m8ens" path="res://assets/sprites/exclaimation_mark-sheet.png" id="12_fr5oj"]
 [ext_resource type="Texture2D" uid="uid://hlnijn04tn05" path="res://assets/sprites/question_mark_orange-sheet.png" id="14_k4t82"]
 
@@ -84,6 +86,8 @@ animations = [{
 "name": &"idle",
 "speed": 5.0
 }]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mhttl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cwig6"]
 atlas = ExtResource("5_ge18s")
@@ -485,17 +489,27 @@ script = ExtResource("5_twjtg")
 
 [node name="WeaponContainer" type="Node2D" parent="."]
 
-[node name="Sword" type="Sprite2D" parent="WeaponContainer"]
-position = Vector2(-8.99998, -2.22122e-06)
-rotation = -3.14159
-scale = Vector2(1, -1)
-texture = ExtResource("7_2y3x1")
+[node name="Sword" type="Node2D" parent="WeaponContainer"]
+script = ExtResource("9_houpq")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="WeaponContainer"]
+[node name="SwingTrail" type="AnimatedSprite2D" parent="WeaponContainer/Sword"]
 position = Vector2(-15, -2.22122e-06)
 sprite_frames = SubResource("SpriteFrames_n8p1u")
 animation = &"attack"
 frame = 6
+
+[node name="Hitbox" type="Area2D" parent="WeaponContainer/Sword"]
+position = Vector2(0, 6.82121e-13)
+collision_mask = 5
+script = ExtResource("11_7gir8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponContainer/Sword/Hitbox"]
+position = Vector2(-11, 0)
+shape = SubResource("CircleShape2D_mhttl")
+
+[node name="SwordSprite" type="Sprite2D" parent="WeaponContainer/Sword"]
+position = Vector2(-8.99998, -2.22122e-06)
+texture = ExtResource("7_2y3x1")
 
 [node name="GuardSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_55r8e")

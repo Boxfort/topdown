@@ -25,7 +25,7 @@ public partial class GuardIdleState : GuardState
         // no-op
     }
 
-    const float detectionRate = 1f;
+    const float detectionRate = 2f;
     const float detectionLossRate = 2;
     const float investigationThreshold = 0.5f;
     float detectionAmount = 0;
@@ -34,9 +34,12 @@ public partial class GuardIdleState : GuardState
     {
         if (guard.CanSeeNode(player))
         {
-            if (player.CurrentLightValue > 0.2f)
+            if (player.CurrentLightValue > 0.25f)
             {
-                detectionAmount += (float)delta * detectionRate * player.CurrentLightValue;
+                // TODO: vary by distance to target
+                var distanceFactor = 1 - Mathf.Clamp(Mathf.Sqrt(guard.GlobalPosition.DistanceTo(player.GlobalPosition)-64) / Mathf.Sqrt(GuardController.DetectionRadius), 0, 1);
+                //distance
+                detectionAmount += (float)delta * detectionRate * distanceFactor * player.CurrentLightValue;
 
                 if (detectionAmount > investigationThreshold)
                 {

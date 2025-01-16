@@ -13,24 +13,6 @@ public partial class ActiveViewport : SubViewport
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        SetProcessUnhandledInput(true);
+        //SetProcessUnhandledInput(true);
     }
-
-    public override void _Input(InputEvent @event)
-    {
-        return;
-        foreach(Node child in GetChildren())
-        {   
-            if (@event is InputEventMouse mouseEvent)
-            {
-                InputEventMouse duplicateEvent = (InputEventMouse)mouseEvent.Duplicate();
-                duplicateEvent.Position = GlobalCanvasTransform.AffineInverse() * duplicateEvent.Position;
-                GD.Print("bruh: " + mouseEvent.Position);
-                child._UnhandledInput(duplicateEvent);
-            } else {
-                child._UnhandledInput(@event);
-            }
-        }
-    }
-
 }

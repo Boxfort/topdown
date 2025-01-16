@@ -13,14 +13,12 @@ public abstract partial class State : Node
 
     public void PreEnter(string previousState, Godot.Collections.Dictionary data)
     {
-        GD.Print(Name + " state entering.");
         hasExited = false;
         Enter(previousState, data);
     }
 
     public void PreExit()
     {
-        GD.Print(Name + " state exiting.");
         hasExited = true;
         Exit();
     }

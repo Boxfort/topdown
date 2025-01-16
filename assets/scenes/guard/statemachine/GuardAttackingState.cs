@@ -50,7 +50,7 @@ public partial class GuardAttackingState: GuardState
             // Do Attack
             if (attackTimer <= attackTime) {
                 if (!startedAttack) {
-                    guard.WeaponContainer.GetNode<AnimatedSprite2D>("AnimatedSprite2D").Play("attack");
+                    guard.WeaponContainer.GetNode<Sword>("Sword").PlayAttack();
                 }
 
                 startedAttack = true;

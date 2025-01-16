@@ -6,38 +6,65 @@ using System.Linq;
 
 public partial class PlayerController : CharacterBody2D
 {
-    public const float speed = 100.0f;
+    [Signal]
+    public delegate void HealthChangedEventHandler(int health);
+
+    AnimatedSprite2D playerSprite;
+    Hurtbox hurtbox;
+
+    public const float acceleration = 500.0f;
+    public const float maxSpeed = 100.0f;
     public const float friction = 450.0f;
+    public const int maxHealth = 6;
 
     const float lightRecalculateTime = 0.15f;
     float lightRecalculateTimer = 0f;
+    float currentLightValue = 0;
+    int currentHealth = maxHealth;
+    bool canBeHit = true;
 
-    private float currentLightValue = 0;
+    Vector2 knockbackVelocity = Vector2.Zero;
+    float knockbackVelocityFriction = 200f;
 
-    readonly List<Vector2> spriteCorners = new() { new(6, -8), new(-6, -8), new(6, 8), new(-6, 8) };
-    AnimatedSprite2D playerSprite;
+    readonly List<Vector2> spriteCorners = new() { new(4, -6), new(-4, -6), new(4, 6), new(-4, 6) };
     public AnimatedSprite2D PlayerSprite { get => playerSprite; }
     public float CurrentLightValue { get => currentLightValue; }
+    public Vector2 KnockbackVelocity { get => knockbackVelocity; }
 
     public override void _Ready()
     {
         playerSprite = GetNode<AnimatedSprite2D>("PlayerSprite");
+        hurtbox = GetNode<Hurtbox>("Hurtbox");
+        hurtbox.HitReceived += OnHitReceieved;
     }
 
-    public override void _Process(double delta)
+    private void OnHitReceieved(AttackData attackData)
     {
-
+        if (canBeHit) {
+            knockbackVelocity = attackData.fromPosition.DirectionTo(GlobalPosition) * attackData.knockbackForce;
+            currentHealth = Math.Max(0, currentHealth - attackData.damage);
+            EmitSignal(SignalName.HealthChanged, currentHealth);
+        }
     }
 
     public void SetVelocity(State from, Vector2 v)
     {
         // We have to check this because of a race condition with multiple states calling Process/PhysicsProcess at the same time.
+        // This could be solved by having each state track its own velocity.
         if (from.hasExited) return;
+
         Velocity = v;
     }
 
     public const float jiggleSpeed = 20.0f;
     float deltaCount = 0;
+
+    public void HandleKnockback(double delta) 
+    {
+        if (knockbackVelocity != Vector2.Zero) {
+            knockbackVelocity = knockbackVelocity.MoveToward(Vector2.Zero, knockbackVelocityFriction * (float)delta);
+        }
+    }
 
     public void HandleWalkingAnimation(double delta)
     {
@@ -57,6 +84,7 @@ public partial class PlayerController : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         CalculateVisiblity(delta);
+        HandleKnockback(delta);
     }
 
     public List<Vector2> GetGlobalSpriteCornerPositions()
@@ -65,7 +93,12 @@ public partial class PlayerController : CharacterBody2D
     }
 
     /// <summary>
-    /// TODO: Description of how this works
+    /// Caluclates the players current visibility by determining which lights are within range,
+    /// then casting a ray from the corners of the players sprite towards each light.
+    /// If the ray does not hit anything then that light is lighting the player.
+    /// The light is then sampled to get the light value at the players distance from it,
+    /// and the 4 corner light values are averaged. The max light value out of all lights is
+    /// then used as the final visibility. This is to prevent stacking lights creating more visibility.
     /// </summary>
     public void CalculateVisiblity(double delta)
     {
