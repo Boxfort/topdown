@@ -13,7 +13,7 @@ public partial class PlayerIdleState : PlayerState
     {
         // no-op
         player.PlayerSprite.Play("idle");
-        player.Velocity = Vector2.Zero;
+        player.SetVelocity(Vector2.Zero);
     }
 
     public override void Exit()

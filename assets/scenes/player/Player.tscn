@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://dpydvg2cekgx1" path="res://assets/scenes/player/sprites/frog_man2.png" id="11_6yv7b"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2pyid"]
-radius = 7.5
+radius = 6.5
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kc3wo"]
 atlas = ExtResource("10_3lf8a")

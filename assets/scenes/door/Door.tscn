@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://3x308e2e0xjv"]
+
+[ext_resource type="Script" uid="uid://cwbjdr1341q3f" path="res://assets/scenes/door/DoorScript.cs" id="1_nk3d5"]
+[ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="2_fii4m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vpixm"]
+atlas = ExtResource("2_fii4m")
+region = Rect2(80, 16, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vpixm"]
+size = Vector2(16, 1)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_86t65"]
+polygon = PackedVector2Array(-8, -1, -8, 1, 8, 1, 8, -1)
+
+[node name="Door" type="Node2D" node_paths=PackedStringArray("doorVisionOccluderContainer")]
+rotation = 1.57079
+script = ExtResource("1_nk3d5")
+doorVisionOccluderContainer = NodePath("")
+
+[node name="StaticHinge" type="StaticBody2D" parent="."]
+position = Vector2(-9, -2.22127e-06)
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+position = Vector2(-9, -2.22127e-06)
+node_a = NodePath("../StaticHinge")
+node_b = NodePath("../RigidbodyDoor")
+angular_limit_enabled = true
+angular_limit_lower = -1.5708
+angular_limit_upper = 1.5708
+
+[node name="RigidbodyDoor" type="RigidBody2D" parent="."]
+collision_layer = 0
+collision_mask = 12
+gravity_scale = 0.0
+
+[node name="DoorSprite" type="Sprite2D" parent="RigidbodyDoor"]
+texture = SubResource("AtlasTexture_vpixm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidbodyDoor"]
+shape = SubResource("RectangleShape2D_vpixm")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="RigidbodyDoor"]
+occluder = SubResource("OccluderPolygon2D_86t65")

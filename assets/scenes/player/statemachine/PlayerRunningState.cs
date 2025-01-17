@@ -33,6 +33,7 @@ public partial class PlayerRunningState : PlayerState
 
     public override void Process(double delta)
     {
+        // no-op
         player.HandleWalkingAnimation(delta);
     }
 
