@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Linq;
 
 public partial class PlayerRunningState : PlayerState
 {
@@ -61,7 +62,7 @@ public partial class PlayerRunningState : PlayerState
         {
             var velocityThreshold = Vector2.One * PlayerController.maxSpeed * direction.Abs();
 
-            Vector2 newVelocity = velocity + ((float)delta * direction * PlayerController.acceleration); 
+            Vector2 newVelocity = velocity + ((float)delta * direction * PlayerController.acceleration);
             newVelocity = newVelocity.Clamp(-velocityThreshold, velocityThreshold);
 
             velocity = newVelocity;
@@ -72,8 +73,21 @@ public partial class PlayerRunningState : PlayerState
         }
 
         player.SetVelocity(this, velocity + player.KnockbackVelocity);
+
+
+        // Handling door movement so its not glitchy
+        Array<Area2D> areaCollisions = player.PlayerCollisionArea.GetOverlappingAreas();
+        foreach (Area2D area in areaCollisions)
+        {
+            if (area is DoorCollisionArea door)
+            {
+                door.ParentRigidBody.ApplyCentralForce(player.Velocity.Rotated(door.Rotation) * 25);
+            }
+        }
+        
         var collided = player.MoveAndSlide();
 
+        /*
         if (collided)
         {
             for (int i = 0; i < player.GetSlideCollisionCount(); i++)
@@ -82,11 +96,16 @@ public partial class PlayerRunningState : PlayerState
                 //       maybe have a 'pushing' state where if we move in the same direction as the object we move it by some factor of its weight vs our speed?'
                 //       we can also squish the player sprite in the direction of the push to sell the illusion
                 var col = player.GetSlideCollision(i);
-                if (col.GetCollider() is RigidBody2D rigidbody) {
-                    rigidbody.ApplyCentralForce(col.GetNormal() * - 500);
+                var bounceVelocity = player.Velocity.Bounce(col.GetNormal()) / 2;
+                if (col.GetCollider() is RigidBody2D rigidbody)
+                {
+                    //rigidbody.ApplyCentralForce(col.GetNormal() * - 500);
                 }
+                player.SetVelocity(bounceVelocity);
+                player.MoveAndSlide();
             }
         }
+        */
 
         if (velocity == Vector2.Zero)
         {

@@ -34,9 +34,9 @@ public partial class GuardIdleState : GuardState
     {
         if (guard.CanSeeNode(player))
         {
-            if (player.CurrentLightValue > 0.25f)
+            if (player.CurrentLightValue > 0.2f)
             {
-                var distanceFactor = 1 - Mathf.Clamp(Mathf.Sqrt(guard.GlobalPosition.DistanceTo(player.GlobalPosition) - 64) / Mathf.Sqrt(GuardController.DetectionRadius), 0, 1);
+                var distanceFactor = 1 - Mathf.Clamp(Mathf.Sqrt(guard.GlobalPosition.DistanceTo(player.GlobalPosition)) / Mathf.Sqrt(GuardController.DetectionRadius), 0, 1);
                 detectionAmount += (float)delta * detectionRate * distanceFactor * player.CurrentLightValue;
 
                 if (detectionAmount > investigationThreshold)
@@ -69,7 +69,8 @@ public partial class GuardIdleState : GuardState
             guard.Velocity = guard.KnockbackVelocity;
             guard.MoveAndSlide();
         }
-
+        
+        guard.HandleSpriteDirection(guard.LastLookAngle);
     }
 
     private void HandleDecreaseDetection(double delta)

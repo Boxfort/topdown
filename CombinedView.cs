@@ -5,10 +5,13 @@ public partial class CombinedView : TextureRect
 {
     [Export]
     Vector2 designedResolution = new Vector2(1280, 720);
+
     [Export]
     float desiredZoom = 2;
 
     float currentFactor = 1;
+
+    public float DesiredZoom { get => desiredZoom; }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -37,7 +40,7 @@ public partial class CombinedView : TextureRect
         Position = Size * -((Scale.X - 1) * 0.5f);
     }
 
-    public void SetDesiredZoom(float zoom)
+    private void SetDesiredZoom(float zoom)
     {
         desiredZoom = zoom;
         Vector2 newScale = Vector2.One * desiredZoom * (1 / currentFactor);

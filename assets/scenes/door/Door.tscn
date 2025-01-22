@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://3x308e2e0xjv"]
+[gd_scene load_steps=7 format=3 uid="uid://3x308e2e0xjv"]
 
 [ext_resource type="Script" uid="uid://cwbjdr1341q3f" path="res://assets/scenes/door/DoorScript.cs" id="1_nk3d5"]
 [ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="2_fii4m"]
+[ext_resource type="Script" uid="uid://c5gqx5lqqpc20" path="res://assets/scenes/door/DoorCollisionArea.cs" id="3_fii4m"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vpixm"]
 atlas = ExtResource("2_fii4m")
@@ -13,10 +14,9 @@ size = Vector2(16, 1)
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_86t65"]
 polygon = PackedVector2Array(-8, -1, -8, 1, 8, 1, 8, -1)
 
-[node name="Door" type="Node2D" node_paths=PackedStringArray("doorVisionOccluderContainer")]
+[node name="Door" type="Node2D"]
 rotation = 1.57079
 script = ExtResource("1_nk3d5")
-doorVisionOccluderContainer = NodePath("")
 
 [node name="StaticHinge" type="StaticBody2D" parent="."]
 position = Vector2(-9, -2.22127e-06)
@@ -31,7 +31,7 @@ angular_limit_upper = 1.5708
 
 [node name="RigidbodyDoor" type="RigidBody2D" parent="."]
 collision_layer = 0
-collision_mask = 12
+collision_mask = 8
 gravity_scale = 0.0
 
 [node name="DoorSprite" type="Sprite2D" parent="RigidbodyDoor"]
@@ -42,3 +42,12 @@ shape = SubResource("RectangleShape2D_vpixm")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="RigidbodyDoor"]
 occluder = SubResource("OccluderPolygon2D_86t65")
+
+[node name="DoorCollisionArea" type="Area2D" parent="RigidbodyDoor" node_paths=PackedStringArray("parentRigidBody")]
+collision_layer = 32
+collision_mask = 64
+script = ExtResource("3_fii4m")
+parentRigidBody = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidbodyDoor/DoorCollisionArea"]
+shape = SubResource("RectangleShape2D_vpixm")

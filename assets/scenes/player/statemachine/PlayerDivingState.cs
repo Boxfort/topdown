@@ -43,7 +43,7 @@ public partial class PlayerDivingState : PlayerState
 
     public override void Exit()
     {
-        // no-op
+        player.SetVelocity(this, Vector2.Zero);
     }
 
     public override void UnhandledInput(InputEvent @event)

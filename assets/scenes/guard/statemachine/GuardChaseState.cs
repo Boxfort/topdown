@@ -47,6 +47,7 @@ public partial class GuardChaseState : GuardState
             guard.MoveAndSlide();
         }
 
+        guard.HandleSpriteDirection(direction.Angle());
         guard.HandleWalkingAnimation(delta);
     }
 

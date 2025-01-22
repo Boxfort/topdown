@@ -9,6 +9,7 @@ public abstract partial class GuardState : State
         Investigating,
         Chase,
         MoveTowards,
+        Patrol,
         Attacking,
         Dead
     }

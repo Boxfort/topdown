@@ -1,27 +1,29 @@
-[gd_scene load_steps=86 format=3 uid="uid://ds0fhkjrapp1q"]
+[gd_scene load_steps=90 format=3 uid="uid://ds0fhkjrapp1q"]
 
-[ext_resource type="Script" path="res://assets/scenes/player/StateDebug.cs" id="1_8qui6"]
-[ext_resource type="Script" path="res://assets/scenes/guard/GuardController.cs" id="1_ljpdm"]
+[ext_resource type="Script" uid="uid://claybvf273rb6" path="res://assets/scenes/player/StateDebug.cs" id="1_8qui6"]
+[ext_resource type="Script" uid="uid://bkuphbrg4mqls" path="res://assets/scenes/guard/GuardController.cs" id="1_ljpdm"]
 [ext_resource type="FontFile" uid="uid://c1ymecm4o27k" path="res://assets/fonts/LanaPixel.ttf" id="2_aviix"]
 [ext_resource type="Texture2D" uid="uid://1ac7nmslatvj" path="res://assets/scenes/guard/sprites/guard_lying.png" id="2_mghjq"]
-[ext_resource type="Script" path="res://assets/scenes/components/statemachine/StateMachine.cs" id="3_4hlvi"]
-[ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardChaseState.cs" id="4_bmv3l"]
-[ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardIdleState.cs" id="4_ro6np"]
+[ext_resource type="Script" uid="uid://drfhjxlncmnuc" path="res://assets/scenes/components/statemachine/StateMachine.cs" id="3_4hlvi"]
+[ext_resource type="Script" uid="uid://bbiyvddiplvd2" path="res://assets/scenes/guard/statemachine/GuardChaseState.cs" id="4_bmv3l"]
+[ext_resource type="Script" uid="uid://ydqu501a1b5s" path="res://assets/scenes/guard/statemachine/GuardIdleState.cs" id="4_ro6np"]
 [ext_resource type="Texture2D" uid="uid://dhc478rb8v3vh" path="res://assets/scenes/guard/sprites/guard.png" id="5_ge18s"]
-[ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardInvestigatingState.cs" id="5_rspu1"]
-[ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardAttackingState.cs" id="5_twjtg"]
+[ext_resource type="Script" uid="uid://cw5brd0wkh168" path="res://assets/scenes/guard/statemachine/GuardInvestigatingState.cs" id="5_rspu1"]
+[ext_resource type="Script" uid="uid://bh744fcek5c2c" path="res://assets/scenes/guard/statemachine/GuardAttackingState.cs" id="5_twjtg"]
 [ext_resource type="Texture2D" uid="uid://br1ir4yvm56st" path="res://assets/sprites/torch_sheet.png" id="6_aobos"]
 [ext_resource type="Texture2D" uid="uid://jop2p1csvdc8" path="res://assets/sprites/sword.png" id="7_2y3x1"]
-[ext_resource type="Script" path="res://assets/scenes/guard/statemachine/GuardMoveTowardsState.cs" id="7_3r7r8"]
+[ext_resource type="Script" uid="uid://cem6p34mhv483" path="res://assets/scenes/guard/statemachine/GuardMoveTowardsState.cs" id="7_3r7r8"]
 [ext_resource type="Texture2D" uid="uid://ch3gvtvo8rw2g" path="res://assets/sprites/slash.png" id="8_yq8da"]
-[ext_resource type="Script" path="res://assets/scenes/guard/Sword.cs" id="9_houpq"]
-[ext_resource type="Script" path="res://assets/scenes/components/hurtbox/Hurtbox.cs" id="10_dugmq"]
+[ext_resource type="Script" uid="uid://d7xersyx1k2g" path="res://assets/scenes/guard/Sword.cs" id="9_houpq"]
+[ext_resource type="Script" uid="uid://b3imh4pt3neoy" path="res://assets/scenes/components/hurtbox/Hurtbox.cs" id="10_dugmq"]
+[ext_resource type="Script" uid="uid://dghw3ju86shv0" path="res://assets/scenes/guard/statemachine/GuardPatrolState.cs" id="10_vf14t"]
 [ext_resource type="Texture2D" uid="uid://b56nakmj51lsv" path="res://assets/sprites/question_mark-sheet.png" id="11_1bf5w"]
-[ext_resource type="Script" path="res://assets/scenes/components/hitbox/Hitbox.cs" id="11_7gir8"]
-[ext_resource type="Script" path="res://assets/scenes/guard/GuardDeadState.cs" id="11_37cs0"]
+[ext_resource type="Script" uid="uid://bwueq3ouh0fn3" path="res://assets/scenes/components/hitbox/Hitbox.cs" id="11_7gir8"]
+[ext_resource type="Script" uid="uid://ct24m4114ocr3" path="res://assets/scenes/guard/GuardDeadState.cs" id="11_37cs0"]
 [ext_resource type="Texture2D" uid="uid://df1xfqp2m8ens" path="res://assets/sprites/exclaimation_mark-sheet.png" id="12_fr5oj"]
 [ext_resource type="Texture2D" uid="uid://hlnijn04tn05" path="res://assets/sprites/question_mark_orange-sheet.png" id="14_k4t82"]
-[ext_resource type="Script" path="res://assets/scenes/player/PlayerSprite.cs" id="16_taurp"]
+[ext_resource type="Script" uid="uid://wtf3bn7oxnsq" path="res://assets/scenes/player/PlayerSprite.cs" id="16_taurp"]
+[ext_resource type="Texture2D" uid="uid://bjg60ifgwlkmw" path="res://assets/scenes/guard/sprites/guard_sheet.png" id="17_rr8nn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5tmi0"]
 radius = 7.5
@@ -97,6 +99,10 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mhttl"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_vf14t"]
+atlas = ExtResource("17_rr8nn")
+region = Rect2(32, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_p6i75"]
 atlas = ExtResource("2_mghjq")
 region = Rect2(0, 0, 16, 16)
@@ -105,8 +111,20 @@ region = Rect2(0, 0, 16, 16)
 atlas = ExtResource("5_ge18s")
 region = Rect2(0, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_n3xku"]
+atlas = ExtResource("17_rr8nn")
+region = Rect2(16, 0, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_55r8e"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vf14t")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_p6i75")
@@ -120,15 +138,23 @@ animations = [{
 "texture": SubResource("AtlasTexture_cwig6")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"front",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n3xku")
+}],
+"loop": true,
+"name": &"side",
 "speed": 5.0
 }]
 
 [sub_resource type="Gradient" id="Gradient_xbtij"]
-offsets = PackedFloat32Array(0, 0.655367)
-colors = PackedColorArray(1, 0, 0, 1, 0, 0, 0, 0)
+offsets = PackedFloat32Array(0.138817, 0.796915)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_4ry7h"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rr8nn"]
 gradient = SubResource("Gradient_xbtij")
 width = 32
 height = 32
@@ -508,6 +534,9 @@ script = ExtResource("4_bmv3l")
 [node name="MoveTowards" type="Node" parent="StateMachine"]
 script = ExtResource("7_3r7r8")
 
+[node name="Patrol" type="Node" parent="StateMachine"]
+script = ExtResource("10_vf14t")
+
 [node name="Attacking" type="Node" parent="StateMachine"]
 script = ExtResource("5_twjtg")
 
@@ -520,6 +549,7 @@ collision_mask = 16
 script = ExtResource("10_dugmq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+visible = false
 shape = SubResource("CircleShape2D_5tmi0")
 
 [node name="WeaponContainer" type="Node2D" parent="."]
@@ -540,6 +570,7 @@ collision_mask = 5
 script = ExtResource("11_7gir8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponContainer/Sword/Hitbox"]
+visible = false
 position = Vector2(-11, 0)
 shape = SubResource("CircleShape2D_mhttl")
 
@@ -549,13 +580,13 @@ texture = ExtResource("7_2y3x1")
 
 [node name="GuardSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_55r8e")
-animation = &"idle"
+animation = &"side"
 script = ExtResource("16_taurp")
 
 [node name="Highlight" type="Sprite2D" parent="GuardSprite"]
 modulate = Color(1, 1, 1, 0.25098)
 show_behind_parent = true
-texture = SubResource("GradientTexture2D_4ry7h")
+texture = SubResource("GradientTexture2D_rr8nn")
 
 [node name="Node2D" type="Node2D" parent="GuardSprite"]
 
@@ -573,6 +604,7 @@ texture = SubResource("GradientTexture2D_hdkg6")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 1.0
+target_desired_distance = 1.0
 path_max_distance = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

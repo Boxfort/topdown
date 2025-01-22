@@ -2,27 +2,15 @@ using Godot;
 using Godot.Collections;
 using System;
 
-public partial class GuardMoveTowardsState : GuardState
+public partial class GuardPatrolState : GuardState
 {
-    Vector2 targetPosition;
+    int currentPathNodeIdx = 0;
     public override void Enter(string previousState, Dictionary data)
     {
-        // no-op
-        targetPosition = (Vector2)data["position"];
-        guard.NavAgent.TargetPosition = targetPosition;
+        guard.NavAgent.TargetPosition = guard.PatrolPath.Curve.GetPointPosition(currentPathNodeIdx) + guard.PatrolPath.GlobalPosition;
     }
 
     public override void Exit()
-    {
-        // no-op
-    }
-
-    public override void UnhandledInput(InputEvent @event)
-    {
-        // no-op
-    }
-
-    public override void Process(double delta)
     {
         // no-op
     }
@@ -37,14 +25,24 @@ public partial class GuardMoveTowardsState : GuardState
 
         if (!guard.NavAgent.IsNavigationFinished())
         {
-            guard.SetVelocity(direction * GuardController.Speed + guard.KnockbackVelocity);
+            guard.SetVelocity(direction * GuardController.Speed/2 + guard.KnockbackVelocity);
             guard.MoveAndSlide();
         } else {
-            guard.SetVelocity(Vector2.Zero);
-            EmitSignal(SignalName.Finished, GuardStates.Idle.ToString(), NO_DATA );
+            currentPathNodeIdx = (currentPathNodeIdx + 1) % guard.PatrolPath.Curve.PointCount;
+            guard.NavAgent.TargetPosition = guard.PatrolPath.Curve.GetPointPosition(currentPathNodeIdx) + guard.PatrolPath.GlobalPosition;
         }
 
         guard.HandleSpriteDirection(direction.Angle());
         guard.HandleWalkingAnimation(delta);
+    }
+
+    public override void Process(double delta)
+    {
+        // no-op
+    }
+
+    public override void UnhandledInput(InputEvent @event)
+    {
+        // no-op
     }
 }

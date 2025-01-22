@@ -12,6 +12,7 @@ public partial class PlayerController : CharacterBody2D
     CameraShaker cameraShaker;
     PlayerSprite playerSprite;
     Hurtbox hurtbox;
+    Area2D playerCollisionArea;
 
     public const float acceleration = 500.0f;
     public const float maxSpeed = 100.0f;
@@ -31,11 +32,13 @@ public partial class PlayerController : CharacterBody2D
     public AnimatedSprite2D PlayerSprite { get => playerSprite; }
     public float CurrentLightValue { get => currentLightValue; }
     public Vector2 KnockbackVelocity { get => knockbackVelocity; }
+    public Area2D PlayerCollisionArea { get => playerCollisionArea; }
 
     public override void _Ready()
     {
         cameraShaker = (CameraShaker)GetTree().GetFirstNodeInGroup("camera_shaker");
         playerSprite = GetNode<PlayerSprite>("PlayerSprite");
+        playerCollisionArea = GetNode<Area2D>("PlayerCollisionArea");
         hurtbox = GetNode<Hurtbox>("Hurtbox");
         hurtbox.HitReceived += OnHitReceieved;
     }

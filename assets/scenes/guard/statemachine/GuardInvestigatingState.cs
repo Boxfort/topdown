@@ -81,6 +81,9 @@ public partial class GuardInvestigatingState : GuardState
                 Vector2 direction = guard.GlobalPosition.DirectionTo(guard.NavAgent.GetNextPathPosition());
                 guard.WeaponContainer.LookAt(guard.Position + direction);
                 guard.WeaponContainer.Rotate(Mathf.DegToRad(180));
+
+                guard.HandleSpriteDirection(direction.Angle());
+
                 velocity = (direction * GuardController.Speed / 2) + guard.KnockbackVelocity;
                 guard.SetVelocity(velocity);
                 guard.MoveAndSlide();

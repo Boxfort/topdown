@@ -61,6 +61,7 @@ public partial class GuardAttackingState: GuardState
                 velocity = velocity.MoveToward(Vector2.Zero, attackVelocityFriction * (float)delta);
                 guard.SetVelocity(velocity + guard.KnockbackVelocity);
                 guard.MoveAndSlide();
+                guard.HandleSpriteDirection(direction.Angle());
             } else {
                 EmitSignal(SignalName.Finished, GuardStates.Chase.ToString(), NO_DATA );
             }

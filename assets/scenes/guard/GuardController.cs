@@ -6,6 +6,9 @@ public partial class GuardController : CharacterBody2D
     [Export]
     Texture2D deadSprite;
 
+    [Export]
+    Path2D patrolPath;
+
     // TODO: this obviously should be a PlayerSprite but im not sure how/if i want to commonise the damage visuals
     PlayerSprite guardSprite;
     AnimatedSprite2D questionMarkSprite;
@@ -23,6 +26,8 @@ public partial class GuardController : CharacterBody2D
     public Vector2 KnockbackVelocity { get => knockbackVelocity; }
     public Texture2D DeadSprite { get => deadSprite; }
     public bool CanBeHit { get => canBeHit; set => canBeHit = value; }
+    public float LastLookAngle { get => lastLookAngle; }
+    public Path2D PatrolPath { get => patrolPath; }
 
     public const float Speed = 90.0f;
     public const float DetectionRadius = 256.0f;
@@ -33,6 +38,8 @@ public partial class GuardController : CharacterBody2D
     float knockbackVelocityFriction = 200f;
     bool canBeHit = true;
     int currentHealth = maxHealth;
+
+    float lastLookAngle = 3f;
 
     public override void _Ready()
     {
@@ -60,7 +67,8 @@ public partial class GuardController : CharacterBody2D
             currentHealth = Math.Max(0, currentHealth - attackData.damage);
             guardSprite.OnTakeDamage();
 
-            if (currentHealth == 0) {
+            if (currentHealth == 0)
+            {
                 stateMachine.ForceStateSwitch(GuardState.GuardStates.Dead.ToString(), State.NO_DATA);
             }
         }
@@ -92,6 +100,11 @@ public partial class GuardController : CharacterBody2D
     {
         if (GlobalPosition.DistanceTo(node.GlobalPosition) <= GuardController.DetectionRadius)
         {
+            var lookDir = Vector2.Right.Rotated(lastLookAngle);
+            var targetDir = GlobalPosition.DirectionTo(node.GlobalPosition);
+
+            if (lookDir.Dot(targetDir) < 0.3f) return false; // we're not facing the correct direction
+
             var spaceState = GetViewport().GetWorld2D().DirectSpaceState;
             var query = PhysicsRayQueryParameters2D.Create(GlobalPosition, node.GlobalPosition, 0b0000_0110);
             var result = spaceState.IntersectRay(query);
@@ -104,6 +117,45 @@ public partial class GuardController : CharacterBody2D
         }
 
         return false;
+    }
+
+    public void HandleSpriteDirection(float angle)
+    {
+        lastLookAngle = angle;
+        angle = Mathf.RadToDeg(angle);
+
+        string currentAnimation = guardSprite.Animation;
+        string desiredAnimation;
+
+        if (angle > -135 && angle < -45)
+        {
+            desiredAnimation = "back";
+        }
+        else if (angle < 135 && angle > 45)
+        {
+
+            desiredAnimation = "front";
+        }
+        else
+        {
+            desiredAnimation = "side";
+
+            if ((angle > -180 && angle < -135) || (angle < 180 && angle > 135))
+            {
+                // left
+                guardSprite.FlipH = true;
+            }
+            else
+            {
+                // right
+                guardSprite.FlipH = false;
+            }
+        }
+
+        if (currentAnimation != desiredAnimation)
+        {
+            guardSprite.Animation = desiredAnimation;
+        }
     }
 
     public void HandleWalkingAnimation(double delta)
