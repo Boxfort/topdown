@@ -30,7 +30,7 @@ angular_limit_lower = -1.5708
 angular_limit_upper = 1.5708
 
 [node name="RigidbodyDoor" type="RigidBody2D" parent="."]
-collision_layer = 0
+collision_layer = 2
 collision_mask = 8
 gravity_scale = 0.0
 

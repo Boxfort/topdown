@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=3 uid="uid://ds0fhkjrapp1q"]
+[gd_scene load_steps=92 format=3 uid="uid://ds0fhkjrapp1q"]
 
 [ext_resource type="Script" uid="uid://claybvf273rb6" path="res://assets/scenes/player/StateDebug.cs" id="1_8qui6"]
 [ext_resource type="Script" uid="uid://bkuphbrg4mqls" path="res://assets/scenes/guard/GuardController.cs" id="1_ljpdm"]
@@ -24,6 +24,11 @@
 [ext_resource type="Texture2D" uid="uid://hlnijn04tn05" path="res://assets/sprites/question_mark_orange-sheet.png" id="14_k4t82"]
 [ext_resource type="Script" uid="uid://wtf3bn7oxnsq" path="res://assets/scenes/player/PlayerSprite.cs" id="16_taurp"]
 [ext_resource type="Texture2D" uid="uid://bjg60ifgwlkmw" path="res://assets/scenes/guard/sprites/guard_sheet.png" id="17_rr8nn"]
+[ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="18_n3xku"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qutr4"]
+atlas = ExtResource("18_n3xku")
+region = Rect2(64, 96, 16, 16)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5tmi0"]
 radius = 7.5
@@ -204,17 +209,16 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="Gradient" id="Gradient_krqtc"]
-offsets = PackedFloat32Array(0, 0.745763)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+[sub_resource type="Gradient" id="Gradient_f0vig"]
+offsets = PackedFloat32Array(0.2, 0.203085, 0.4, 0.403599, 0.6, 0.604113, 0.8, 0.812339, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.752941, 1, 1, 1, 0.752941, 1, 1, 1, 0.501961, 1, 1, 1, 0.501961, 1, 1, 1, 0.25098, 1, 1, 1, 0.25098, 1, 1, 1, 0, 1, 1, 1, 0)
+metadata/_snap_count = 5
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_hdkg6"]
-gradient = SubResource("Gradient_krqtc")
-width = 96
-height = 96
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vf14t"]
+gradient = SubResource("Gradient_f0vig")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 1)
+fill_to = Vector2(0.9, 0.9)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a3upy"]
 radius = 7.5
@@ -498,6 +502,11 @@ collision_mask = 17
 script = ExtResource("1_ljpdm")
 deadSprite = ExtResource("2_mghjq")
 
+[node name="Shadow" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.25098)
+position = Vector2(0, 6)
+texture = SubResource("AtlasTexture_qutr4")
+
 [node name="Debug" type="Node2D" parent="."]
 
 [node name="StateDebug" type="Label" parent="Debug"]
@@ -520,7 +529,7 @@ script = ExtResource("1_8qui6")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState")]
 script = ExtResource("3_4hlvi")
-initialState = NodePath("Idle")
+initialState = NodePath("Patrol")
 
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource("4_ro6np")
@@ -599,8 +608,9 @@ frame_progress = 0.59594
 [node name="PointLight2D-guard" type="PointLight2D" parent="GuardSprite/Torch" groups=["player_light"]]
 position = Vector2(-8, 0)
 color = Color(1, 0.584314, 0.329412, 1)
+blend_mode = 2
 shadow_enabled = true
-texture = SubResource("GradientTexture2D_hdkg6")
+texture = SubResource("GradientTexture2D_vf14t")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 1.0

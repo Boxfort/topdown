@@ -39,8 +39,6 @@ public partial class CameraController : Camera2D
                 var factor = Mathf.Max(2.5f - (0.5f * combinedView.DesiredZoom), 1f);
 
                 target = cameraTarget.GlobalPosition + (directionToMouse * (target.DistanceTo(mousePosition)/factor)) + currentOffset;
-
-                GD.Print(target);
             }
 
             GlobalPosition = GlobalPosition.Lerp(target, followSpeed * (float)delta);

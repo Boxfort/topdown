@@ -1,10 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://cw3jq6xrdjxp0"]
+[gd_scene load_steps=23 format=3 uid="uid://cw3jq6xrdjxp0"]
 
 [ext_resource type="Script" uid="uid://bnejaaweskrso" path="res://assets/scenes/player/PlayerController.cs" id="1_a7bsg"]
 [ext_resource type="Script" uid="uid://drfhjxlncmnuc" path="res://assets/scenes/components/statemachine/StateMachine.cs" id="2_llubj"]
 [ext_resource type="Script" uid="uid://b3imh4pt3neoy" path="res://assets/scenes/components/hurtbox/Hurtbox.cs" id="2_s4nyu"]
 [ext_resource type="Script" uid="uid://claybvf273rb6" path="res://assets/scenes/player/StateDebug.cs" id="2_xvvel"]
 [ext_resource type="Script" uid="uid://b75amcp022w6n" path="res://assets/scenes/player/statemachine/PlayerRunningState.cs" id="3_6x4dy"]
+[ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="3_6yv7b"]
 [ext_resource type="Script" uid="uid://bedq46umemrhl" path="res://assets/scenes/player/statemachine/PlayerIdleState.cs" id="3_cph75"]
 [ext_resource type="FontFile" uid="uid://c1ymecm4o27k" path="res://assets/fonts/LanaPixel.ttf" id="3_f1a4j"]
 [ext_resource type="Script" uid="uid://b81wqu05ig70j" path="res://SlicerScript.gd" id="3_sg3rh"]
@@ -17,6 +18,10 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2pyid"]
 radius = 6.5
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_te4rn"]
+atlas = ExtResource("3_6yv7b")
+region = Rect2(64, 96, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kc3wo"]
 atlas = ExtResource("10_3lf8a")
@@ -66,6 +71,11 @@ script = ExtResource("2_s4nyu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_2pyid")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.25098)
+position = Vector2(0, 6)
+texture = SubResource("AtlasTexture_te4rn")
 
 [node name="Debug" type="Node2D" parent="."]
 

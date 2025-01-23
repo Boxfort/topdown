@@ -6,8 +6,8 @@ public partial class GuardController : CharacterBody2D
     [Export]
     Texture2D deadSprite;
 
-    [Export]
-    Path2D patrolPath;
+    [Export(PropertyHint.NodeType, "NpcPath")]
+    NpcPath patrolPath;
 
     // TODO: this obviously should be a PlayerSprite but im not sure how/if i want to commonise the damage visuals
     PlayerSprite guardSprite;
@@ -27,7 +27,7 @@ public partial class GuardController : CharacterBody2D
     public Texture2D DeadSprite { get => deadSprite; }
     public bool CanBeHit { get => canBeHit; set => canBeHit = value; }
     public float LastLookAngle { get => lastLookAngle; }
-    public Path2D PatrolPath { get => patrolPath; }
+    public NpcPath PatrolPath { get => patrolPath; }
 
     public const float Speed = 90.0f;
     public const float DetectionRadius = 256.0f;
@@ -79,7 +79,6 @@ public partial class GuardController : CharacterBody2D
         if (knockbackVelocity != Vector2.Zero)
         {
             knockbackVelocity = knockbackVelocity.MoveToward(Vector2.Zero, knockbackVelocityFriction * (float)delta);
-            GD.Print(KnockbackVelocity);
         }
     }
 

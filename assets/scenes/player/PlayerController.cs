@@ -158,7 +158,7 @@ public partial class PlayerController : CharacterBody2D
                     float samplePoint = Mathf.Clamp(1 - (distanceToLight / lightRadius), 0, 1);
 
                     // NOTE: using the red channel to determine brightness, assume gradient is white->black
-                    float sample = 1 - lightGradient.Sample(samplePoint).R;
+                    float sample = 1 - lightGradient.Sample(samplePoint).A;
 
                     lightValues.Add(sample * light.Energy);
                 }
@@ -169,5 +169,6 @@ public partial class PlayerController : CharacterBody2D
         }
 
         currentLightValue = cornerLightValues.Count > 0 ? cornerLightValues.Average() : 0;
+
     }
 }
