@@ -54,9 +54,11 @@ animations = [{
 [node name="Brazier" type="StaticBody2D" groups=["nav_collision"]]
 
 [node name="PointLight2D" type="PointLight2D" parent="." groups=["player_light"]]
+light_mask = 3
 color = Color(1, 0.584314, 0.329412, 1)
 blend_mode = 2
 shadow_enabled = true
+shadow_item_cull_mask = 3
 texture = ExtResource("1_u5fwe")
 
 [node name="Shadow2" type="Sprite2D" parent="."]
