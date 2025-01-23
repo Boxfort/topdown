@@ -20,6 +20,7 @@ public partial class PlayerRunningState : PlayerState
     {
         // no-op
         player.PlayerSprite.Play("idle");
+        player.SetVelocity(this, Vector2.Zero);
     }
 
     public override void Exit()
@@ -35,7 +36,6 @@ public partial class PlayerRunningState : PlayerState
     public override void Process(double delta)
     {
         // no-op
-        player.HandleWalkingAnimation(delta);
     }
 
     public override void PhysicsProcess(double delta)
@@ -84,28 +84,37 @@ public partial class PlayerRunningState : PlayerState
                 door.ParentRigidBody.ApplyCentralForce(player.Velocity.Rotated(door.Rotation) * 25);
             }
         }
-        
-        var collided = player.MoveAndSlide();
 
-        /*
+        var collided = player.MoveAndSlide();
+        var pushedRigidbody = false;
+
         if (collided)
         {
             for (int i = 0; i < player.GetSlideCollisionCount(); i++)
             {
-                // TODO: Make this not suck
-                //       maybe have a 'pushing' state where if we move in the same direction as the object we move it by some factor of its weight vs our speed?'
-                //       we can also squish the player sprite in the direction of the push to sell the illusion
                 var col = player.GetSlideCollision(i);
-                var bounceVelocity = player.Velocity.Bounce(col.GetNormal()) / 2;
                 if (col.GetCollider() is RigidBody2D rigidbody)
                 {
-                    //rigidbody.ApplyCentralForce(col.GetNormal() * - 500);
+                    rigidbody.ApplyCentralForce(col.GetNormal() * -player.Velocity.Length() * 2);
+
+                    if (col.GetNormal().Dot(-direction) > 0.8)
+                    {
+                        // Squish the player when they're pushing the object
+                        pushedRigidbody = true;
+                        player.PlayerSprite.Scale = Vector2.One - (direction.Abs() / 8);
+                        player.PlayerSprite.Position = Vector2.One * direction * 2;
+                    }
                 }
-                player.SetVelocity(bounceVelocity);
-                player.MoveAndSlide();
             }
         }
-        */
+
+        if (!pushedRigidbody)
+        {
+            player.PlayerSprite.Scale = Vector2.One;
+            player.PlayerSprite.Position = Vector2.Zero;
+        }
+
+        player.HandleWalkingAnimation(this, delta, pushedRigidbody ? 0.5f : 1f);
 
         if (velocity == Vector2.Zero)
         {

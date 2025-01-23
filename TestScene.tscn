@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=4 uid="uid://iiy8nfvj47mb"]
+[gd_scene load_steps=77 format=4 uid="uid://iiy8nfvj47mb"]
 
 [ext_resource type="Script" uid="uid://coty7v6508bt3" path="res://GameManager.cs" id="1_2hywx"]
 [ext_resource type="Shader" uid="uid://do4xjxk1wn3ii" path="res://masked_texture.gdshader" id="2_ifppr"]
@@ -271,6 +271,8 @@ texture = ExtResource("21_m86ii")
 occlusion_layer_0/light_mask = 3
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_65id4")
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1bjkc"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1bjkc"]
 cull_mode = 2
@@ -575,10 +577,13 @@ collision_mask = 2
 
 [node name="Props" type="Node2D" parent="SubViewportContainer/ActiveViewport"]
 
-[node name="Crate" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/Props" groups=["nav_collision"]]
+[node name="Crate" type="RigidBody2D" parent="SubViewportContainer/ActiveViewport/Props" groups=["nav_collision"]]
 position = Vector2(742, 266)
 collision_layer = 3
-collision_mask = 12
+collision_mask = 61
+physics_material_override = SubResource("PhysicsMaterial_1bjkc")
+gravity_scale = 0.0
+linear_damp = 10.0
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="SubViewportContainer/ActiveViewport/Props/Crate"]
 occluder = SubResource("OccluderPolygon2D_1bjkc")

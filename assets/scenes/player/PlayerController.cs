@@ -15,7 +15,7 @@ public partial class PlayerController : CharacterBody2D
     Area2D playerCollisionArea;
 
     public const float acceleration = 500.0f;
-    public const float maxSpeed = 100.0f;
+    public const float maxSpeed = 80.0f;
     public const float friction = 450.0f;
     public const int maxHealth = 6;
 
@@ -74,9 +74,11 @@ public partial class PlayerController : CharacterBody2D
         }
     }
 
-    public void HandleWalkingAnimation(double delta)
+    public void HandleWalkingAnimation(State from, double delta, float speedFactor = 1)
     {
-        deltaCount = (deltaCount + (float)(delta * jiggleSpeed)) % 100;
+        if (from.hasExited) return;
+
+        deltaCount = (deltaCount + (float)(delta * jiggleSpeed * speedFactor)) % 100;
 
         if (Velocity != Vector2.Zero)
         {

@@ -32,10 +32,9 @@ public partial class PlayerDivingState : PlayerState
     {
         direction = (Vector2)data["direction"];
         player.PlayerSprite.Play("diving");
+        player.SetVelocity(this, diveInitialSpeed * direction);
         player.PlayerSprite.LookAt(player.Position + direction);
         player.PlayerSprite.Rotate(Mathf.DegToRad(90));
-
-        player.Velocity = diveInitialSpeed * direction;
         diveTimer = 0.0f;
         slideTimer = 0.0f;
         hasBonked = false;
@@ -96,6 +95,16 @@ public partial class PlayerDivingState : PlayerState
         else
         {
             EmitSignal(SignalName.Finished, PlayerStates.Idle.ToString(), NO_DATA);
+        }
+
+        // Handling door movement so its not glitchy
+        Array<Area2D> areaCollisions = player.PlayerCollisionArea.GetOverlappingAreas();
+        foreach (Area2D area in areaCollisions)
+        {
+            if (area is DoorCollisionArea door)
+            {
+                door.ParentRigidBody.ApplyCentralForce(player.Velocity.Rotated(door.Rotation) * 25);
+            }
         }
 
         player.SetVelocity(this, velocity);

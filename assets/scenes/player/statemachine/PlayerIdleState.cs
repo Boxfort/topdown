@@ -13,7 +13,7 @@ public partial class PlayerIdleState : PlayerState
     {
         // no-op
         player.PlayerSprite.Play("idle");
-        player.SetVelocity(Vector2.Zero);
+        player.SetVelocity(this, Vector2.Zero);
     }
 
     public override void Exit()
@@ -29,7 +29,7 @@ public partial class PlayerIdleState : PlayerState
     public override void Process(double delta)
     {
         // no-op
-        player.HandleWalkingAnimation(delta);
+        player.HandleWalkingAnimation(this, delta);
     }
 
     public override void PhysicsProcess(double delta)
