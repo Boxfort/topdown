@@ -138,7 +138,7 @@ public partial class PlayerController : CharacterBody2D
                 if (lightTexture is GradientTexture2D gradientTexture)
                 {
                     // NOTE: Assume that all the lights will be circular.
-                    lightRadius = gradientTexture.Width;
+                    lightRadius = gradientTexture.Width/1.5f;
                     lightGradient = gradientTexture.Gradient;
                 }
                 else
@@ -155,16 +155,17 @@ public partial class PlayerController : CharacterBody2D
 
                 if (result.Count == 0)
                 {
-                    float samplePoint = Mathf.Clamp(1 - (distanceToLight / lightRadius), 0, 1);
+                    // NOTE: the +0.05 is due to the fill of the light going only to 0.9, 0.05f is half of the missing 0.1
+                    float samplePoint = Mathf.Clamp((distanceToLight / lightRadius) + 0.05f, 0, 1);
 
-                    // NOTE: using the red channel to determine brightness, assume gradient is white->black
-                    float sample = 1 - lightGradient.Sample(samplePoint).A;
+                    // NOTE: using the alpha channel to determine brightness, assume gradient is white->alpha
+                    float sample = lightGradient.Sample(samplePoint).A;
 
                     lightValues.Add(sample * light.Energy);
                 }
             }
 
-            float sumOfLight = lightValues.Count > 0 ? Mathf.Min(lightValues.Sum(), 1) : 0;
+            float sumOfLight = lightValues.Count > 0 ? Mathf.Min(lightValues.Max(), 1) : 0;
             cornerLightValues.Add(sumOfLight);
         }
 
