@@ -2,7 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 
-public partial class GuardDeadState : GuardState
+public partial class GuardKnockedOutState : GuardState
 {
     public override void Enter(string previousState, Dictionary data)
     {
@@ -18,7 +18,7 @@ public partial class GuardDeadState : GuardState
         guard.QuestionMarkSprite.Hide();
         guard.ExclaimationMarkSprite.Hide();
 
-        guard.Shadow.Position = Vector2.Zero;
+        guard.KnockedOutSprite.Show();
     }
 
     public override void Exit()

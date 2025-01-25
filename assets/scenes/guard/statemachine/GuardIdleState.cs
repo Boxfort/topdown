@@ -30,65 +30,43 @@ public partial class GuardIdleState : GuardState
     const float investigationThreshold = 0.5f;
     float detectionAmount = 0;
 
+    public float DetectionAmount { get => detectionAmount; }
+
     public override void PhysicsProcess(double delta)
     {
-        if (guard.CanSeeNode(player))
-        {
-            if (player.CurrentLightValue > 0.2f)
-            {
-                var distanceFactor = 1 - Mathf.Clamp(Mathf.Sqrt(guard.GlobalPosition.DistanceTo(player.GlobalPosition)) / Mathf.Sqrt(GuardController.DetectionRadius), 0, 1);
-                detectionAmount += (float)delta * detectionRate * distanceFactor * player.CurrentLightValue;
+        detectionAmount = guard.HandleDetection(delta, detectionAmount, detectionRate, detectionLossRate, player);
+        HandleDetectionDisplay(detectionAmount);
 
-                if (detectionAmount > investigationThreshold)
+        if (detectionAmount > investigationThreshold)
+        {
+            EmitSignal(
+                SignalName.Finished,
+                GuardStates.Investigating.ToString(),
+                new Godot.Collections.Dictionary()
                 {
-                    EmitSignal(
-                        SignalName.Finished,
-                        GuardStates.Investigating.ToString(),
-                        new Godot.Collections.Dictionary()
-                        {
-                            ["investigation_position"] = player.GlobalPosition,
-                            ["initial_position"] = guard.GlobalPosition
-                        }
-                    );
+                    ["investigation_position"] = player.GlobalPosition,
+                    ["initial_position"] = guard.GlobalPosition
                 }
-            }
-            else
-            {
-                HandleDecreaseDetection(delta);
-            }
+            );
         }
-        else
-        {
-            HandleDecreaseDetection(delta);
-        }
-
-        HandleDetectionDisplay();
 
         if (guard.KnockbackVelocity != Vector2.Zero)
         {
             guard.Velocity = guard.KnockbackVelocity;
             guard.MoveAndSlide();
         }
-        
+
         guard.HandleSpriteDirection(guard.LastLookAngle);
     }
 
-    private void HandleDecreaseDetection(double delta)
+    private void HandleDetectionDisplay(float currentDetection)
     {
-        if (detectionAmount > 0)
-        {
-            detectionAmount = Mathf.Max(0, detectionAmount - ((float)delta * detectionLossRate));
-        }
-    }
-
-    private void HandleDetectionDisplay()
-    {
-        if (detectionAmount > 0)
+        if (currentDetection > 0)
         {
             guard.QuestionMarkSprite.Show();
             int frameCount = guard.QuestionMarkSprite.SpriteFrames.GetFrameCount("default");
 
-            int currentFrame = Mathf.CeilToInt(detectionAmount * (1 / investigationThreshold) * frameCount) - 1;
+            int currentFrame = Mathf.CeilToInt(currentDetection * (1 / investigationThreshold) * frameCount) - 1;
 
             guard.QuestionMarkSprite.SetFrameAndProgress(currentFrame, 0);
         }

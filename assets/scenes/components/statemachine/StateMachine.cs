@@ -12,7 +12,7 @@ public partial class StateMachine : Node
     State initialState = null;
     State currentState = null;
 
-    public string CurrentStateName { get => currentState.Name; }
+    public State CurrentState { get => currentState; }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

@@ -7,8 +7,11 @@ public partial class GuardInvestigatingState : GuardState
     Vector2 investigationPosition;
     Vector2 initialPosition;
 
+    string previousState = "";
+
     public override void Enter(string previousState, Dictionary data)
     {
+        this.previousState = previousState;
         investigationPosition = (Vector2)data["investigation_position"];
         initialPosition = (Vector2)data["initial_position"];
         guard.NavAgent.TargetPosition = investigationPosition;
@@ -96,11 +99,8 @@ public partial class GuardInvestigatingState : GuardState
                     investigateTimer = 0;
                     EmitSignal(
                         SignalName.Finished,
-                        GuardStates.MoveTowards.ToString(),
-                        new Godot.Collections.Dictionary()
-                        {
-                            ["position"] = initialPosition,
-                        }
+                        previousState,
+                        NO_DATA
                     );
                 }
             }

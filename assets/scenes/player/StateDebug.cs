@@ -8,7 +8,7 @@ public partial class StateDebug : Label
     {
         await ToSignal(Owner, Node.SignalName.Ready);
         StateMachine stateMachine = (StateMachine)Owner.GetNode("StateMachine");
-        Text = stateMachine.CurrentStateName;
+        Text = stateMachine.CurrentState.Name;
         stateMachine.OnStateChanged += OnStateChanged;
     }
 

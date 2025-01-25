@@ -11,6 +11,7 @@ public abstract partial class GuardState : State
         MoveTowards,
         Patrol,
         Attacking,
+        KnockedOut,
         Dead
     }
 

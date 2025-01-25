@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections;
 
 public partial class GuardController : CharacterBody2D
 {
@@ -17,6 +18,8 @@ public partial class GuardController : CharacterBody2D
     NavigationAgent2D navAgent;
     Hurtbox hurtbox;
     StateMachine stateMachine;
+    AnimatedSprite2D knockedOutSprite;
+    Sprite2D shadow;
 
     public NavigationAgent2D NavAgent { get => navAgent; }
     public PlayerSprite GuardSprite { get => guardSprite; }
@@ -28,9 +31,12 @@ public partial class GuardController : CharacterBody2D
     public bool CanBeHit { get => canBeHit; set => canBeHit = value; }
     public float LastLookAngle { get => lastLookAngle; }
     public NpcPath PatrolPath { get => patrolPath; }
+    public AnimatedSprite2D KnockedOutSprite { get => knockedOutSprite; }
+    public Sprite2D Shadow { get => shadow; }
 
     public const float Speed = 90.0f;
     public const float DetectionRadius = 256.0f;
+    public const float AutomaticDetectionRadius = 32.0f;
     public const float AttackRange = 24.0f;
     public const int maxHealth = 3;
 
@@ -49,6 +55,7 @@ public partial class GuardController : CharacterBody2D
         navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
         weaponContainer = GetNode<Node2D>("WeaponContainer");
         stateMachine = GetNode<StateMachine>("StateMachine");
+        knockedOutSprite = GetNode<AnimatedSprite2D>("KnockedOutSprite");
         hurtbox = GetNode<Hurtbox>("Hurtbox");
         hurtbox.HitReceived += OnHitReceieved;
     }
@@ -60,7 +67,6 @@ public partial class GuardController : CharacterBody2D
 
     private void OnHitReceieved(AttackData attackData)
     {
-        GD.Print("has been hit");
         if (canBeHit)
         {
             knockbackVelocity = attackData.fromPosition.DirectionTo(GlobalPosition) * attackData.knockbackForce;
@@ -70,6 +76,11 @@ public partial class GuardController : CharacterBody2D
             if (currentHealth == 0)
             {
                 stateMachine.ForceStateSwitch(GuardState.GuardStates.Dead.ToString(), State.NO_DATA);
+            }
+
+            if (stateMachine.CurrentState is GuardIdleState idle || stateMachine.CurrentState is GuardPatrolState)
+            {
+                stateMachine.ForceStateSwitch(GuardState.GuardStates.KnockedOut.ToString(), State.NO_DATA);
             }
         }
     }
@@ -102,7 +113,7 @@ public partial class GuardController : CharacterBody2D
             var lookDir = Vector2.Right.Rotated(lastLookAngle);
             var targetDir = GlobalPosition.DirectionTo(node.GlobalPosition);
 
-            if (lookDir.Dot(targetDir) < 0.3f) return false; // we're not facing the correct direction
+            if (lookDir.Dot(targetDir) < 0f) return false; // we're not facing the correct direction
 
             var spaceState = GetViewport().GetWorld2D().DirectSpaceState;
             var query = PhysicsRayQueryParameters2D.Create(GlobalPosition, node.GlobalPosition, 0b0000_0110);
@@ -116,6 +127,44 @@ public partial class GuardController : CharacterBody2D
         }
 
         return false;
+    }
+
+    public float HandleDetection(double delta, float currentDetection, float detectionRate, float detectionLossRate, PlayerController player)
+    {
+        bool playerSeen = false;
+
+        if (CanSeeNode(player))
+        {
+            if (GlobalPosition.DistanceTo(player.GlobalPosition) <= AutomaticDetectionRadius)
+            {
+                currentDetection = 1;
+                playerSeen = true;
+            }
+            else if (player.CurrentLightValue > 0.2f)
+            {
+                //var distanceFactor = 1 - Mathf.Clamp(Mathf.Sqrt(GlobalPosition.DistanceTo(player.GlobalPosition)) / Mathf.Sqrt(GuardController.DetectionRadius), 0, 1);
+                var distanceFactor = 1 - Mathf.Clamp(GlobalPosition.DistanceTo(player.GlobalPosition) / GuardController.DetectionRadius, 0, 1);
+                currentDetection += (float)delta * detectionRate * distanceFactor * Mathf.Sqrt(player.CurrentLightValue);
+                playerSeen = true;
+            }
+        }
+
+        if (!playerSeen)
+        {
+            currentDetection = HandleDecreaseDetection(delta, currentDetection, detectionLossRate);
+        }
+
+        return currentDetection;
+    }
+
+    private float HandleDecreaseDetection(double delta, float currentDetection, float detectionLossRate)
+    {
+        if (currentDetection > 0)
+        {
+            currentDetection = Mathf.Max(0, currentDetection - ((float)delta * detectionLossRate));
+        }
+
+        return currentDetection;
     }
 
     public void HandleSpriteDirection(float angle)

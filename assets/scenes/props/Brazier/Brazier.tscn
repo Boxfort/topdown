@@ -4,10 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="2_jv0aa"]
 [ext_resource type="Texture2D" uid="uid://x3568b5h8jh8" path="res://assets/sprites/Fire Effect and Bullet 16x16.png" id="3_4jhhg"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4buxb"]
-atlas = ExtResource("2_jv0aa")
-region = Rect2(64, 96, 16, 16)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_p7crv"]
 atlas = ExtResource("2_jv0aa")
 region = Rect2(80, 80, 16, 16)
@@ -51,7 +47,12 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_4buxb"]
+atlas = ExtResource("2_jv0aa")
+region = Rect2(64, 96, 16, 16)
+
 [node name="Brazier" type="StaticBody2D" groups=["nav_collision"]]
+y_sort_enabled = true
 
 [node name="PointLight2D" type="PointLight2D" parent="." groups=["player_light"]]
 light_mask = 3
@@ -60,11 +61,6 @@ blend_mode = 2
 shadow_enabled = true
 shadow_item_cull_mask = 3
 texture = ExtResource("1_u5fwe")
-
-[node name="Shadow2" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.501961)
-position = Vector2(0, 5)
-texture = SubResource("AtlasTexture_4buxb")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_p7crv")
@@ -75,7 +71,16 @@ position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_ifppr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_3eoru")
 autoplay = "default"
 frame_progress = 0.361189
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(0, -1)
+
+[node name="Shadow2" type="Sprite2D" parent="Node2D"]
+modulate = Color(1, 1, 1, 0.501961)
+position = Vector2(0, 6)
+texture = SubResource("AtlasTexture_4buxb")

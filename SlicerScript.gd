@@ -14,7 +14,14 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 
     var global_mouse_pos = get_viewport().get_canvas_transform().affine_inverse() * get_viewport().get_mouse_position()
-    global_rotation = self.global_position.angle_to_point(global_mouse_pos) - deg_to_rad(270)
+    global_rotation = self.global_position.angle_to_point(global_mouse_pos) - deg_to_rad(180)
+
+    if (global_rotation_degrees > 90 || global_rotation_degrees < -90):
+        var sprite: Sprite2D = get_child(0) 
+        sprite.flip_v = true
+    else:
+        var sprite: Sprite2D = get_child(0) 
+        sprite.flip_v =false
 
     if (Input.is_action_just_pressed("fire")):
         var instance: CharacterBody2D = fireball.instantiate()
