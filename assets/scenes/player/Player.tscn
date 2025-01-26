@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://cw3jq6xrdjxp0"]
+[gd_scene load_steps=53 format=3 uid="uid://cw3jq6xrdjxp0"]
 
 [ext_resource type="Script" uid="uid://bnejaaweskrso" path="res://assets/scenes/player/PlayerController.cs" id="1_a7bsg"]
 [ext_resource type="Script" uid="uid://bno8enbm33nvw" path="res://assets/scenes/player/FootstepAudio.cs" id="2_k5pra"]
@@ -32,6 +32,8 @@
 [ext_resource type="AudioStream" uid="uid://bvv5qw5m5lmlc" path="res://assets/sounds/240991__adrian_gomar__book-impact-01.wav" id="20_405as"]
 [ext_resource type="Texture2D" uid="uid://dj5taqt71xsuv" path="res://assets/scenes/player/sprites/tongue_end.png" id="31_diteo"]
 [ext_resource type="Script" uid="uid://hhilyuebs6q2" path="res://assets/scenes/player/TongueScript.cs" id="31_is5fe"]
+[ext_resource type="Script" uid="uid://cnbp5gmi6mssy" path="res://addons/ropesim/Rope.gd" id="33_u3q8d"]
+[ext_resource type="Script" uid="uid://cef6ydhu2lfwg" path="res://addons/ropesim/RopeInteraction.gd" id="34_tyk7u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2pyid"]
 radius = 6.5
@@ -271,6 +273,42 @@ shape = SubResource("CircleShape2D_2pyid")
 [node name="Tongue" type="Node2D" parent="."]
 position = Vector2(0, -1.5)
 script = ExtResource("31_is5fe")
+
+[node name="Rope" type="Node2D" parent="Tongue"]
+visible = false
+y_sort_enabled = true
+position = Vector2(0, -1.5)
+script = ExtResource("33_u3q8d")
+pause = true
+num_segments = 1
+rope_length = 64.0
+max_endpoint_distance = 64.0
+stiffness = 1.0
+gravity = 0.0
+gravity_direction = Vector2(0, 0)
+fixate_begin = false
+line_width = 1.0
+color = Color(0.8, 0.258824, 0.368627, 1)
+metadata/_custom_type_script = ExtResource("33_u3q8d")
+
+[node name="RopeInteractionStart" type="Node" parent="Tongue/Rope" node_paths=PackedStringArray("target_node", "input_node_override", "rope")]
+script = ExtResource("34_tyk7u")
+enable = false
+position_update_mode = 1
+target_node = NodePath("../../..")
+input_node_override = NodePath("../..")
+rope = NodePath("..")
+rope_position = 0.0
+strength = 1.0
+metadata/_custom_type_script = ExtResource("34_tyk7u")
+
+[node name="RopeInteractionEnd" type="Node" parent="Tongue/Rope" node_paths=PackedStringArray("rope")]
+script = ExtResource("34_tyk7u")
+enable = false
+position_update_mode = 1
+rope = NodePath("..")
+strength = 1.0
+metadata/_custom_type_script = ExtResource("34_tyk7u")
 
 [node name="TongueEnd" type="Area2D" parent="Tongue"]
 top_level = true

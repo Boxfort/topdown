@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=4 uid="uid://iiy8nfvj47mb"]
+[gd_scene load_steps=84 format=4 uid="uid://iiy8nfvj47mb"]
 
 [ext_resource type="Script" uid="uid://coty7v6508bt3" path="res://GameManager.cs" id="1_2hywx"]
 [ext_resource type="Shader" uid="uid://do4xjxk1wn3ii" path="res://masked_texture.gdshader" id="2_ifppr"]
@@ -17,7 +17,7 @@
 [ext_resource type="Script" uid="uid://ccp0dxtvxvbc4" path="res://assets/scenes/ui/ViewportResizeListener.cs" id="14_d2wm2"]
 [ext_resource type="Script" uid="uid://bqo5w5l4e6btw" path="res://assets/scripts/DummyCamera.cs" id="15_0ob7c"]
 [ext_resource type="Shader" uid="uid://c0qs2ih3b1a4k" path="res://full_white.gdshader" id="16_adyuk"]
-[ext_resource type="Texture2D" uid="uid://btb1padwqwe2f" path="res://icon.svg" id="17_0d5lr"]
+[ext_resource type="Texture2D" uid="uid://7tk0j3hec1t8" path="res://icon.svg" id="17_0d5lr"]
 [ext_resource type="Script" uid="uid://phc15f8q60w7" path="res://FollowTarget.cs" id="18_17sjx"]
 [ext_resource type="Script" uid="uid://e505xjk2bpw0" path="res://assets/scripts/CameraController.cs" id="19_fbj2f"]
 [ext_resource type="Script" uid="uid://cebk08dvg8d0y" path="res://assets/scripts/CameraShaker.cs" id="20_3x3tk"]
@@ -34,8 +34,6 @@
 [ext_resource type="Script" uid="uid://c8k4b4p1uxqs8" path="res://assets/scenes/paths/PathNode.cs" id="27_1bjkc"]
 [ext_resource type="PackedScene" uid="uid://nord3d84p2um" path="res://assets/scenes/props/WallTorch/WallTorch.tscn" id="27_3eoru"]
 [ext_resource type="PackedScene" uid="uid://b56eeq3k2et7j" path="res://assets/scenes/props/Tree/Tree.tscn" id="29_3eoru"]
-[ext_resource type="Script" uid="uid://cnbp5gmi6mssy" path="res://addons/ropesim/Rope.gd" id="31_d2wm2"]
-[ext_resource type="Script" uid="uid://cef6ydhu2lfwg" path="res://addons/ropesim/RopeInteraction.gd" id="31_m88fe"]
 [ext_resource type="Texture2D" uid="uid://dpydvg2cekgx1" path="res://assets/scenes/player/sprites/frog_man2.png" id="32_tf7kj"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2kdu2"]
@@ -814,36 +812,6 @@ position = Vector2(652, 364)
 
 [node name="Crate2" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("26_2vr7j")]
 position = Vector2(446, 248)
-
-[node name="Rope" type="Node2D" parent="SubViewportContainer/ActiveViewport/GameContainer"]
-position = Vector2(485, 248)
-script = ExtResource("31_d2wm2")
-num_segments = 1
-rope_length = 64.0
-max_endpoint_distance = 64.0
-gravity = 0.0
-gravity_direction = Vector2(0, 0)
-fixate_begin = false
-line_width = 1.0
-color = Color(0.8, 0.258824, 0.368627, 1)
-metadata/_custom_type_script = ExtResource("31_d2wm2")
-
-[node name="RopeInteractionStart" type="Node" parent="SubViewportContainer/ActiveViewport/GameContainer/Rope" node_paths=PackedStringArray("target_node", "rope")]
-script = ExtResource("31_m88fe")
-position_update_mode = 1
-target_node = NodePath("../../Player")
-rope = NodePath("..")
-strength = 1.0
-metadata/_custom_type_script = ExtResource("31_m88fe")
-
-[node name="RopeInteractionEnd" type="Node" parent="SubViewportContainer/ActiveViewport/GameContainer/Rope" node_paths=PackedStringArray("target_node", "rope")]
-script = ExtResource("31_m88fe")
-position_update_mode = 1
-target_node = NodePath("../../Props/Crate2")
-rope = NodePath("..")
-rope_position = 0.0
-strength = 1.0
-metadata/_custom_type_script = ExtResource("31_m88fe")
 
 [node name="Player" parent="SubViewportContainer/ActiveViewport/GameContainer" instance=ExtResource("23_27t6w")]
 z_as_relative = false

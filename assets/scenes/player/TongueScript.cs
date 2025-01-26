@@ -1,50 +1,79 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Threading.Tasks;
 
 public partial class TongueScript : Node2D
 {
-    CharacterBody2D connectedTo;
+    Node2D rope;
+    Node ropeStart;
+    Node ropeEnd;
+
+    Node2D connectedTo;
     Area2D tongueEnd;
     Line2D tongueLine;
     float tongueDistance = 64;
     Vector2 tongueTarget;
     bool isShooting = false;
-    bool isReturning = true;
+    bool isReturning = false;
 
     float tongueLength = 0;
 
     Vector2 tongueEndOffset = new Vector2(-1.5f, -1.5f);
 
-    const float tongueSpeed = 200;
+    const float tongueSpeed = 300;
 
-    public CharacterBody2D ConnectedTo { get => connectedTo; }
     public float TongueLength { get => tongueLength; }
 
     public override void _Ready()
     {
         tongueEnd = GetNode<Area2D>("TongueEnd");
         tongueLine = GetNode<Line2D>("TongueLine");
+
+        rope = GetNode<Node2D>("Rope");
+        ropeEnd = rope.GetNode("RopeInteractionEnd");
+        ropeStart = rope.GetNode("RopeInteractionStart");
+    }
+
+    private async Task AttachTongue(Node2D toNode)
+    {
+        connectedTo = toNode;
+        ropeEnd.Set("target_node", toNode);
+        ropeEnd.Set("enable", true);
+        ropeStart.Set("enable", true);
+        rope.Set("pause", false);
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        rope.Show();
+    }
+
+    private void DetatchTongue()
+    {
+        ropeEnd.Set("enable", false);
+        ropeStart.Set("enable", false);
+        rope.Set("pause", true);
+        rope.Hide();
+        connectedTo = null;
     }
 
     public override void _Process(double delta)
     {
-        // This is basically a state machine
         if (isShooting)
         {
             tongueEnd.GlobalPosition = tongueEnd.GlobalPosition.MoveToward(tongueTarget, (float)delta * tongueSpeed);
             Array<Node2D> tongueCollisions = tongueEnd.GetOverlappingBodies();
-            foreach (var col in tongueCollisions)
+
+            if (tongueCollisions.Count > 0)
             {
-                if (col is CharacterBody2D body)
+                foreach (var col in tongueCollisions)
                 {
-                    connectedTo = body;
-                    isShooting = false;
-                    tongueLength = tongueEnd.GlobalPosition.DistanceTo(GlobalPosition);
+                    if (col is CharacterBody2D body)
+                    {
+                        AttachTongue(body);
+                        isShooting = false;
+                    }
                 }
             }
-
-            if (tongueCollisions.Count == 0 && (tongueEnd.GlobalPosition == tongueTarget || tongueEnd.GlobalPosition.DistanceTo(GlobalPosition) > tongueDistance))
+            else if (tongueEnd.GlobalPosition == tongueTarget || tongueEnd.GlobalPosition.DistanceTo(GlobalPosition) > tongueDistance)
             {
                 isReturning = true;
                 isShooting = false;
@@ -62,23 +91,10 @@ public partial class TongueScript : Node2D
                 tongueLine.Hide();
             }
         }
-        else if (connectedTo != null)
-        {
-            if (tongueEnd.GlobalPosition.DistanceTo(GlobalPosition) <= 16)
-            {
-                connectedTo = null;
-                tongueEnd.GlobalPosition = GlobalPosition;
-                GD.Print("escape");
-                tongueEnd.Hide();
-                tongueLine.Hide();
-            }
 
-            tongueLength = GlobalPosition.DistanceTo(tongueEnd.GlobalPosition);
-            tongueEnd.GlobalPosition = connectedTo.GlobalPosition;
-        }
-        else
+        if (connectedTo != null)
         {
-            tongueEnd.GlobalPosition = GlobalPosition;
+            tongueEnd.GlobalPosition = connectedTo.GlobalPosition;
         }
 
         tongueLine.SetPointPosition(1, tongueLine.ToLocal(tongueEnd.GlobalPosition));
@@ -86,12 +102,19 @@ public partial class TongueScript : Node2D
 
     public void Shoot(Vector2 direction)
     {
-        connectedTo = null;
-        tongueEnd.GlobalPosition = GlobalPosition;
-        tongueTarget = GlobalPosition + (direction * tongueDistance) + tongueEndOffset;
-        isShooting = true;
-        tongueEnd.GlobalPosition = GlobalPosition;
-        tongueEnd.Show();
-        tongueLine.Show();
+        if (connectedTo != null)
+        {
+            DetatchTongue();
+            isReturning = true;
+        }
+        else
+        {
+            tongueTarget = GlobalPosition + (direction * tongueDistance) + tongueEndOffset;
+            tongueEnd.GlobalPosition = GlobalPosition;
+            tongueEnd.Show();
+            tongueLine.Show();
+            tongueEnd.GlobalPosition = GlobalPosition;
+            isShooting = true;
+        }
     }
 }

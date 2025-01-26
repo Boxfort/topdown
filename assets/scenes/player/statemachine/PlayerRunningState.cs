@@ -86,7 +86,7 @@ public partial class PlayerRunningState : PlayerState
             }
         }
 
-        var collided = player.CustomMoveAndSlide();
+        var collided = player.MoveAndSlide();
         var pushedRigidbody = false;
 
         if (collided)

@@ -202,68 +202,6 @@ public partial class PlayerController : CharacterBody2D
         return new Vector2(x, y);
     }
 
-    public bool CustomMoveAndSlide()
-    {
-        return MoveAndSlide();
-
-        bool didCollide;
-        var connectedTo = tongue.ConnectedTo;
-
-        if (connectedTo != null)
-        {
-            var lastConnectedPos = tongue.ConnectedTo.GlobalPosition;
-            var lastPlayerPosition = GlobalPosition;
-            var lastDistance = lastConnectedPos.DistanceTo(lastPlayerPosition);
-
-
-            // MAX LENGTH
-            //  - DID THE NEW MOVEMENT BRING US CLOSER?
-            //  - YES (COOL CONTINUE AS USUAL)
-            //  - NO  (RECALCULATE FORCES)
-
-            // OTHER
-
-
-            var newDistance = GlobalPosition.DistanceTo(lastConnectedPos);
-
-            didCollide = MoveAndSlide();
-            Vector2 playerDelta = RoundOffDelta(GetPositionDelta());
-
-            if (newDistance >= 64)
-            {
-                // We're at max distance, so try and move the connected item
-                // Stop the player from moving if we can't move the item
-
-                var degree = Mathf.RadToDeg(connectedTo.GetAngleTo(GlobalPosition));
-
-                var direction = connectedTo.GlobalPosition.DirectionTo(GlobalPosition);
-
-                var angleTangent = Mathf.Atan2(direction.X, direction.Y);
-
-                connectedTo.Velocity = Velocity + Velocity.Rotated(connectedTo.GlobalPosition.AngleToPoint(GlobalPosition)-Mathf.DegToRad(-90));
-                connectedTo.MoveAndSlide();
-                Vector2 connectedDelta = RoundOffDelta(connectedTo.GetPositionDelta());
-
-                float xDelta = playerDelta.X >= 0 ? Mathf.Min(playerDelta.X, Mathf.Abs(connectedDelta.X)) : Mathf.Max(playerDelta.X, Mathf.Abs(connectedDelta.X) * -1);
-                float yDelta = playerDelta.Y >= 0 ? Mathf.Min(playerDelta.Y, Mathf.Abs(connectedDelta.Y)) : Mathf.Max(playerDelta.Y, Mathf.Abs(connectedDelta.Y) * -1);
-                Vector2 actualDelta = new Vector2(xDelta, yDelta);
-                connectedTo.GlobalPosition = lastConnectedPos + actualDelta;
-                GlobalPosition = lastPlayerPosition + actualDelta;
-            }
-            else
-            {
-                // We're not at max distance so don't move the box
-                connectedTo.GlobalPosition = lastConnectedPos;
-            }
-        }
-        else
-        {
-            didCollide = MoveAndSlide();
-        }
-
-        return didCollide;
-    }
-
     public override void _Process(double delta)
     {
         Vector2 mousePosition = combinedView.GetGameWorldMousePosition(GetViewport());
