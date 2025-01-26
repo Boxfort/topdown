@@ -1,0 +1,63 @@
+[gd_scene load_steps=10 format=3 uid="uid://nord3d84p2um"]
+
+[ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="1_xnydm"]
+[ext_resource type="Texture2D" uid="uid://b1dtal28llvxb" path="res://assets/scenes/light/SteppedLightGradient.tres" id="2_qb1gy"]
+[ext_resource type="Texture2D" uid="uid://x3568b5h8jh8" path="res://assets/sprites/Fire Effect and Bullet 16x16.png" id="3_f1j6d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_452q4"]
+atlas = ExtResource("1_xnydm")
+region = Rect2(64, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2vr7j"]
+atlas = ExtResource("3_f1j6d")
+region = Rect2(304, 176, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3eoru"]
+atlas = ExtResource("3_f1j6d")
+region = Rect2(320, 176, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cnb6s"]
+atlas = ExtResource("3_f1j6d")
+region = Rect2(336, 176, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m88fe"]
+atlas = ExtResource("3_f1j6d")
+region = Rect2(352, 176, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d2wm2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2vr7j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3eoru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cnb6s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m88fe")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="WallTorch" type="StaticBody2D" groups=["nav_collision"]]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(0, 1)
+texture = SubResource("AtlasTexture_452q4")
+
+[node name="PointLight2D" type="PointLight2D" parent="." groups=["player_light"]]
+shadow_enabled = true
+texture = ExtResource("2_qb1gy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-0.212006, -2.28802)
+scale = Vector2(0.526499, 0.464002)
+sprite_frames = SubResource("SpriteFrames_d2wm2")
+autoplay = "default"
+frame_progress = 0.013469

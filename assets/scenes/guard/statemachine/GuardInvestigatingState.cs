@@ -111,6 +111,11 @@ public partial class GuardInvestigatingState : GuardState
             {
                 detectionAmount += (float)delta * detectionRate * (player.CurrentLightValue + 0.1f);
 
+                if (guard.GlobalPosition.DistanceTo(player.GlobalPosition) < 64 && player.CurrentLightValue >= 0.5f)
+                {
+                    detectionAmount = discoveryThreshold;
+                }
+
                 if (detectionAmount > discoveryThreshold)
                 {
                     guard.ExclaimationMarkSprite.Show();

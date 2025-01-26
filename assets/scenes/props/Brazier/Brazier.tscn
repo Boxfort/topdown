@@ -9,7 +9,7 @@ atlas = ExtResource("2_jv0aa")
 region = Rect2(80, 80, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ifppr"]
-size = Vector2(14, 12)
+size = Vector2(14, 7)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_523xq"]
 atlas = ExtResource("3_4jhhg")
@@ -67,7 +67,7 @@ texture = SubResource("AtlasTexture_p7crv")
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
+position = Vector2(0, 4.5)
 shape = SubResource("RectangleShape2D_ifppr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -58,6 +58,7 @@ public partial class GuardController : CharacterBody2D
         knockedOutSprite = GetNode<AnimatedSprite2D>("KnockedOutSprite");
         hurtbox = GetNode<Hurtbox>("Hurtbox");
         hurtbox.HitReceived += OnHitReceieved;
+        shadow = GetNode<Sprite2D>("Shadow");
     }
 
     public override void _PhysicsProcess(double delta)
