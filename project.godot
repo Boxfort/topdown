@@ -29,7 +29,7 @@ project/assembly_name="TopDown"
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/ropesim/plugin.cfg")
 
 [global_group]
 
