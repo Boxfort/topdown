@@ -1,22 +1,37 @@
-[gd_scene load_steps=35 format=3 uid="uid://cw3jq6xrdjxp0"]
+[gd_scene load_steps=51 format=3 uid="uid://cw3jq6xrdjxp0"]
 
 [ext_resource type="Script" uid="uid://bnejaaweskrso" path="res://assets/scenes/player/PlayerController.cs" id="1_a7bsg"]
+[ext_resource type="Script" uid="uid://bno8enbm33nvw" path="res://assets/scenes/player/FootstepAudio.cs" id="2_k5pra"]
 [ext_resource type="Script" uid="uid://drfhjxlncmnuc" path="res://assets/scenes/components/statemachine/StateMachine.cs" id="2_llubj"]
 [ext_resource type="Script" uid="uid://b3imh4pt3neoy" path="res://assets/scenes/components/hurtbox/Hurtbox.cs" id="2_s4nyu"]
 [ext_resource type="Script" uid="uid://claybvf273rb6" path="res://assets/scenes/player/StateDebug.cs" id="2_xvvel"]
+[ext_resource type="AudioStream" uid="uid://c6bvd6f7matrb" path="res://assets/sounds/footsteps/151230__owlstorm__grassy-footstep-1.wav" id="3_0bmqw"]
 [ext_resource type="Script" uid="uid://b75amcp022w6n" path="res://assets/scenes/player/statemachine/PlayerRunningState.cs" id="3_6x4dy"]
 [ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="3_6yv7b"]
 [ext_resource type="Script" uid="uid://bedq46umemrhl" path="res://assets/scenes/player/statemachine/PlayerIdleState.cs" id="3_cph75"]
 [ext_resource type="FontFile" uid="uid://c1ymecm4o27k" path="res://assets/fonts/LanaPixel.ttf" id="3_f1a4j"]
+[ext_resource type="AudioStream" uid="uid://deh7cqjiw8foi" path="res://assets/sounds/footsteps/151229__owlstorm__grassy-footstep-2.wav" id="4_diteo"]
 [ext_resource type="Script" uid="uid://c71m0sa2vwhxd" path="res://assets/scenes/player/statemachine/PlayerDivingState.cs" id="5_e22lo"]
+[ext_resource type="AudioStream" uid="uid://ne5s1leqga6t" path="res://assets/sounds/footsteps/151228__owlstorm__grassy-footstep-3.wav" id="5_is5fe"]
+[ext_resource type="AudioStream" uid="uid://dvu2bed0xlrhy" path="res://assets/sounds/footsteps/384877__ali_6868__right-gravel-footstep-1.wav" id="6_66qey"]
+[ext_resource type="AudioStream" uid="uid://dgu0i7bl1k5ml" path="res://assets/sounds/footsteps/384876__ali_6868__right-gravel-footstep-2.wav" id="7_u3q8d"]
+[ext_resource type="AudioStream" uid="uid://o135fgyj81c0" path="res://assets/sounds/footsteps/384872__ali_6868__left-gravel-footstep-3.wav" id="8_tyk7u"]
+[ext_resource type="AudioStream" uid="uid://yrw4o4ayys3n" path="res://assets/sounds/footsteps/151232__owlstorm__hard-female-footstep-1.wav" id="9_eavt7"]
 [ext_resource type="Texture2D" uid="uid://c6tq1mnjaq2nb" path="res://assets/scenes/player/sprites/frogman_dive2.png" id="10_3lf8a"]
+[ext_resource type="AudioStream" uid="uid://cqpg13x6cjbka" path="res://assets/sounds/footsteps/151237__owlstorm__hard-female-footstep-3.wav" id="10_6cnyw"]
 [ext_resource type="Script" uid="uid://wtf3bn7oxnsq" path="res://assets/scenes/player/PlayerSprite.cs" id="10_ff28s"]
 [ext_resource type="Texture2D" uid="uid://dpydvg2cekgx1" path="res://assets/scenes/player/sprites/frog_man2.png" id="11_6yv7b"]
+[ext_resource type="AudioStream" uid="uid://nphf7otj7fk7" path="res://assets/sounds/footsteps/151238__owlstorm__hard-female-footstep-2.wav" id="11_pvywa"]
 [ext_resource type="Script" uid="uid://d2tgupix8j5vn" path="res://assets/scenes/player/PlayerWeaponContainer.cs" id="13_3lf8a"]
 [ext_resource type="Script" uid="uid://cc40nn04dansr" path="res://assets/scenes/player/Staff.cs" id="14_kc3wo"]
 [ext_resource type="Texture2D" uid="uid://cc8udafr3df1v" path="res://assets/scenes/player/sprites/Staff.png" id="15_6yv7b"]
+[ext_resource type="AudioStream" uid="uid://in0vb237qun7" path="res://assets/sounds/422511__nightflame__swinging-staff-whoosh-strong-06.wav" id="15_te4rn"]
 [ext_resource type="Texture2D" uid="uid://ch3gvtvo8rw2g" path="res://assets/sprites/slash.png" id="16_kc3wo"]
+[ext_resource type="Script" uid="uid://b1ys0nxi8bqm" path="res://assets/scenes/player/AudioStreamPlayer2DCustom.cs" id="16_mc5jf"]
 [ext_resource type="Script" uid="uid://bwueq3ouh0fn3" path="res://assets/scenes/components/hitbox/Hitbox.cs" id="17_te4rn"]
+[ext_resource type="AudioStream" uid="uid://bvv5qw5m5lmlc" path="res://assets/sounds/240991__adrian_gomar__book-impact-01.wav" id="20_405as"]
+[ext_resource type="Texture2D" uid="uid://dj5taqt71xsuv" path="res://assets/scenes/player/sprites/tongue_end.png" id="31_diteo"]
+[ext_resource type="Script" uid="uid://hhilyuebs6q2" path="res://assets/scenes/player/TongueScript.cs" id="31_is5fe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2pyid"]
 radius = 6.5
@@ -134,8 +149,20 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_405as"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_is5fe"]
+radius = 3.04138
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_a7bsg")
+
+[node name="FootstepAudio" type="AudioStreamPlayer2D" parent="."]
+script = ExtResource("2_k5pra")
+grassFootstepAudio = Array[AudioStream]([ExtResource("3_0bmqw"), ExtResource("4_diteo"), ExtResource("5_is5fe")])
+grassFootstepDb = 7.5
+gravelFootstepAudio = Array[AudioStream]([ExtResource("6_66qey"), ExtResource("7_u3q8d"), ExtResource("8_tyk7u")])
+gravelFootstepDb = -12.5
+brickFootstepAudio = Array[AudioStream]([ExtResource("9_eavt7"), ExtResource("10_6cnyw"), ExtResource("11_pvywa")])
+brickFootstepDb = -5.0
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 4
@@ -200,6 +227,10 @@ script = ExtResource("13_3lf8a")
 [node name="Staff" type="Node2D" parent="WeaponContainer"]
 script = ExtResource("14_kc3wo")
 
+[node name="SwingAudio" type="AudioStreamPlayer2D" parent="WeaponContainer/Staff"]
+stream = ExtResource("15_te4rn")
+script = ExtResource("16_mc5jf")
+
 [node name="StaffSprite" type="Sprite2D" parent="WeaponContainer/Staff"]
 position = Vector2(-5, 0)
 texture = ExtResource("15_6yv7b")
@@ -221,6 +252,10 @@ visible = false
 position = Vector2(-11, 0)
 shape = SubResource("CircleShape2D_405as")
 
+[node name="HitAudio" type="AudioStreamPlayer2D" parent="WeaponContainer/Staff"]
+stream = ExtResource("20_405as")
+script = ExtResource("16_mc5jf")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource("CircleShape2D_2pyid")
@@ -232,3 +267,28 @@ collision_mask = 32
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCollisionArea"]
 visible = false
 shape = SubResource("CircleShape2D_2pyid")
+
+[node name="Tongue" type="Node2D" parent="."]
+position = Vector2(0, -1.5)
+script = ExtResource("31_is5fe")
+
+[node name="TongueEnd" type="Area2D" parent="Tongue"]
+top_level = true
+position = Vector2(0, -1.5)
+collision_layer = 16
+collision_mask = 41
+
+[node name="TongueEndSprite" type="Sprite2D" parent="Tongue/TongueEnd"]
+texture = ExtResource("31_diteo")
+centered = false
+offset = Vector2(-1.5, -1.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tongue/TongueEnd"]
+visible = false
+shape = SubResource("CircleShape2D_is5fe")
+
+[node name="TongueLine" type="Line2D" parent="Tongue"]
+visible = false
+points = PackedVector2Array(0, 0, -32, 0)
+width = 1.0
+default_color = Color(0.8, 0.258824, 0.368627, 1)

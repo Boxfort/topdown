@@ -116,8 +116,9 @@ public partial class GuardInvestigatingState : GuardState
                     detectionAmount = discoveryThreshold;
                 }
 
-                if (detectionAmount > discoveryThreshold)
+                if (detectionAmount >= discoveryThreshold)
                 {
+                    guard.AlertAudio.Play();
                     guard.ExclaimationMarkSprite.Show();
                     guard.QuestionMarkSprite.Hide();
                     alerted = true;

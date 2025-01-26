@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=3 uid="uid://ds0fhkjrapp1q"]
+[gd_scene load_steps=103 format=3 uid="uid://ds0fhkjrapp1q"]
 
 [ext_resource type="Script" uid="uid://claybvf273rb6" path="res://assets/scenes/player/StateDebug.cs" id="1_8qui6"]
 [ext_resource type="Script" uid="uid://bkuphbrg4mqls" path="res://assets/scenes/guard/GuardController.cs" id="1_ljpdm"]
@@ -26,7 +26,11 @@
 [ext_resource type="Script" uid="uid://wtf3bn7oxnsq" path="res://assets/scenes/player/PlayerSprite.cs" id="16_taurp"]
 [ext_resource type="Texture2D" uid="uid://bjg60ifgwlkmw" path="res://assets/scenes/guard/sprites/guard_sheet.png" id="17_rr8nn"]
 [ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="18_n3xku"]
+[ext_resource type="AudioStream" uid="uid://in0vb237qun7" path="res://assets/sounds/422511__nightflame__swinging-staff-whoosh-strong-06.wav" id="20_j074r"]
+[ext_resource type="Script" uid="uid://b1ys0nxi8bqm" path="res://assets/scenes/player/AudioStreamPlayer2DCustom.cs" id="21_4sw3e"]
+[ext_resource type="AudioStream" uid="uid://b28ct4ggops4w" path="res://assets/sounds/442903__qubodup__slash.wav" id="22_knr1m"]
 [ext_resource type="Texture2D" uid="uid://chcqvf8qh25dy" path="res://assets/sprites/stunned_sheet.png" id="24_al1f4"]
+[ext_resource type="AudioStream" uid="uid://c7l6sojulq03p" path="res://assets/sounds/495004__evretro__alert-video-game-sound.wav" id="30_4sw3e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qutr4"]
 atlas = ExtResource("18_n3xku")
@@ -631,6 +635,14 @@ shape = SubResource("CircleShape2D_mhttl")
 position = Vector2(-8.99998, -2.22122e-06)
 texture = ExtResource("7_2y3x1")
 
+[node name="SwingAudio" type="AudioStreamPlayer2D" parent="WeaponContainer/Sword"]
+stream = ExtResource("20_j074r")
+script = ExtResource("21_4sw3e")
+
+[node name="HitAudio" type="AudioStreamPlayer2D" parent="WeaponContainer/Sword"]
+stream = ExtResource("22_knr1m")
+script = ExtResource("21_4sw3e")
+
 [node name="GuardSprite" type="AnimatedSprite2D" parent="."]
 z_as_relative = false
 sprite_frames = SubResource("SpriteFrames_55r8e")
@@ -686,3 +698,6 @@ visible = false
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_p0i3c")
 frame = 11
+
+[node name="AlertAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("30_4sw3e")

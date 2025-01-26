@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 public partial class PlayerRunningState : PlayerState
 {
@@ -85,7 +86,7 @@ public partial class PlayerRunningState : PlayerState
             }
         }
 
-        var collided = player.MoveAndSlide();
+        var collided = player.CustomMoveAndSlide();
         var pushedRigidbody = false;
 
         if (collided)

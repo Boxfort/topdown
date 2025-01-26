@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://dysij4ljb531l"]
+[gd_scene load_steps=13 format=3 uid="uid://dysij4ljb531l"]
 
 [ext_resource type="Texture2D" uid="uid://p2u4a1vys17i" path="res://assets/scenes/light/SteppedLightGradientTest.tres" id="1_u5fwe"]
 [ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="2_jv0aa"]
 [ext_resource type="Texture2D" uid="uid://x3568b5h8jh8" path="res://assets/sprites/Fire Effect and Bullet 16x16.png" id="3_4jhhg"]
+[ext_resource type="AudioStream" uid="uid://b7ca60hhcdbpj" path="res://assets/sounds/495660__aunrea__fireplace.wav" id="4_jv0aa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p7crv"]
 atlas = ExtResource("2_jv0aa")
@@ -84,3 +85,9 @@ position = Vector2(0, -1)
 modulate = Color(1, 1, 1, 0.501961)
 position = Vector2(0, 6)
 texture = SubResource("AtlasTexture_4buxb")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_jv0aa")
+volume_db = -5.0
+autoplay = true
+max_distance = 256.0

@@ -1,8 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dp8ji6763dpux"]
+[gd_scene load_steps=5 format=3 uid="uid://dp8ji6763dpux"]
 
 [ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="1_smua3"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1bjkc"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1bjkc"]
 cull_mode = 2
@@ -15,12 +13,9 @@ region = Rect2(80, 96, 16, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4buxb"]
 size = Vector2(15, 14)
 
-[node name="Crate" type="RigidBody2D" groups=["nav_collision"]]
+[node name="Crate" type="CharacterBody2D"]
 collision_layer = 3
 collision_mask = 61
-physics_material_override = SubResource("PhysicsMaterial_1bjkc")
-gravity_scale = 0.0
-linear_damp = 10.0
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_1bjkc")

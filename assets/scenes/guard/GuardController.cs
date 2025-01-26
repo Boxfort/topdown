@@ -20,6 +20,7 @@ public partial class GuardController : CharacterBody2D
     StateMachine stateMachine;
     AnimatedSprite2D knockedOutSprite;
     Sprite2D shadow;
+    AudioStreamPlayer2D alertAudio;
 
     public NavigationAgent2D NavAgent { get => navAgent; }
     public PlayerSprite GuardSprite { get => guardSprite; }
@@ -33,6 +34,7 @@ public partial class GuardController : CharacterBody2D
     public NpcPath PatrolPath { get => patrolPath; }
     public AnimatedSprite2D KnockedOutSprite { get => knockedOutSprite; }
     public Sprite2D Shadow { get => shadow; }
+    public AudioStreamPlayer2D AlertAudio { get => alertAudio; }
 
     public const float Speed = 90.0f;
     public const float DetectionRadius = 256.0f;
@@ -49,6 +51,7 @@ public partial class GuardController : CharacterBody2D
 
     public override void _Ready()
     {
+        alertAudio = GetNode<AudioStreamPlayer2D>("AlertAudio");
         guardSprite = GetNode<PlayerSprite>("GuardSprite");
         questionMarkSprite = GetNode<AnimatedSprite2D>("Detection/QuestionMark");
         exclaimationMarkSprite = GetNode<AnimatedSprite2D>("Detection/ExclaimationMark");

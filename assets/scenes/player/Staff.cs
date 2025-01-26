@@ -5,6 +5,8 @@ public partial class Staff : Node2D
 {
     Sprite2D staffSprite;
     AnimatedSprite2D swingTrail;
+    AudioStreamPlayer2DCustom swingAudio;
+    AudioStreamPlayer2DCustom hitAudio;
     Hitbox hitbox;
 
     bool isAttacking = false;
@@ -26,12 +28,15 @@ public partial class Staff : Node2D
         swingTrail = GetNode<AnimatedSprite2D>("SwingTrail");
         staffSprite = GetNode<Sprite2D>("StaffSprite");
         hitbox = GetNode<Hitbox>("Hitbox");
+        swingAudio = GetNode<AudioStreamPlayer2DCustom>("SwingAudio");
+        hitAudio = GetNode<AudioStreamPlayer2DCustom>("HitAudio");
 
         hitbox.HitboxEntered += OnHitboxEntered;
     }
 
     private void OnHitboxEntered(Hurtbox hurtbox)
     {
+        hitAudio.Play();
         hurtbox.OnHit(new() { damage = 1, fromPosition = GlobalPosition, knockbackForce = 100 });
     }
 
@@ -64,6 +69,7 @@ public partial class Staff : Node2D
         swingTrail.Animation = "attack";
         swingTrail.SetFrameAndProgress(0, 0);
         swingTrail.Play();
+        swingAudio.Play();
         isAttacking = true;
         hitbox.SetCollisionDisabled(false);
     }

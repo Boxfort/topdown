@@ -1,6 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://b56eeq3k2et7j"]
+[gd_scene load_steps=6 format=3 uid="uid://b56eeq3k2et7j"]
 
 [ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="1_rmkku"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmkku"]
+atlas = ExtResource("1_rmkku")
+region = Rect2(64, 96, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2vr7j"]
 atlas = ExtResource("1_rmkku")
@@ -14,6 +18,12 @@ cull_mode = 2
 polygon = PackedVector2Array(0, 15, -5, 13, -10, 6, -12, 0, -9, -8, 0, -13, 9, -8, 13, -2, 9, 7, 5, 13)
 
 [node name="Tree" type="StaticBody2D"]
+
+[node name="Shadow" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.25098)
+position = Vector2(0, 12)
+scale = Vector2(1.5, 1)
+texture = SubResource("AtlasTexture_rmkku")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_2vr7j")
