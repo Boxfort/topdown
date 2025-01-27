@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bthyqwuecl4ty"]
+
+[ext_resource type="Texture2D" uid="uid://cxhnc3ylenp4f" path="res://assets/scenes/player/sprites/spotted_warning.png" id="1_kvv8e"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_kvv8e"]
+light_mode = 1
+
+[node name="Warning" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.67451)
+material = SubResource("CanvasItemMaterial_kvv8e")
+position = Vector2(14, 0)
+texture = ExtResource("1_kvv8e")

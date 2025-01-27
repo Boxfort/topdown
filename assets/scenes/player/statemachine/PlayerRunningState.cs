@@ -54,6 +54,7 @@ public partial class PlayerRunningState : PlayerState
     }
 
     Vector2 velocity = Vector2.Zero;
+    bool pushedRigidbody = false;
 
     private void HandleMovement(double delta)
     {
@@ -61,7 +62,7 @@ public partial class PlayerRunningState : PlayerState
 
         if (direction != Vector2.Zero)
         {
-            var velocityThreshold = Vector2.One * PlayerController.maxSpeed * direction.Abs();
+            var velocityThreshold = Vector2.One * (pushedRigidbody ? PlayerController.maxSpeed/2 : PlayerController.maxSpeed) * direction.Abs();
 
             Vector2 newVelocity = velocity + ((float)delta * direction * PlayerController.acceleration);
             newVelocity = newVelocity.Clamp(-velocityThreshold, velocityThreshold);
@@ -87,19 +88,24 @@ public partial class PlayerRunningState : PlayerState
         }
 
         var collided = player.MoveAndSlide();
-        var pushedRigidbody = false;
 
+        pushedRigidbody = false;
         if (collided)
         {
             for (int i = 0; i < player.GetSlideCollisionCount(); i++)
             {
-                var col = player.GetSlideCollision(i);
-                if (col.GetCollider() is RigidBody2D rigidbody)
+                KinematicCollision2D col = player.GetSlideCollision(i);
+                Node2D collider = (Node2D)col.GetCollider();
+                if (collider is CharacterBody2D body && body.IsInGroup("pushable"))
                 {
-                    rigidbody.ApplyCentralForce(col.GetNormal() * -player.Velocity.Length() * 2);
-
-                    if (col.GetNormal().Dot(-direction) > 0.8)
+                    if (col.GetNormal().Dot(-direction) > 0.5)
                     {
+                        GD.Print(col.GetNormal());
+                        GD.Print(player.Velocity);
+                        GD.Print(col.GetNormal() * player.Velocity/2);
+                        body.Velocity = col.GetNormal() * -player.Velocity.Abs()/2;
+                        body.MoveAndSlide();
+                        player.GlobalPosition += body.GetPositionDelta();
                         // Squish the player when they're pushing the object
                         pushedRigidbody = true;
                         player.PlayerSprite.Scale = Vector2.One - (direction.Abs() / 8);
@@ -117,7 +123,7 @@ public partial class PlayerRunningState : PlayerState
 
         player.HandleWalkingAnimation(this, delta, pushedRigidbody ? 0.5f : 1f);
 
-        if (velocity == Vector2.Zero)
+        if (velocity == Vector2.Zero && direction == Vector2.Zero)
         {
             EmitSignal(State.SignalName.Finished, PlayerStates.Idle.ToString(), NO_DATA);
         }

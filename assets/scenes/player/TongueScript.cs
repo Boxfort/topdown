@@ -12,7 +12,8 @@ public partial class TongueScript : Node2D
     Node2D connectedTo;
     Area2D tongueEnd;
     Line2D tongueLine;
-    float tongueDistance = 64;
+    const float maxTongueDistance = 64;
+    const float minTongueDistance = 16;
     Vector2 tongueTarget;
     bool isShooting = false;
     bool isReturning = false;
@@ -38,6 +39,8 @@ public partial class TongueScript : Node2D
     private async Task AttachTongue(Node2D toNode)
     {
         connectedTo = toNode;
+        rope.Set("rope_length", maxTongueDistance);
+        rope.Set("max_endpoint_distance", maxTongueDistance);
         ropeEnd.Set("target_node", toNode);
         ropeEnd.Set("enable", true);
         ropeStart.Set("enable", true);
@@ -48,6 +51,7 @@ public partial class TongueScript : Node2D
 
     private void DetatchTongue()
     {
+        connectedTo.GlobalPosition = connectedTo.GlobalPosition.Round();
         ropeEnd.Set("enable", false);
         ropeStart.Set("enable", false);
         rope.Set("pause", true);
@@ -61,6 +65,7 @@ public partial class TongueScript : Node2D
         {
             tongueEnd.GlobalPosition = tongueEnd.GlobalPosition.MoveToward(tongueTarget, (float)delta * tongueSpeed);
             Array<Node2D> tongueCollisions = tongueEnd.GetOverlappingBodies();
+            bool hitTarget = false;
 
             if (tongueCollisions.Count > 0)
             {
@@ -70,10 +75,18 @@ public partial class TongueScript : Node2D
                     {
                         AttachTongue(body);
                         isShooting = false;
+                        tongueLength = GlobalPosition.DistanceTo(tongueEnd.GlobalPosition);
+                        hitTarget = true;
                     }
                 }
+
+                if (!hitTarget)
+                {
+                    isReturning = true;
+                    isShooting = false;
+                }
             }
-            else if (tongueEnd.GlobalPosition == tongueTarget || tongueEnd.GlobalPosition.DistanceTo(GlobalPosition) > tongueDistance)
+            else if (tongueEnd.GlobalPosition == tongueTarget || tongueEnd.GlobalPosition.DistanceTo(GlobalPosition) > maxTongueDistance)
             {
                 isReturning = true;
                 isShooting = false;
@@ -95,6 +108,21 @@ public partial class TongueScript : Node2D
         if (connectedTo != null)
         {
             tongueEnd.GlobalPosition = connectedTo.GlobalPosition;
+            tongueLength = Mathf.Min(tongueLength, GlobalPosition.DistanceTo(tongueEnd.GlobalPosition));
+            rope.Set("rope_length", tongueLength);
+            rope.Set("max_endpoint_distance", tongueLength);
+
+            if (tongueLength <= minTongueDistance)
+            {
+                DetatchTongue();
+                GD.Print("nono");
+                isReturning = true;
+            }
+        }
+        else
+        {
+            // TODO: without this the rope isn't being hidden, this is a hack
+            rope.Hide();
         }
 
         tongueLine.SetPointPosition(1, tongueLine.ToLocal(tongueEnd.GlobalPosition));
@@ -102,6 +130,8 @@ public partial class TongueScript : Node2D
 
     public void Shoot(Vector2 direction)
     {
+        if (isShooting || isReturning) return;
+
         if (connectedTo != null)
         {
             DetatchTongue();
@@ -109,7 +139,7 @@ public partial class TongueScript : Node2D
         }
         else
         {
-            tongueTarget = GlobalPosition + (direction * tongueDistance) + tongueEndOffset;
+            tongueTarget = GlobalPosition + (direction * maxTongueDistance) + tongueEndOffset;
             tongueEnd.GlobalPosition = GlobalPosition;
             tongueEnd.Show();
             tongueLine.Show();

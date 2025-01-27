@@ -3,12 +3,14 @@ using Godot.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 public partial class PlayerController : CharacterBody2D
 {
     [Signal]
     public delegate void HealthChangedEventHandler(int health);
+
+    [Export]
+    PackedScene detectionWarning;
 
     CameraShaker cameraShaker;
     PlayerSprite playerSprite;
@@ -17,6 +19,8 @@ public partial class PlayerController : CharacterBody2D
     FootstepAudio footstepAudio;
     CombinedView combinedView;
     TongueScript tongue;
+    Node2D detectionWarningsContainer;
+    readonly System.Collections.Generic.Dictionary<Node2D, Node2D> detectionWarnings = [];
 
     public const float acceleration = 500.0f;
     public const float maxSpeed = 80.0f;
@@ -48,6 +52,7 @@ public partial class PlayerController : CharacterBody2D
         footstepAudio = GetNode<FootstepAudio>("FootstepAudio");
         combinedView = (CombinedView)GetTree().GetFirstNodeInGroup("combined_view");
         tongue = GetNode<TongueScript>("Tongue");
+        detectionWarningsContainer = GetNode<Node2D>("DetectionWarnings");
     }
 
     private void OnHitReceieved(AttackData attackData)
@@ -210,6 +215,33 @@ public partial class PlayerController : CharacterBody2D
         if (Input.IsActionJustPressed("alt_fire"))
         {
             tongue.Shoot(dirToMouse);
+        }
+
+        foreach (KeyValuePair<Node2D, Node2D> warning in detectionWarnings)
+        {
+            var newAngle = warning.Value.GlobalPosition.AngleToPoint(warning.Key.GlobalPosition);
+            warning.Value.GlobalRotation = newAngle;
+        }
+    }
+
+    public void StartedBeingDetectedBy(Node2D node)
+    {
+        if (!detectionWarnings.ContainsKey(node))
+        {
+            var instance = detectionWarning.Instantiate<Node2D>();
+            detectionWarnings[node] = instance;
+            detectionWarningsContainer.AddChild(instance);
+            node.TreeExiting += () => StoppedBeingDetectedBy(node);
+        }
+    }
+
+    public void StoppedBeingDetectedBy(Node2D node)
+    {
+        if (detectionWarnings.TryGetValue(node, out Node2D value))
+        {
+            var warning = value;
+            detectionWarnings.Remove(node);
+            warning.QueueFree();
         }
     }
 }

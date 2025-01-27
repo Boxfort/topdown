@@ -36,6 +36,7 @@ enabled=PackedStringArray("res://addons/ropesim/plugin.cfg")
 player=""
 player_light=""
 static_tiles=""
+pushable=""
 
 [input]
 

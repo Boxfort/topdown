@@ -9,8 +9,8 @@ public partial class GuardKnockedOutState : GuardState
         guard.GuardSprite.Play("dead");
         guard.GuardSprite.RotationDegrees = 90;
         guard.CanBeHit = false;
-        guard.CollisionLayer = 0;
-        guard.CollisionMask = 0;
+        guard.CollisionLayer = 0b0000_1000;
+        guard.CollisionMask = 0b0000_0001;
 
         guard.WeaponContainer.Hide();
         guard.GuardSprite.GetNode<Node2D>("Torch").Hide();
@@ -18,7 +18,10 @@ public partial class GuardKnockedOutState : GuardState
         guard.QuestionMarkSprite.Hide();
         guard.ExclaimationMarkSprite.Hide();
 
+        guard.Shadow.Position = Vector2.Zero;
         guard.KnockedOutSprite.Show();
+
+        player.StoppedBeingDetectedBy(guard);
     }
 
     public override void Exit()

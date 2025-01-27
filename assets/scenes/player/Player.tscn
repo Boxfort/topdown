@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://cw3jq6xrdjxp0"]
+[gd_scene load_steps=54 format=3 uid="uid://cw3jq6xrdjxp0"]
 
 [ext_resource type="Script" uid="uid://bnejaaweskrso" path="res://assets/scenes/player/PlayerController.cs" id="1_a7bsg"]
 [ext_resource type="Script" uid="uid://bno8enbm33nvw" path="res://assets/scenes/player/FootstepAudio.cs" id="2_k5pra"]
@@ -34,6 +34,7 @@
 [ext_resource type="Script" uid="uid://hhilyuebs6q2" path="res://assets/scenes/player/TongueScript.cs" id="31_is5fe"]
 [ext_resource type="Script" uid="uid://cnbp5gmi6mssy" path="res://addons/ropesim/Rope.gd" id="33_u3q8d"]
 [ext_resource type="Script" uid="uid://cef6ydhu2lfwg" path="res://addons/ropesim/RopeInteraction.gd" id="34_tyk7u"]
+[ext_resource type="PackedScene" uid="uid://bthyqwuecl4ty" path="res://assets/scenes/player/DetectionWarning.tscn" id="35_tyk7u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2pyid"]
 radius = 6.5
@@ -156,6 +157,7 @@ radius = 3.04138
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_a7bsg")
+detectionWarning = ExtResource("35_tyk7u")
 
 [node name="FootstepAudio" type="AudioStreamPlayer2D" parent="."]
 script = ExtResource("2_k5pra")
@@ -330,3 +332,5 @@ visible = false
 points = PackedVector2Array(0, 0, -32, 0)
 width = 1.0
 default_color = Color(0.8, 0.258824, 0.368627, 1)
+
+[node name="DetectionWarnings" type="Node2D" parent="."]

@@ -42,8 +42,8 @@ public partial class GuardInvestigatingState : GuardState
 
     const float detectionRate = 2f;
     const float detectionLossRate = 1;
-    const float minimumDetection = 0.5f;
-    const float discoveryThreshold = 1.5f;
+    const float minimumDetection = 0f;
+    const float discoveryThreshold = 1f;
     float detectionAmount = minimumDetection;
 
     const float investigateTime = 0.5f;
@@ -105,42 +105,28 @@ public partial class GuardInvestigatingState : GuardState
                 }
             }
 
+
+            detectionAmount = guard.HandleDetection(delta, detectionAmount, detectionRate, detectionLossRate, player);
+
+            if (guard.GlobalPosition.DistanceTo(player.GlobalPosition) < 64 && player.CurrentLightValue >= 0.5f)
+            {
+                detectionAmount = discoveryThreshold;
+            }
+
+            if (detectionAmount >= discoveryThreshold)
+            {
+                guard.AlertAudio.Play();
+                guard.ExclaimationMarkSprite.Show();
+                guard.QuestionMarkSprite.Hide();
+                alerted = true;
+                velocity = (alertedInitialVelocity * player.GlobalPosition.DirectionTo(guard.GlobalPosition)) + guard.KnockbackVelocity;
+                guard.SetVelocity(velocity);
+            }
+
             guard.HandleWalkingAnimation(delta);
-
-            if (guard.CanSeeNode(player))
-            {
-                detectionAmount += (float)delta * detectionRate * (player.CurrentLightValue + 0.1f);
-
-                if (guard.GlobalPosition.DistanceTo(player.GlobalPosition) < 64 && player.CurrentLightValue >= 0.5f)
-                {
-                    detectionAmount = discoveryThreshold;
-                }
-
-                if (detectionAmount >= discoveryThreshold)
-                {
-                    guard.AlertAudio.Play();
-                    guard.ExclaimationMarkSprite.Show();
-                    guard.QuestionMarkSprite.Hide();
-                    alerted = true;
-                    velocity = (alertedInitialVelocity * player.GlobalPosition.DirectionTo(guard.GlobalPosition)) + guard.KnockbackVelocity;
-                    guard.SetVelocity(velocity);
-                }
-            }
-            else
-            {
-                HandleDecreaseDetection(delta);
-            }
         }
 
         HandleDetectionDisplay();
-    }
-
-    private void HandleDecreaseDetection(double delta)
-    {
-        if (detectionAmount > minimumDetection)
-        {
-            detectionAmount = Mathf.Max(minimumDetection, detectionAmount - ((float)delta * detectionLossRate));
-        }
     }
 
     private void HandleDetectionDisplay()

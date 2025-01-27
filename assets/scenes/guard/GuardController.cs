@@ -139,6 +139,7 @@ public partial class GuardController : CharacterBody2D
 
         if (CanSeeNode(player))
         {
+
             if (GlobalPosition.DistanceTo(player.GlobalPosition) <= AutomaticDetectionRadius)
             {
                 currentDetection = 1;
@@ -156,6 +157,11 @@ public partial class GuardController : CharacterBody2D
         if (!playerSeen)
         {
             currentDetection = HandleDecreaseDetection(delta, currentDetection, detectionLossRate);
+            player.StoppedBeingDetectedBy(this);
+        }
+        else
+        {
+            player.StartedBeingDetectedBy(this);
         }
 
         return currentDetection;

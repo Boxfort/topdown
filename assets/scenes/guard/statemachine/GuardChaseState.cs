@@ -7,6 +7,7 @@ public partial class GuardChaseState : GuardState
     public override void Enter(string previousState, Dictionary data)
     {
         // no-op
+        player.StoppedBeingDetectedBy(guard);
     }
 
     public override void Exit()

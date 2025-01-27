@@ -409,6 +409,7 @@ size_flags_vertical = 4
 mouse_filter = 2
 texture = SubResource("ViewportTexture_vpixm")
 script = ExtResource("3_p7crv")
+desiredZoom = 3.0
 
 [node name="UIViewport" type="SubViewport" parent="."]
 transparent_bg = true
@@ -672,7 +673,7 @@ collision_mask = 2
 y_sort_enabled = true
 
 [node name="Crate" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("26_2vr7j")]
-position = Vector2(742, 266)
+position = Vector2(750, 234)
 
 [node name="Table" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" groups=["nav_collision"]]
 position = Vector2(841, 184)
@@ -810,12 +811,12 @@ position = Vector2(536, 364)
 [node name="Tree7" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("29_3eoru")]
 position = Vector2(652, 364)
 
-[node name="Crate2" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("26_2vr7j")]
+[node name="Crate2" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" groups=["pushable"] instance=ExtResource("26_2vr7j")]
 position = Vector2(446, 248)
 
 [node name="Player" parent="SubViewportContainer/ActiveViewport/GameContainer" instance=ExtResource("23_27t6w")]
 z_as_relative = false
-position = Vector2(524, 246)
+position = Vector2(580, 230)
 collision_layer = 4
 motion_mode = 1
 
@@ -854,7 +855,6 @@ patrolPath = NodePath("PathContainer")
 
 [node name="PathContainer" type="Node" parent="SubViewportContainer/ActiveViewport/GameContainer/Guard"]
 script = ExtResource("26_4buxb")
-pathType = 1
 
 [node name="1" type="Marker2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Guard/PathContainer"]
 position = Vector2(776, 220)
