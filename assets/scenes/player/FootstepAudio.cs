@@ -35,7 +35,7 @@ public partial class FootstepAudio : AudioStreamPlayer2DCustom
         staticTiles = (TileMapLayer)GetTree().GetFirstNodeInGroup("static_tiles");
     }
 
-    public float PlayFootstep()
+    public float PlayFootstep(float noiseFactor = 1)
     {
         Vector2I tileCoord = staticTiles.LocalToMap(staticTiles.ToLocal(GlobalPosition + (Vector2.Down * 6)));
         TileData tileData = staticTiles.GetCellTileData(tileCoord);
@@ -51,19 +51,20 @@ public partial class FootstepAudio : AudioStreamPlayer2DCustom
         {
             case "grass":
                 Stream = grassFootstepAudio[rng.Next(0, grassFootstepAudio.Count)];
+                // TODO: make sounds quiet based on noise factor
                 VolumeDb = grassFootstepDb;
                 Play();
-                return grassFootstepNoiseValue;
+                return grassFootstepNoiseValue * noiseFactor;
             case "gravel":
                 Stream = gravelFootstepAudio[rng.Next(0, gravelFootstepAudio.Count)];
                 VolumeDb = gravelFootstepDb;
                 Play();
-                return gravelFootstepNoiseValue;
+                return gravelFootstepNoiseValue * noiseFactor;
             case "brick":
                 Stream = brickFootstepAudio[rng.Next(0, brickFootstepAudio.Count)];
                 VolumeDb = brickFootstepDb;
                 Play();
-                return brickFootstepNoiseValue;
+                return brickFootstepNoiseValue * noiseFactor;
             default:
                 return 0;
         }

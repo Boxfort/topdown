@@ -847,7 +847,6 @@ script = ExtResource("14_d2wm2")
 y_sort_enabled = true
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="SubViewportContainer/ActiveViewport/GameContainer"]
-visible = false
 navigation_polygon = SubResource("NavigationPolygon_hjh4f")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="SubViewportContainer/ActiveViewport/GameContainer"]
@@ -904,8 +903,19 @@ collision_mask = 2
 y_sort_enabled = true
 
 [node name="Crate" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("26_2vr7j")]
-position = Vector2(750, 234)
+position = Vector2(832, 246)
 collision_layer = 257
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Crate"]
+radius = 9.0
+vertices = PackedVector2Array(-7, -7, 7, -7, 7, 6, -7, 6)
+
+[node name="Crate3" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("26_2vr7j")]
+position = Vector2(832, 220)
+collision_layer = 257
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Crate3"]
+radius = 9.0
 
 [node name="Table" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" groups=["nav_collision"]]
 position = Vector2(841, 184)

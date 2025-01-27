@@ -16,12 +16,15 @@ public partial class GuardAttackingState: GuardState
     const float intialAttackVelocity = 125f; 
     const float attackVelocityFriction = 150f; 
 
+    string previousState = "Idle";
+
     public override void Enter(string previousState, Dictionary data)
     {
         direction = (Vector2)data["direction"];
         windUpTimer = 0;
         attackTimer = 0;
         startedAttack = false;
+        this.previousState = previousState;
 
         velocity = intialAttackVelocity * direction;
     }
@@ -63,7 +66,7 @@ public partial class GuardAttackingState: GuardState
                 guard.MoveAndSlide();
                 guard.HandleSpriteDirection(direction.Angle());
             } else {
-                EmitSignal(SignalName.Finished, GuardStates.Chase.ToString(), NO_DATA );
+                EmitSignal(SignalName.Finished, previousState, NO_DATA );
             }
         }
     }

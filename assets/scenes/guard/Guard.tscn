@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=3 uid="uid://ds0fhkjrapp1q"]
+[gd_scene load_steps=107 format=3 uid="uid://ds0fhkjrapp1q"]
 
 [ext_resource type="Script" uid="uid://claybvf273rb6" path="res://assets/scenes/player/StateDebug.cs" id="1_8qui6"]
 [ext_resource type="Script" uid="uid://bkuphbrg4mqls" path="res://assets/scenes/guard/GuardController.cs" id="1_ljpdm"]
@@ -43,6 +43,9 @@ radius = 7.5
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_knr1m"]
 radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cmxhp"]
+radius = 32.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lpnqq"]
 atlas = ExtResource("8_yq8da")
@@ -625,6 +628,12 @@ script = ExtResource("32_dlklq")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NoiseListener"]
 shape = SubResource("CircleShape2D_knr1m")
 
+[node name="DamageableFinder" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageableFinder"]
+shape = SubResource("CircleShape2D_cmxhp")
+
 [node name="WeaponContainer" type="Node2D" parent="."]
 
 [node name="Sword" type="Node2D" parent="WeaponContainer"]
@@ -693,9 +702,14 @@ autoplay = "default"
 frame_progress = 0.986535
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 1.0
+path_desired_distance = 4.0
 target_desired_distance = 1.0
-path_max_distance = 10.0
+simplify_path = true
+avoidance_enabled = true
+radius = 8.0
+neighbor_distance = 128.0
+max_speed = 45.0
+debug_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

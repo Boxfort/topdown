@@ -71,8 +71,10 @@ public partial class GuardPatrolState : GuardState
         {
             if (!guard.NavAgent.IsNavigationFinished())
             {
-                guard.SetVelocity(direction * GuardController.Speed / 2 + guard.KnockbackVelocity);
-                guard.MoveAndSlide();
+                //guard.SetVelocity(direction * GuardController.Speed / 2 + guard.KnockbackVelocity);
+                //guard.MoveAndSlide();
+                GD.Print(direction * GuardController.Speed / 2 + guard.KnockbackVelocity);
+                guard.NavAgent.SetVelocity(direction * GuardController.Speed / 2 + guard.KnockbackVelocity);
             }
             else
             {
@@ -86,7 +88,8 @@ public partial class GuardPatrolState : GuardState
                 {
                     isWaiting = true;
                     currentWaitTime = currentNode.WaitTime;
-                    guard.SetVelocity(Vector2.Zero);
+                    //guard.SetVelocity(Vector2.Zero);
+                    guard.NavAgent.SetVelocity(Vector2.Zero);
                 }
                 else
                 {

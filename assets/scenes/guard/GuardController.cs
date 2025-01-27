@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class GuardController : CharacterBody2D
 {
@@ -22,6 +24,7 @@ public partial class GuardController : CharacterBody2D
     Sprite2D shadow;
     AudioStreamPlayer2D alertAudio;
     NoiseListener noiseListener;
+    Area2D damageableFinder;
 
     public NavigationAgent2D NavAgent { get => navAgent; }
     public PlayerSprite GuardSprite { get => guardSprite; }
@@ -65,14 +68,68 @@ public partial class GuardController : CharacterBody2D
         shadow = GetNode<Sprite2D>("Shadow");
         noiseListener = GetNode<NoiseListener>("NoiseListener");
         noiseListener.OnNoiseHeard += OnNoiseHeard;
+        damageableFinder = GetNode<Area2D>("DamageableFinder");
+
+        navAgent.VelocityComputed += OnVelocityComputed;
+    }
+
+    
+    bool wasStuck = false;
+
+    private void OnVelocityComputed(Vector2 safeVelocity)
+    {
+        if (
+            stateMachine.CurrentState.Name != "Dead" &&
+             stateMachine.CurrentState.Name != "KnockedOut" &&
+             stateMachine.CurrentState.Name != "Attacking" &&
+             stateMachine.CurrentState.Name != "Alert"
+        )
+        {
+            var requestedVelocity = navAgent.Velocity.Abs();
+            Velocity = safeVelocity;
+            MoveAndSlide();
+
+            var isStuck = safeVelocity.Abs() < requestedVelocity/5 && requestedVelocity > Vector2.Zero;
+
+            // We need to check both as at the end of a patch we can sometimes hit a single frame of 0 safe velocity
+            if (isStuck && wasStuck)
+            {
+                // We're stuck find something to hit
+                var areas = damageableFinder.GetOverlappingAreas();
+                List<Hurtbox> hitboxes = new();
+
+                foreach (Area2D area in areas)
+                {
+                    if (area is Hurtbox hitbox && hitbox.Owner is not PlayerController)
+                    {
+                        hitboxes.Add(hitbox);
+                    }
+                }
+
+                Hurtbox toHit = hitboxes.MinBy((x) => x.GlobalPosition.DistanceTo(GlobalPosition));
+
+                if (toHit != null)
+                {
+                    stateMachine.ForceStateSwitch(
+                        GuardState.GuardStates.Attacking.ToString(),
+                        new Godot.Collections.Dictionary()
+                        {
+                            ["direction"] = GlobalPosition.DirectionTo(toHit.GlobalPosition)
+                        }
+                    );
+                }
+            }
+
+            wasStuck = isStuck;
+        }
     }
 
     private void OnNoiseHeard(Vector2 fromPosition)
     {
         if (
             stateMachine.CurrentState.Name != "Dead" &&
-             stateMachine.CurrentState.Name != "KnockedOut" && 
-             stateMachine.CurrentState.Name != "Chase" && 
+             stateMachine.CurrentState.Name != "KnockedOut" &&
+             stateMachine.CurrentState.Name != "Chase" &&
              stateMachine.CurrentState.Name != "Alert" &&
              stateMachine.CurrentState.Name != "Attacking"
              )

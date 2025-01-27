@@ -110,8 +110,8 @@ public partial class PlayerController : CharacterBody2D
             if (stepDeltaCount > stepTime)
             {
                 stepDeltaCount = 0;
-                float footstepNoise = footstepAudio.PlayFootstep();
-                SetNoiseLevel(footstepNoise * noiseFactor);
+                float footstepNoise = footstepAudio.PlayFootstep(noiseFactor);
+                SetNoiseLevel(footstepNoise);
             }
             float spriteRotation = Mathf.Sin(deltaCount) * 10f;
             playerSprite.RotationDegrees = spriteRotation;
