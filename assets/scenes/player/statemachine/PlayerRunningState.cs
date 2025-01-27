@@ -59,10 +59,14 @@ public partial class PlayerRunningState : PlayerState
     private void HandleMovement(double delta)
     {
         Vector2 direction = Input.GetVector("move_left", "move_right", "move_up", "move_down").Normalized();
+        bool isWalking = Input.IsActionPressed("walk");
 
         if (direction != Vector2.Zero)
         {
-            var velocityThreshold = Vector2.One * (pushedRigidbody ? PlayerController.maxSpeed/2 : PlayerController.maxSpeed) * direction.Abs();
+            // TODO: put this in a function have some respect
+            var walkSpeed = player.WeaponContainer.IsAttacking() ? PlayerController.maxSpeed/3 : (pushedRigidbody || isWalking ? PlayerController.maxSpeed/2 : PlayerController.maxSpeed);
+
+            var velocityThreshold = Vector2.One * walkSpeed * direction.Abs();
 
             Vector2 newVelocity = velocity + ((float)delta * direction * PlayerController.acceleration);
             newVelocity = newVelocity.Clamp(-velocityThreshold, velocityThreshold);
@@ -121,7 +125,7 @@ public partial class PlayerRunningState : PlayerState
             player.PlayerSprite.Position = Vector2.Zero;
         }
 
-        player.HandleWalkingAnimation(this, delta, pushedRigidbody ? 0.5f : 1f);
+        player.HandleWalkingAnimation(this, delta, pushedRigidbody||isWalking ? 0.5f : 1f, pushedRigidbody||isWalking? 0.5f: 1f);
 
         if (velocity == Vector2.Zero && direction == Vector2.Zero)
         {

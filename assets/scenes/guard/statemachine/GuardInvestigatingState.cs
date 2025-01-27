@@ -16,8 +16,6 @@ public partial class GuardInvestigatingState : GuardState
         initialPosition = (Vector2)data["initial_position"];
         guard.NavAgent.TargetPosition = investigationPosition;
         investigateTimer = 0;
-        alerted = false;
-        alertedTimer = 0;
 
         guard.QuestionMarkSprite.Show();
         guard.QuestionMarkSprite.Animation = "warning";
@@ -49,82 +47,58 @@ public partial class GuardInvestigatingState : GuardState
     const float investigateTime = 0.5f;
     float investigateTimer = 0.5f;
 
-    const float alertedTime = 0.4f;
-    float alertedTimer = 0;
-    bool alerted = false;
-    const float alertedInitialVelocity = 50f;
-    const float alertedVelocityFriction = 150f;
-
     Vector2 velocity = Vector2.Zero;
 
     public override void PhysicsProcess(double delta)
     {
-        if (alerted)
+        if (!guard.NavAgent.IsNavigationFinished())
         {
-            alertedTimer += (float)delta;
+            Vector2 direction = guard.GlobalPosition.DirectionTo(guard.NavAgent.GetNextPathPosition());
+            guard.WeaponContainer.LookAt(guard.Position + direction);
+            guard.WeaponContainer.Rotate(Mathf.DegToRad(180));
 
-            velocity = velocity.MoveToward(Vector2.Zero, alertedVelocityFriction * (float)delta);
+            guard.HandleSpriteDirection(direction.Angle());
+
+            velocity = (direction * GuardController.Speed / 2) + guard.KnockbackVelocity;
             guard.SetVelocity(velocity);
             guard.MoveAndSlide();
-            guard.GuardSprite.Rotation = 0;
-
-            if (alertedTimer >= alertedTime)
+        }
+        else
+        {
+            investigateTimer += (float)delta;
+            if (investigateTimer >= investigateTime)
             {
+                investigateTimer = 0;
                 EmitSignal(
                     SignalName.Finished,
-                    GuardStates.Chase.ToString(),
+                    previousState,
                     NO_DATA
                 );
             }
         }
-        else
+
+
+        detectionAmount = guard.HandleDetection(delta, detectionAmount, detectionRate, detectionLossRate, player);
+
+        if (guard.GlobalPosition.DistanceTo(player.GlobalPosition) < 64 && player.CurrentLightValue >= 0.5f)
         {
-            if (!guard.NavAgent.IsNavigationFinished())
-            {
-                Vector2 direction = guard.GlobalPosition.DirectionTo(guard.NavAgent.GetNextPathPosition());
-                guard.WeaponContainer.LookAt(guard.Position + direction);
-                guard.WeaponContainer.Rotate(Mathf.DegToRad(180));
-
-                guard.HandleSpriteDirection(direction.Angle());
-
-                velocity = (direction * GuardController.Speed / 2) + guard.KnockbackVelocity;
-                guard.SetVelocity(velocity);
-                guard.MoveAndSlide();
-            }
-            else
-            {
-                investigateTimer += (float)delta;
-                if (investigateTimer >= investigateTime)
-                {
-                    investigateTimer = 0;
-                    EmitSignal(
-                        SignalName.Finished,
-                        previousState,
-                        NO_DATA
-                    );
-                }
-            }
-
-
-            detectionAmount = guard.HandleDetection(delta, detectionAmount, detectionRate, detectionLossRate, player);
-
-            if (guard.GlobalPosition.DistanceTo(player.GlobalPosition) < 64 && player.CurrentLightValue >= 0.5f)
-            {
-                detectionAmount = discoveryThreshold;
-            }
-
-            if (detectionAmount >= discoveryThreshold)
-            {
-                guard.AlertAudio.Play();
-                guard.ExclaimationMarkSprite.Show();
-                guard.QuestionMarkSprite.Hide();
-                alerted = true;
-                velocity = (alertedInitialVelocity * player.GlobalPosition.DirectionTo(guard.GlobalPosition)) + guard.KnockbackVelocity;
-                guard.SetVelocity(velocity);
-            }
-
-            guard.HandleWalkingAnimation(delta);
+            detectionAmount = discoveryThreshold;
         }
+
+        if (detectionAmount >= discoveryThreshold)
+        {
+            EmitSignal(
+                SignalName.Finished,
+                GuardStates.Alert.ToString(),
+                new Godot.Collections.Dictionary()
+                {
+                    ["direction"] = player.GlobalPosition.DirectionTo(guard.GlobalPosition),
+                }
+            );
+
+        }
+
+        guard.HandleWalkingAnimation(delta);
 
         HandleDetectionDisplay();
     }

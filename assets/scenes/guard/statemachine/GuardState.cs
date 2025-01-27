@@ -12,7 +12,8 @@ public abstract partial class GuardState : State
         Patrol,
         Attacking,
         KnockedOut,
-        Dead
+        Dead,
+        Alert
     }
 
     protected PlayerController player;

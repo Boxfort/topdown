@@ -21,6 +21,7 @@ public partial class GuardController : CharacterBody2D
     AnimatedSprite2D knockedOutSprite;
     Sprite2D shadow;
     AudioStreamPlayer2D alertAudio;
+    NoiseListener noiseListener;
 
     public NavigationAgent2D NavAgent { get => navAgent; }
     public PlayerSprite GuardSprite { get => guardSprite; }
@@ -62,6 +63,28 @@ public partial class GuardController : CharacterBody2D
         hurtbox = GetNode<Hurtbox>("Hurtbox");
         hurtbox.HitReceived += OnHitReceieved;
         shadow = GetNode<Sprite2D>("Shadow");
+        noiseListener = GetNode<NoiseListener>("NoiseListener");
+        noiseListener.OnNoiseHeard += OnNoiseHeard;
+    }
+
+    private void OnNoiseHeard(Vector2 fromPosition)
+    {
+        if (
+            stateMachine.CurrentState.Name != "Dead" &&
+             stateMachine.CurrentState.Name != "KnockedOut" && 
+             stateMachine.CurrentState.Name != "Chase" && 
+             stateMachine.CurrentState.Name != "Alert" &&
+             stateMachine.CurrentState.Name != "Attacking"
+             )
+        {
+            stateMachine.ForceStateSwitch(GuardState.GuardStates.Investigating.ToString(),
+                new Godot.Collections.Dictionary()
+                {
+                    ["investigation_position"] = fromPosition,
+                    ["initial_position"] = GlobalPosition
+                }
+            );
+        }
     }
 
     public override void _PhysicsProcess(double delta)

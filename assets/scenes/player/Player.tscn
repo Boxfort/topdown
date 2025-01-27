@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://cw3jq6xrdjxp0"]
+[gd_scene load_steps=56 format=3 uid="uid://cw3jq6xrdjxp0"]
 
 [ext_resource type="Script" uid="uid://bnejaaweskrso" path="res://assets/scenes/player/PlayerController.cs" id="1_a7bsg"]
 [ext_resource type="Script" uid="uid://bno8enbm33nvw" path="res://assets/scenes/player/FootstepAudio.cs" id="2_k5pra"]
@@ -35,9 +35,13 @@
 [ext_resource type="Script" uid="uid://cnbp5gmi6mssy" path="res://addons/ropesim/Rope.gd" id="33_u3q8d"]
 [ext_resource type="Script" uid="uid://cef6ydhu2lfwg" path="res://addons/ropesim/RopeInteraction.gd" id="34_tyk7u"]
 [ext_resource type="PackedScene" uid="uid://bthyqwuecl4ty" path="res://assets/scenes/player/DetectionWarning.tscn" id="35_tyk7u"]
+[ext_resource type="Script" uid="uid://bh6uq5f4pxocg" path="res://assets/scenes/components/noise/NoiseProducer.cs" id="36_eavt7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2pyid"]
 radius = 6.5
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tyk7u"]
+radius = 20.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_te4rn"]
 atlas = ExtResource("3_6yv7b")
@@ -176,6 +180,14 @@ script = ExtResource("2_s4nyu")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_2pyid")
 
+[node name="NoiseProducer" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 128
+script = ExtResource("36_eavt7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NoiseProducer"]
+shape = SubResource("CircleShape2D_tyk7u")
+
 [node name="Shadow" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.25098)
 position = Vector2(0, 6)
@@ -313,6 +325,7 @@ strength = 1.0
 metadata/_custom_type_script = ExtResource("34_tyk7u")
 
 [node name="TongueEnd" type="Area2D" parent="Tongue"]
+visible = false
 top_level = true
 position = Vector2(0, -1.5)
 collision_layer = 16

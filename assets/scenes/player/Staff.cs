@@ -16,6 +16,8 @@ public partial class Staff : Node2D
     Vector2 staffOffset = new Vector2(-5, 0);
     Vector2 staffAttackOffset = new Vector2(-14, 0);
 
+    public bool IsAttacking { get => isAttacking; }
+
     public void SetFlipV(bool isFlipped)
     {
         staffSprite.FlipV = isFlipped;

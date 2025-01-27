@@ -20,6 +20,9 @@ public partial class PlayerController : CharacterBody2D
     CombinedView combinedView;
     TongueScript tongue;
     Node2D detectionWarningsContainer;
+    NoiseProducer noiseProducer;
+    PlayerWeaponContainer weaponContainer;
+
     readonly System.Collections.Generic.Dictionary<Node2D, Node2D> detectionWarnings = [];
 
     public const float acceleration = 500.0f;
@@ -32,6 +35,8 @@ public partial class PlayerController : CharacterBody2D
     float currentLightValue = 0;
     int currentHealth = maxHealth;
     bool canBeHit = true;
+    float noiseLevel = 0;
+    float soundDecaySpeed = 50;
 
     Vector2 knockbackVelocity = Vector2.Zero;
     float knockbackVelocityFriction = 200f;
@@ -41,6 +46,7 @@ public partial class PlayerController : CharacterBody2D
     public float CurrentLightValue { get => currentLightValue; }
     public Vector2 KnockbackVelocity { get => knockbackVelocity; }
     public Area2D PlayerCollisionArea { get => playerCollisionArea; }
+    public PlayerWeaponContainer WeaponContainer { get => weaponContainer; }
 
     public override void _Ready()
     {
@@ -53,6 +59,8 @@ public partial class PlayerController : CharacterBody2D
         combinedView = (CombinedView)GetTree().GetFirstNodeInGroup("combined_view");
         tongue = GetNode<TongueScript>("Tongue");
         detectionWarningsContainer = GetNode<Node2D>("DetectionWarnings");
+        noiseProducer = GetNode<NoiseProducer>("NoiseProducer");
+        weaponContainer = GetNode<PlayerWeaponContainer>("WeaponContainer");;
     }
 
     private void OnHitReceieved(AttackData attackData)
@@ -90,7 +98,7 @@ public partial class PlayerController : CharacterBody2D
         }
     }
 
-    public void HandleWalkingAnimation(State from, double delta, float speedFactor = 1)
+    public void HandleWalkingAnimation(State from, double delta, float speedFactor = 1, float noiseFactor = 1)
     {
         if (from.hasExited) return;
 
@@ -102,7 +110,8 @@ public partial class PlayerController : CharacterBody2D
             if (stepDeltaCount > stepTime)
             {
                 stepDeltaCount = 0;
-                footstepAudio.PlayFootstep();
+                float footstepNoise = footstepAudio.PlayFootstep();
+                SetNoiseLevel(footstepNoise * noiseFactor);
             }
             float spriteRotation = Mathf.Sin(deltaCount) * 10f;
             playerSprite.RotationDegrees = spriteRotation;
@@ -177,7 +186,7 @@ public partial class PlayerController : CharacterBody2D
                 if (distanceToLight > lightRadius || !light.Enabled || !light.IsVisibleInTree()) continue;
 
                 var spaceState = GetViewport().GetWorld2D().DirectSpaceState;
-                var query = PhysicsRayQueryParameters2D.Create(point, light.GlobalPosition, 0b0000_0010);
+                var query = PhysicsRayQueryParameters2D.Create(point, light.GlobalPosition, 0b1_0000_0010);
                 var result = spaceState.IntersectRay(query);
 
                 if (result.Count == 0)
@@ -212,9 +221,17 @@ public partial class PlayerController : CharacterBody2D
         Vector2 mousePosition = combinedView.GetGameWorldMousePosition(GetViewport());
         var dirToMouse = GlobalPosition.DirectionTo(mousePosition);
 
+        ReduceNoiseLevel((float)delta);
+
         if (Input.IsActionJustPressed("alt_fire"))
         {
             tongue.Shoot(dirToMouse);
+        }
+
+        if (Input.IsActionJustPressed("fire") && !weaponContainer.IsAttacking())
+        {
+            weaponContainer.Attack();
+            SetNoiseLevel(weaponContainer.GetCurrentWeaponNoise());
         }
 
         foreach (KeyValuePair<Node2D, Node2D> warning in detectionWarnings)
@@ -243,5 +260,21 @@ public partial class PlayerController : CharacterBody2D
             detectionWarnings.Remove(node);
             warning.QueueFree();
         }
+    }
+
+    public float GetNoiseLevel()
+    {
+        return noiseLevel;
+    }
+
+    public void SetNoiseLevel(float level)
+    {
+        noiseProducer.TriggerNoise(level);
+        noiseLevel = Mathf.Max(noiseLevel, level);
+    }
+
+    private void ReduceNoiseLevel(float delta)
+    {
+        noiseLevel -= delta * soundDecaySpeed;
     }
 }

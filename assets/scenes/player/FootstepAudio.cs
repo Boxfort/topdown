@@ -10,17 +10,23 @@ public partial class FootstepAudio : AudioStreamPlayer2DCustom
     [Export(PropertyHint.Range, "-20, 20")]
     float grassFootstepDb;
 
+    float grassFootstepNoiseValue = 10;
+
     [Export(PropertyHint.File)]
     Array<AudioStream> gravelFootstepAudio;
 
     [Export(PropertyHint.Range, "-20, 20")]
     float gravelFootstepDb;
 
+    float gravelFootstepNoiseValue = 30;
+
     [Export(PropertyHint.File)]
     Array<AudioStream> brickFootstepAudio;
 
     [Export(PropertyHint.Range, "-20, 20")]
     float brickFootstepDb;
+
+    float brickFootstepNoiseValue = 30;
 
     TileMapLayer staticTiles;
 
@@ -29,7 +35,7 @@ public partial class FootstepAudio : AudioStreamPlayer2DCustom
         staticTiles = (TileMapLayer)GetTree().GetFirstNodeInGroup("static_tiles");
     }
 
-    public void PlayFootstep()
+    public float PlayFootstep()
     {
         Vector2I tileCoord = staticTiles.LocalToMap(staticTiles.ToLocal(GlobalPosition + (Vector2.Down * 6)));
         TileData tileData = staticTiles.GetCellTileData(tileCoord);
@@ -47,17 +53,19 @@ public partial class FootstepAudio : AudioStreamPlayer2DCustom
                 Stream = grassFootstepAudio[rng.Next(0, grassFootstepAudio.Count)];
                 VolumeDb = grassFootstepDb;
                 Play();
-                break;
+                return grassFootstepNoiseValue;
             case "gravel":
                 Stream = gravelFootstepAudio[rng.Next(0, gravelFootstepAudio.Count)];
                 VolumeDb = gravelFootstepDb;
                 Play();
-                break;
+                return gravelFootstepNoiseValue;
             case "brick":
                 Stream = brickFootstepAudio[rng.Next(0, brickFootstepAudio.Count)];
                 VolumeDb = brickFootstepDb;
                 Play();
-                break;
+                return brickFootstepNoiseValue;
+            default:
+                return 0;
         }
     }
 }

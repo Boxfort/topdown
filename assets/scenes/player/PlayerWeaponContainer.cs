@@ -26,9 +26,20 @@ public partial class PlayerWeaponContainer : Node2D
             staff.SetFlipV(false);
         }
 
-        if (Input.IsActionJustPressed("fire"))
-        {
-            staff.PlayAttack();
-        }
+    }
+
+    public float GetCurrentWeaponNoise()
+    {
+        return 30;
+    }
+
+    public bool IsAttacking()
+    {
+        return staff.IsAttacking;
+    }
+
+    public void Attack()
+    {
+        staff.PlayAttack();
     }
 }

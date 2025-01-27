@@ -1,4 +1,4 @@
-[gd_scene load_steps=103 format=3 uid="uid://ds0fhkjrapp1q"]
+[gd_scene load_steps=106 format=3 uid="uid://ds0fhkjrapp1q"]
 
 [ext_resource type="Script" uid="uid://claybvf273rb6" path="res://assets/scenes/player/StateDebug.cs" id="1_8qui6"]
 [ext_resource type="Script" uid="uid://bkuphbrg4mqls" path="res://assets/scenes/guard/GuardController.cs" id="1_ljpdm"]
@@ -19,9 +19,10 @@
 [ext_resource type="Script" uid="uid://dghw3ju86shv0" path="res://assets/scenes/guard/statemachine/GuardPatrolState.cs" id="10_vf14t"]
 [ext_resource type="Texture2D" uid="uid://b56nakmj51lsv" path="res://assets/sprites/question_mark-sheet.png" id="11_1bf5w"]
 [ext_resource type="Script" uid="uid://bwueq3ouh0fn3" path="res://assets/scenes/components/hitbox/Hitbox.cs" id="11_7gir8"]
-[ext_resource type="Script" uid="uid://ct24m4114ocr3" path="res://assets/scenes/guard/GuardDeadState.cs" id="11_37cs0"]
+[ext_resource type="Script" uid="uid://ct24m4114ocr3" path="res://assets/scenes/guard/statemachine/GuardDeadState.cs" id="11_37cs0"]
+[ext_resource type="Script" uid="uid://dr3otb82hpw23" path="res://assets/scenes/guard/statemachine/GuardAlertState.cs" id="12_cmxhp"]
 [ext_resource type="Texture2D" uid="uid://df1xfqp2m8ens" path="res://assets/sprites/exclaimation_mark-sheet.png" id="12_fr5oj"]
-[ext_resource type="Script" uid="uid://bwfe5n8ftmp1c" path="res://assets/scenes/guard/GuardKnockedOutState.cs" id="13_7qajo"]
+[ext_resource type="Script" uid="uid://bwfe5n8ftmp1c" path="res://assets/scenes/guard/statemachine/GuardKnockedOutState.cs" id="13_7qajo"]
 [ext_resource type="Texture2D" uid="uid://hlnijn04tn05" path="res://assets/sprites/question_mark_orange-sheet.png" id="14_k4t82"]
 [ext_resource type="Script" uid="uid://wtf3bn7oxnsq" path="res://assets/scenes/player/PlayerSprite.cs" id="16_taurp"]
 [ext_resource type="Texture2D" uid="uid://bjg60ifgwlkmw" path="res://assets/scenes/guard/sprites/guard_sheet.png" id="17_rr8nn"]
@@ -31,6 +32,7 @@
 [ext_resource type="AudioStream" uid="uid://b28ct4ggops4w" path="res://assets/sounds/442903__qubodup__slash.wav" id="22_knr1m"]
 [ext_resource type="Texture2D" uid="uid://chcqvf8qh25dy" path="res://assets/sprites/stunned_sheet.png" id="24_al1f4"]
 [ext_resource type="AudioStream" uid="uid://c7l6sojulq03p" path="res://assets/sounds/495004__evretro__alert-video-game-sound.wav" id="30_4sw3e"]
+[ext_resource type="Script" uid="uid://fpd1e6jpynrt" path="res://assets/scenes/components/noise/NoiseListener.cs" id="32_dlklq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qutr4"]
 atlas = ExtResource("18_n3xku")
@@ -38,6 +40,9 @@ region = Rect2(64, 96, 16, 16)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5tmi0"]
 radius = 7.5
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_knr1m"]
+radius = 8.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lpnqq"]
 atlas = ExtResource("8_yq8da")
@@ -591,6 +596,9 @@ script = ExtResource("7_3r7r8")
 [node name="Patrol" type="Node" parent="StateMachine"]
 script = ExtResource("10_vf14t")
 
+[node name="Alert" type="Node" parent="StateMachine"]
+script = ExtResource("12_cmxhp")
+
 [node name="Attacking" type="Node" parent="StateMachine"]
 script = ExtResource("5_twjtg")
 
@@ -608,6 +616,14 @@ script = ExtResource("10_dugmq")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 visible = false
 shape = SubResource("CircleShape2D_5tmi0")
+
+[node name="NoiseListener" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 128
+script = ExtResource("32_dlklq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NoiseListener"]
+shape = SubResource("CircleShape2D_knr1m")
 
 [node name="WeaponContainer" type="Node2D" parent="."]
 
