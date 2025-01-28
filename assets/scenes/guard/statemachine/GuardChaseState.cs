@@ -9,6 +9,8 @@ public partial class GuardChaseState : GuardState
         // no-op
         player.StoppedBeingDetectedBy(guard);
         guard.NavAgent.MaxSpeed = GuardController.Speed;
+        guard.NavAgent.PathDesiredDistance = 1;
+        guard.NavAgent.TargetDesiredDistance = 1;
     }
 
     public override void Exit()
@@ -30,28 +32,47 @@ public partial class GuardChaseState : GuardState
     {
         Vector2 direction = Vector2.Zero;
 
-        // TODO: This should be done in a thread on a timer so we're not calculating navigation every step
-        //guard.NavAgent.TargetPosition = combinedView.GetGameWorldMousePosition(GetViewport());
-        guard.NavAgent.TargetPosition = player.GlobalPosition;
 
         direction = guard.GlobalPosition.DirectionTo(guard.NavAgent.GetNextPathPosition());
         guard.WeaponContainer.LookAt(guard.Position + direction);
         guard.WeaponContainer.Rotate(Mathf.DegToRad(180));
 
-        if (guard.NavAgent.IsNavigationFinished() || CanAttack(player))
+        // TODO: This should be done in a thread on a timer so we're not calculating navigation every step
+        if (guard.CanSeeNode(player))
         {
-            guard.NavAgent.SetVelocity(Vector2.Zero);
-            EmitSignal(SignalName.Finished, GuardStates.Attacking.ToString(), new Godot.Collections.Dictionary() { ["direction"] = direction });
+            guard.PlayerLastLocationMarker.Hide();
+            guard.NavAgent.TargetPosition = player.GlobalPosition;
+        }
+        else
+        {
+            // TODO: This sucks, have it only trigger once
+            guard.PlayerLastLocationMarker.Show();
+            guard.PlayerLastLocationMarker.GlobalPosition = guard.NavAgent.TargetPosition;
+            guard.NavAgent.TargetPosition = guard.PlayerLastLocationMarker.GlobalPosition;
+        }
+
+        if (guard.NavAgent.IsNavigationFinished())
+        {
+            if (!guard.CanSeeNode(player))
+            {
+                guard.PlayerLastLocationMarker.Hide();
+                EmitSignal(SignalName.Finished, GuardStates.Patrol.ToString(), NO_DATA);
+            }
+            else if (CanAttack(player))
+            {
+                guard.NavAgent.SetVelocity(Vector2.Zero);
+                EmitSignal(SignalName.Finished, GuardStates.Attacking.ToString(), new Godot.Collections.Dictionary() { ["direction"] = direction });
+            }
         }
         else
         {
             guard.NavAgent.SetVelocity(direction * GuardController.Speed);
         }
 
-        guard.Velocity = guard.KnockbackVelocity;
-        guard.MoveAndSlide();
         guard.HandleSpriteDirection(direction.Angle());
         guard.HandleWalkingAnimation(delta);
+        guard.Velocity = guard.KnockbackVelocity;
+        guard.MoveAndSlide();
     }
 
     private bool CanAttack(Node2D node)

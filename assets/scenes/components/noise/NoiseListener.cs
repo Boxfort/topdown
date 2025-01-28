@@ -11,7 +11,6 @@ public partial class NoiseListener : Area2D
     public void HearNoise(Vector2 fromPosition)
     {
         if (canHear) {
-            GD.Print(Owner.Name + " heard noise");
             EmitSignal(SignalName.OnNoiseHeard, fromPosition);
         }
     }

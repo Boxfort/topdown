@@ -6,11 +6,10 @@ using System.Linq;
 
 public partial class GuardController : CharacterBody2D
 {
-    [Export]
-    Texture2D deadSprite;
-
     [Export(PropertyHint.NodeType, "NpcPath")]
     NpcPath patrolPath;
+
+    Sprite2D playerLastLocationMarker;
 
     // TODO: this obviously should be a PlayerSprite but im not sure how/if i want to commonise the damage visuals
     PlayerSprite guardSprite;
@@ -25,6 +24,7 @@ public partial class GuardController : CharacterBody2D
     AudioStreamPlayer2D alertAudio;
     NoiseListener noiseListener;
     Area2D damageableFinder;
+    Area2D pathChecker;
 
     public NavigationAgent2D NavAgent { get => navAgent; }
     public PlayerSprite GuardSprite { get => guardSprite; }
@@ -32,13 +32,14 @@ public partial class GuardController : CharacterBody2D
     public AnimatedSprite2D ExclaimationMarkSprite { get => exclaimationMarkSprite; }
     public Node2D WeaponContainer { get => weaponContainer; }
     public Vector2 KnockbackVelocity { get => knockbackVelocity; }
-    public Texture2D DeadSprite { get => deadSprite; }
     public bool CanBeHit { get => canBeHit; set => canBeHit = value; }
     public float LastLookAngle { get => lastLookAngle; }
     public NpcPath PatrolPath { get => patrolPath; }
     public AnimatedSprite2D KnockedOutSprite { get => knockedOutSprite; }
     public Sprite2D Shadow { get => shadow; }
     public AudioStreamPlayer2D AlertAudio { get => alertAudio; }
+    public Sprite2D PlayerLastLocationMarker { get => playerLastLocationMarker; }
+    public Area2D PathChecker { get => pathChecker; }
 
     public const float Speed = 90.0f;
     public const float DetectionRadius = 256.0f;
@@ -69,6 +70,8 @@ public partial class GuardController : CharacterBody2D
         noiseListener = GetNode<NoiseListener>("NoiseListener");
         noiseListener.OnNoiseHeard += OnNoiseHeard;
         damageableFinder = GetNode<Area2D>("DamageableFinder");
+        playerLastLocationMarker = GetNode<Sprite2D>("PlayerLastLocationMarker");
+        pathChecker = GetNode<Area2D>("PathChecker");
 
         navAgent.VelocityComputed += OnVelocityComputed;
     }
@@ -134,7 +137,6 @@ public partial class GuardController : CharacterBody2D
              stateMachine.CurrentState.Name != "Attacking"
              )
         {
-            GD.Print("Guard heard noise");
             stateMachine.ForceStateSwitch(GuardState.GuardStates.Investigating.ToString(),
                 new Godot.Collections.Dictionary()
                 {
@@ -301,8 +303,11 @@ public partial class GuardController : CharacterBody2D
     {
         deltaCount = (deltaCount + (float)(delta * jiggleSpeed)) % 100;
 
-        if (Velocity != Vector2.Zero)
+        GD.Print("IN -> " + guardSprite.RotationDegrees);
+
+        if (GetRealVelocity() != Vector2.Zero)
         {
+            GD.Print("do something");
             float spriteRotation = Mathf.Sin(deltaCount) * 10f;
             guardSprite.RotationDegrees = spriteRotation;
         }
@@ -310,5 +315,7 @@ public partial class GuardController : CharacterBody2D
         {
             guardSprite.RotationDegrees = Mathf.Lerp(guardSprite.RotationDegrees, 0, (float)delta * jiggleSpeed);
         }
+
+        GD.Print("OUT -> " + guardSprite.RotationDegrees);
     }
 }

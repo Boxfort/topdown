@@ -1,4 +1,5 @@
 shader_type canvas_item;
+render_mode unshaded;
 
 // --- Uniforms --- //
 uniform bool weighted = true;	// Determines whether to use normal or weighted averages

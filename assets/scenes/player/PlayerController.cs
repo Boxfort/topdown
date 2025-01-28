@@ -17,6 +17,7 @@ public partial class PlayerController : CharacterBody2D
     Hurtbox hurtbox;
     Area2D playerCollisionArea;
     FootstepAudio footstepAudio;
+    AudioStreamPlayer2DCustom thudAudio;
     CombinedView combinedView;
     TongueScript tongue;
     Node2D detectionWarningsContainer;
@@ -47,6 +48,9 @@ public partial class PlayerController : CharacterBody2D
     public Vector2 KnockbackVelocity { get => knockbackVelocity; }
     public Area2D PlayerCollisionArea { get => playerCollisionArea; }
     public PlayerWeaponContainer WeaponContainer { get => weaponContainer; }
+    public FootstepAudio FootstepAudio { get => footstepAudio; }
+    public CameraShaker CameraShaker { get => cameraShaker; }
+    public AudioStreamPlayer2DCustom ThudAudio { get => thudAudio; }
 
     public override void _Ready()
     {
@@ -60,7 +64,8 @@ public partial class PlayerController : CharacterBody2D
         tongue = GetNode<TongueScript>("Tongue");
         detectionWarningsContainer = GetNode<Node2D>("DetectionWarnings");
         noiseProducer = GetNode<NoiseProducer>("NoiseProducer");
-        weaponContainer = GetNode<PlayerWeaponContainer>("WeaponContainer");;
+        weaponContainer = GetNode<PlayerWeaponContainer>("WeaponContainer");
+        thudAudio = GetNode<AudioStreamPlayer2DCustom>("BonkAudio");
     }
 
     private void OnHitReceieved(AttackData attackData)

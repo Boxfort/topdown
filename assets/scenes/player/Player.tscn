@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://cw3jq6xrdjxp0"]
+[gd_scene load_steps=59 format=3 uid="uid://cw3jq6xrdjxp0"]
 
 [ext_resource type="Script" uid="uid://bnejaaweskrso" path="res://assets/scenes/player/PlayerController.cs" id="1_a7bsg"]
 [ext_resource type="Script" uid="uid://bno8enbm33nvw" path="res://assets/scenes/player/FootstepAudio.cs" id="2_k5pra"]
@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://dpydvg2cekgx1" path="res://assets/scenes/player/sprites/frog_man2.png" id="11_6yv7b"]
 [ext_resource type="AudioStream" uid="uid://nphf7otj7fk7" path="res://assets/sounds/footsteps/151238__owlstorm__hard-female-footstep-2.wav" id="11_pvywa"]
 [ext_resource type="Script" uid="uid://d2tgupix8j5vn" path="res://assets/scenes/player/PlayerWeaponContainer.cs" id="13_3lf8a"]
+[ext_resource type="AudioStream" uid="uid://do3wy3kg2b6pp" path="res://assets/scenes/player/sounds/275160__bird_man__thud.wav" id="13_pybal"]
 [ext_resource type="Script" uid="uid://cc40nn04dansr" path="res://assets/scenes/player/Staff.cs" id="14_kc3wo"]
 [ext_resource type="Texture2D" uid="uid://cc8udafr3df1v" path="res://assets/scenes/player/sprites/Staff.png" id="15_6yv7b"]
 [ext_resource type="AudioStream" uid="uid://in0vb237qun7" path="res://assets/sounds/422511__nightflame__swinging-staff-whoosh-strong-06.wav" id="15_te4rn"]
@@ -173,6 +174,10 @@ gravelFootstepAudio = Array[AudioStream]([ExtResource("6_66qey"), ExtResource("7
 gravelFootstepDb = -12.5
 brickFootstepAudio = Array[AudioStream]([ExtResource("9_eavt7"), ExtResource("10_6cnyw"), ExtResource("11_pvywa")])
 brickFootstepDb = -5.0
+
+[node name="BonkAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_pybal")
+script = ExtResource("16_mc5jf")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 4

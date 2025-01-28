@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Threading.Tasks;
 
 public partial class GuardPatrolState : GuardState
 {
@@ -24,19 +25,44 @@ public partial class GuardPatrolState : GuardState
         currentWaitTimer = 0;
         currentDetection = 0;
         guard.NavAgent.TargetPosition = guard.PatrolPath.GetNodeAtIdx(currentPathNodeIdx).GlobalPosition;
-        guard.NavAgent.MaxSpeed = GuardController.Speed/2;
+        guard.NavAgent.MaxSpeed = GuardController.Speed / 2;
     }
 
     public override void Exit()
     {
         // no-op
     }
+    Vector2 lastPosition = Vector2.Zero;
 
     public override void PhysicsProcess(double delta)
     {
         Vector2 direction = Vector2.Zero;
 
-        direction = guard.GlobalPosition.DirectionTo(guard.NavAgent.GetNextPathPosition());
+        var nextPosition = guard.NavAgent.GetNextPathPosition();
+        direction = guard.GlobalPosition.DirectionTo(nextPosition);
+
+        if (nextPosition != lastPosition)
+        {
+            guard.PathChecker.GlobalPosition = nextPosition;
+            Task.Run(async () =>
+            {
+                // Wait two frames to update the collision shape
+                await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+                if (guard.PathChecker.GetOverlappingBodies().Count > 0)
+                {
+                    GD.Print("Cant get to path, allow deviation");
+                    guard.NavAgent.PathDesiredDistance = 16;
+                }
+                else
+                {
+                    guard.NavAgent.PathDesiredDistance = 1;
+                }
+            });
+        }
+
+        lastPosition = nextPosition;
 
         currentDetection = guard.HandleDetection(delta, currentDetection, detectionRate, detectionLossRate, player);
 

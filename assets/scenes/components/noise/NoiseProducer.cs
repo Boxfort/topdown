@@ -28,12 +28,10 @@ public partial class NoiseProducer : Area2D
         foreach (Area2D area in areas)
         {
             if (area is NoiseListener listener)
-            { 
-                GD.Print("LISTENER FOUND");
-
-                if(listener.Owner != fromNode)  {
+            {
+                if (listener.Owner != fromNode)
+                {
                     listener.HearNoise(GlobalPosition);
-                    GD.Print("WAS INVALID");
                 }
 
             }

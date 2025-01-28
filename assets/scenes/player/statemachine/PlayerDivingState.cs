@@ -14,6 +14,7 @@ public partial class PlayerDivingState : PlayerState
     private const int diveSlideFrictionIncreaseFactor = 10;
 
     bool hasBonked = false;
+    bool hasHitGround = false;
 
     Vector2 direction;
 
@@ -38,6 +39,7 @@ public partial class PlayerDivingState : PlayerState
         diveTimer = 0.0f;
         slideTimer = 0.0f;
         hasBonked = false;
+        hasHitGround = false;
     }
 
     public override void Exit()
@@ -76,10 +78,20 @@ public partial class PlayerDivingState : PlayerState
                 player.PlayerSprite.Rotate(Mathf.DegToRad(90));
 
                 hasBonked = true;
+                player.CameraShaker.ApplyNoiseShake();
+                player.ThudAudio.Play();
+                player.SetNoiseLevel(60);
             }
         }
         else if (player.Velocity != Vector2.Zero)
         {
+            if (!hasHitGround) 
+            {
+                float noise = player.FootstepAudio.PlayFootstep();
+                player.SetNoiseLevel(noise);
+                hasHitGround = true;
+            }
+
             slideTimer += (float)delta;
             velocity = velocity.MoveToward(Vector2.Zero, diveSlideFriction * Mathf.Max(1, slideTimer * diveSlideFrictionIncreaseFactor) * (float)delta);
 
