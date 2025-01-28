@@ -28,7 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://bjg60ifgwlkmw" path="res://assets/scenes/guard/sprites/guard_sheet.png" id="17_rr8nn"]
 [ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="18_n3xku"]
 [ext_resource type="AudioStream" uid="uid://in0vb237qun7" path="res://assets/sounds/422511__nightflame__swinging-staff-whoosh-strong-06.wav" id="20_j074r"]
-[ext_resource type="Script" uid="uid://b1ys0nxi8bqm" path="res://assets/scenes/player/AudioStreamPlayer2DCustom.cs" id="21_4sw3e"]
+[ext_resource type="Script" uid="uid://b1ys0nxi8bqm" path="res://assets/scripts/AudioStreamPlayer2DCustom.cs" id="21_4sw3e"]
 [ext_resource type="AudioStream" uid="uid://b28ct4ggops4w" path="res://assets/sounds/442903__qubodup__slash.wav" id="22_knr1m"]
 [ext_resource type="Texture2D" uid="uid://chcqvf8qh25dy" path="res://assets/sprites/stunned_sheet.png" id="24_al1f4"]
 [ext_resource type="AudioStream" uid="uid://c7l6sojulq03p" path="res://assets/sounds/495004__evretro__alert-video-game-sound.wav" id="30_4sw3e"]
@@ -702,12 +702,15 @@ autoplay = "default"
 frame_progress = 0.986535
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 4.0
+path_desired_distance = 1.0
 target_desired_distance = 1.0
+path_max_distance = 64.0
 simplify_path = true
+simplify_epsilon = 16.0
 avoidance_enabled = true
 radius = 8.0
-neighbor_distance = 128.0
+neighbor_distance = 256.0
+time_horizon_obstacles = 0.5
 max_speed = 45.0
 debug_enabled = true
 

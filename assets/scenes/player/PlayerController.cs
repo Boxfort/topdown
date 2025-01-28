@@ -269,7 +269,7 @@ public partial class PlayerController : CharacterBody2D
 
     public void SetNoiseLevel(float level)
     {
-        noiseProducer.TriggerNoise(level);
+        noiseProducer.TriggerNoise(level, this);
         noiseLevel = Mathf.Max(noiseLevel, level);
     }
 

@@ -12,7 +12,7 @@ public partial class GuardInvestigatingState : GuardState
     public override void Enter(string previousState, Dictionary data)
     {
         // FIXME: HACK, do this by passing in data, something like 'dont_set_previous_state'?
-        if (previousState != "Attacking")
+        if (previousState != "Attacking" && previousState != "Investigating")
         {
             this.previousState = previousState;
         }
@@ -28,15 +28,19 @@ public partial class GuardInvestigatingState : GuardState
 
         guard.NavAgent.TargetPosition = investigationPosition;
         investigateTimer = 0;
+        investigateStartTimer = 0;
 
         guard.QuestionMarkSprite.Show();
         guard.QuestionMarkSprite.Animation = "warning";
+        guard.NavAgent.MaxSpeed = GuardController.Speed / 2;
+        guard.NavAgent.TargetDesiredDistance = 32;
     }
 
     public override void Exit()
     {
         guard.QuestionMarkSprite.Hide();
         guard.ExclaimationMarkSprite.Hide();
+        guard.NavAgent.TargetDesiredDistance = 1;
         // no-op
     }
 
@@ -58,25 +62,33 @@ public partial class GuardInvestigatingState : GuardState
 
     const float investigateTime = 0.5f;
     float investigateTimer = 0.5f;
+    const float investigateStartTime = 0.5f;
+    float investigateStartTimer = 0.5f;
 
     Vector2 velocity = Vector2.Zero;
 
     public override void PhysicsProcess(double delta)
     {
+        Vector2 direction = guard.GlobalPosition.DirectionTo(guard.NavAgent.GetNextPathPosition());
+        guard.WeaponContainer.LookAt(guard.Position + direction);
+        guard.WeaponContainer.Rotate(Mathf.DegToRad(180));
+        guard.HandleSpriteDirection(direction.Angle());
+
         if (!guard.NavAgent.IsNavigationFinished())
         {
-            Vector2 direction = guard.GlobalPosition.DirectionTo(guard.NavAgent.GetNextPathPosition());
-            guard.WeaponContainer.LookAt(guard.Position + direction);
-            guard.WeaponContainer.Rotate(Mathf.DegToRad(180));
-
-            guard.HandleSpriteDirection(direction.Angle());
-
-            velocity = (direction * GuardController.Speed / 2) + guard.KnockbackVelocity;
-            guard.SetVelocity(velocity);
-            guard.MoveAndSlide();
+            if (investigateStartTimer < investigateStartTime)
+            {
+                investigateStartTimer += (float)delta;
+            }
+            else
+            {
+                velocity = (direction * GuardController.Speed / 2) + guard.KnockbackVelocity;
+                guard.NavAgent.SetVelocity(velocity);
+            }
         }
         else
         {
+            guard.NavAgent.SetVelocity(Vector2.Zero);
             investigateTimer += (float)delta;
             if (investigateTimer >= investigateTime)
             {
@@ -92,7 +104,7 @@ public partial class GuardInvestigatingState : GuardState
 
         detectionAmount = guard.HandleDetection(delta, detectionAmount, detectionRate, detectionLossRate, player);
 
-        if (guard.GlobalPosition.DistanceTo(player.GlobalPosition) < 64 && player.CurrentLightValue >= 0.5f)
+        if (guard.GlobalPosition.DistanceTo(player.GlobalPosition) < 32 && player.CurrentLightValue >= 0.5f)
         {
             detectionAmount = discoveryThreshold;
         }

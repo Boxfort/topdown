@@ -36,7 +36,7 @@ public partial class Sword : Node2D
     private void OnHitboxEntered(Hurtbox hurtbox)
     {
         hitAudio.Play();
-        hurtbox.OnHit(new() { damage = 1, fromPosition = GlobalPosition, knockbackForce = 100 });
+        hurtbox.OnHit(new(1, 100, GlobalPosition, Owner));
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

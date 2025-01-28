@@ -24,7 +24,7 @@ public partial class Fireball : CharacterBody2D
 
     private void OnHitboxEntered(Hurtbox hurtbox)
     {
-        hurtbox.OnHit(new() { damage = 1, fromPosition = GlobalPosition, knockbackForce = 100 });
+        hurtbox.OnHit(new(1, 100, GlobalPosition, this));
     }
 
     public void SetDirection(Vector2 direction)

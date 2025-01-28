@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dp8ji6763dpux"]
+[gd_scene load_steps=9 format=3 uid="uid://dp8ji6763dpux"]
 
 [ext_resource type="Script" uid="uid://cdcq56q1w54j0" path="res://assets/scenes/props/Crate/Crate.cs" id="1_iwdg1"]
 [ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="1_smua3"]
 [ext_resource type="Script" uid="uid://b3imh4pt3neoy" path="res://assets/scenes/components/hurtbox/Hurtbox.cs" id="2_k4k22"]
+[ext_resource type="PackedScene" uid="uid://7ugjnj5kqnt5" path="res://assets/scenes/components/noise/NoiseProducerScene.tscn" id="2_rvdbq"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1bjkc"]
 cull_mode = 2
@@ -22,6 +23,8 @@ size = Vector2(14, 14)
 collision_layer = 3
 collision_mask = 61
 script = ExtResource("1_iwdg1")
+
+[node name="NoiseProducer" parent="." instance=ExtResource("2_rvdbq")]
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_1bjkc")

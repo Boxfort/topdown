@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://cw3jq6xrdjxp0"]
+[gd_scene load_steps=58 format=3 uid="uid://cw3jq6xrdjxp0"]
 
 [ext_resource type="Script" uid="uid://bnejaaweskrso" path="res://assets/scenes/player/PlayerController.cs" id="1_a7bsg"]
 [ext_resource type="Script" uid="uid://bno8enbm33nvw" path="res://assets/scenes/player/FootstepAudio.cs" id="2_k5pra"]
@@ -27,7 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://cc8udafr3df1v" path="res://assets/scenes/player/sprites/Staff.png" id="15_6yv7b"]
 [ext_resource type="AudioStream" uid="uid://in0vb237qun7" path="res://assets/sounds/422511__nightflame__swinging-staff-whoosh-strong-06.wav" id="15_te4rn"]
 [ext_resource type="Texture2D" uid="uid://ch3gvtvo8rw2g" path="res://assets/sprites/slash.png" id="16_kc3wo"]
-[ext_resource type="Script" uid="uid://b1ys0nxi8bqm" path="res://assets/scenes/player/AudioStreamPlayer2DCustom.cs" id="16_mc5jf"]
+[ext_resource type="Script" uid="uid://b1ys0nxi8bqm" path="res://assets/scripts/AudioStreamPlayer2DCustom.cs" id="16_mc5jf"]
 [ext_resource type="Script" uid="uid://bwueq3ouh0fn3" path="res://assets/scenes/components/hitbox/Hitbox.cs" id="17_te4rn"]
 [ext_resource type="AudioStream" uid="uid://bvv5qw5m5lmlc" path="res://assets/sounds/240991__adrian_gomar__book-impact-01.wav" id="20_405as"]
 [ext_resource type="Texture2D" uid="uid://dj5taqt71xsuv" path="res://assets/scenes/player/sprites/tongue_end.png" id="31_diteo"]
@@ -36,6 +36,8 @@
 [ext_resource type="Script" uid="uid://cef6ydhu2lfwg" path="res://addons/ropesim/RopeInteraction.gd" id="34_tyk7u"]
 [ext_resource type="PackedScene" uid="uid://bthyqwuecl4ty" path="res://assets/scenes/player/DetectionWarning.tscn" id="35_tyk7u"]
 [ext_resource type="Script" uid="uid://bh6uq5f4pxocg" path="res://assets/scenes/components/noise/NoiseProducer.cs" id="36_eavt7"]
+[ext_resource type="AudioStream" uid="uid://nx2vdtkendml" path="res://assets/scenes/player/sounds/232135__yottasounds__splat-005.wav" id="37_pvywa"]
+[ext_resource type="AudioStream" uid="uid://bn2b24h8x7e1h" path="res://assets/scenes/player/sounds/515621__mrickey13__splatsquish-4.wav" id="38_pybal"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2pyid"]
 radius = 6.5
@@ -345,5 +347,15 @@ visible = false
 points = PackedVector2Array(0, 0, -32, 0)
 width = 1.0
 default_color = Color(0.8, 0.258824, 0.368627, 1)
+
+[node name="TongueHitAudio" type="AudioStreamPlayer2D" parent="Tongue"]
+stream = ExtResource("37_pvywa")
+script = ExtResource("16_mc5jf")
+
+[node name="TongueStretchAudio" type="AudioStreamPlayer2D" parent="Tongue"]
+stream = ExtResource("38_pybal")
+volume_db = -10.0
+pitch_scale = 0.8
+script = ExtResource("16_mc5jf")
 
 [node name="DetectionWarnings" type="Node2D" parent="."]

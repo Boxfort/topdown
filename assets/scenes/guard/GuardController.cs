@@ -89,7 +89,7 @@ public partial class GuardController : CharacterBody2D
             Velocity = safeVelocity;
             MoveAndSlide();
 
-            var isStuck = safeVelocity.Abs() < requestedVelocity/5 && requestedVelocity > Vector2.Zero;
+            var isStuck = GetRealVelocity().Abs() < requestedVelocity/7.5f && requestedVelocity > Vector2.Zero;
 
             // We need to check both as at the end of a patch we can sometimes hit a single frame of 0 safe velocity
             if (isStuck && wasStuck)
@@ -134,6 +134,7 @@ public partial class GuardController : CharacterBody2D
              stateMachine.CurrentState.Name != "Attacking"
              )
         {
+            GD.Print("Guard heard noise");
             stateMachine.ForceStateSwitch(GuardState.GuardStates.Investigating.ToString(),
                 new Godot.Collections.Dictionary()
                 {

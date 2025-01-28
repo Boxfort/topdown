@@ -8,6 +8,7 @@ public partial class GuardChaseState : GuardState
     {
         // no-op
         player.StoppedBeingDetectedBy(guard);
+        guard.NavAgent.MaxSpeed = GuardController.Speed;
     }
 
     public override void Exit()
@@ -39,15 +40,16 @@ public partial class GuardChaseState : GuardState
 
         if (guard.NavAgent.IsNavigationFinished() || CanAttack(player))
         {
-            guard.SetVelocity(Vector2.Zero + guard.KnockbackVelocity);
+            guard.NavAgent.SetVelocity(Vector2.Zero);
             EmitSignal(SignalName.Finished, GuardStates.Attacking.ToString(), new Godot.Collections.Dictionary() { ["direction"] = direction });
         }
         else
         {
-            guard.SetVelocity((direction * GuardController.Speed) + guard.KnockbackVelocity);
-            guard.MoveAndSlide();
+            guard.NavAgent.SetVelocity(direction * GuardController.Speed);
         }
 
+        guard.Velocity = guard.KnockbackVelocity;
+        guard.MoveAndSlide();
         guard.HandleSpriteDirection(direction.Angle());
         guard.HandleWalkingAnimation(delta);
     }

@@ -8,10 +8,12 @@ public partial class TongueScript : Node2D
     Node2D rope;
     Node ropeStart;
     Node ropeEnd;
-
-    Node2D connectedTo;
     Area2D tongueEnd;
     Line2D tongueLine;
+    AudioStreamPlayer2DCustom tongueHitAudio;
+    AudioStreamPlayer2DCustom tongueStretchAudio;
+
+    Node2D connectedTo;
     const float maxTongueDistance = 64;
     const float minTongueDistance = 16;
     Vector2 tongueTarget;
@@ -30,6 +32,8 @@ public partial class TongueScript : Node2D
     {
         tongueEnd = GetNode<Area2D>("TongueEnd");
         tongueLine = GetNode<Line2D>("TongueLine");
+        tongueHitAudio = GetNode<AudioStreamPlayer2DCustom>("TongueHitAudio");
+        tongueStretchAudio = GetNode<AudioStreamPlayer2DCustom>("TongueStretchAudio");
 
         rope = GetNode<Node2D>("Rope");
         ropeEnd = rope.GetNode("RopeInteractionEnd");
@@ -39,6 +43,7 @@ public partial class TongueScript : Node2D
     private async Task AttachTongue(Node2D toNode)
     {
         connectedTo = toNode;
+        connectedTo.TreeExiting += DetatchTongue;
         rope.Set("rope_length", maxTongueDistance);
         rope.Set("max_endpoint_distance", maxTongueDistance);
         ropeEnd.Set("target_node", toNode);
@@ -51,6 +56,7 @@ public partial class TongueScript : Node2D
 
     private void DetatchTongue()
     {
+        connectedTo.TreeExiting -= DetatchTongue;
         connectedTo.GlobalPosition = connectedTo.GlobalPosition.Round();
         ropeEnd.Set("enable", false);
         ropeStart.Set("enable", false);
@@ -77,6 +83,8 @@ public partial class TongueScript : Node2D
                         isShooting = false;
                         tongueLength = GlobalPosition.DistanceTo(tongueEnd.GlobalPosition);
                         hitTarget = true;
+                        tongueHitAudio.Play();
+                        break;
                     }
                 }
 
@@ -115,7 +123,6 @@ public partial class TongueScript : Node2D
             if (tongueLength <= minTongueDistance)
             {
                 DetatchTongue();
-                GD.Print("nono");
                 isReturning = true;
             }
         }
@@ -145,6 +152,7 @@ public partial class TongueScript : Node2D
             tongueLine.Show();
             tongueEnd.GlobalPosition = GlobalPosition;
             isShooting = true;
+            tongueStretchAudio.Play();
         }
     }
 }

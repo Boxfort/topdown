@@ -1,8 +1,12 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class NoiseProducer : Area2D
 {
+    [Signal]
+    public delegate void NoiseMadeEventHandler();
+
     CircleShape2D collisionShape;
     const float noiseToRadiusFactor = 2;
 
@@ -11,21 +15,30 @@ public partial class NoiseProducer : Area2D
         collisionShape = (CircleShape2D)GetNode<CollisionShape2D>("CollisionShape2D").Shape;
     }
 
-    public void TriggerNoise(float amount)
+    public async Task TriggerNoise(float amount, Node fromNode)
     {
         collisionShape.Radius = amount * noiseToRadiusFactor;
 
-        var areas = GetOverlappingAreas();
+        // Wait two frames to update the collision shape
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
-        GD.Print("triggering noise");
+        var areas = GetOverlappingAreas();
 
         foreach (Area2D area in areas)
         {
             if (area is NoiseListener listener)
-            {
-                GD.Print("hit listener");
-                listener.HearNoise(GlobalPosition);
+            { 
+                GD.Print("LISTENER FOUND");
+
+                if(listener.Owner != fromNode)  {
+                    listener.HearNoise(GlobalPosition);
+                    GD.Print("WAS INVALID");
+                }
+
             }
         }
+
+        EmitSignal(SignalName.NoiseMade);
     }
 }
