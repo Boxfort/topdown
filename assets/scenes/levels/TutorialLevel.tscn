@@ -259,6 +259,9 @@ shader = ExtResource("2_e3iht")
 shader_parameter/mask_texture = SubResource("ViewportTexture_86t65")
 shader_parameter/over_mask_texture = SubResource("ViewportTexture_qv3c5")
 shader_parameter/under_mask_texture = SubResource("ViewportTexture_mf6b5")
+shader_parameter/camera_position = Vector2(0, 0)
+shader_parameter/fog_of_war_size = Vector2(0, 0)
+shader_parameter/window_size = Vector2(0, 0)
 shader_parameter/weighted = true
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_vpixm"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=120 format=4 uid="uid://iiy8nfvj47mb"]
+[gd_scene load_steps=122 format=4 uid="uid://iiy8nfvj47mb"]
 
 [ext_resource type="Script" uid="uid://coty7v6508bt3" path="res://assets/scripts/GameManager.cs" id="1_2hywx"]
 [ext_resource type="Shader" uid="uid://do4xjxk1wn3ii" path="res://assets/shaders/masked_texture.gdshader" id="2_ifppr"]
@@ -27,6 +27,7 @@
 [ext_resource type="Script" uid="uid://dh17ab0pukcha" path="res://assets/scenes/tilemapdestruction/TilemapDestructionHandler.cs" id="22_7vvlh"]
 [ext_resource type="Shader" uid="uid://by5hhxo8gymxv" path="res://assets/shaders/greyscale.gdshader" id="22_452q4"]
 [ext_resource type="Shader" uid="uid://brif7r0u7xj32" path="res://assets/shaders/fog_of_war.gdshader" id="22_lf64n"]
+[ext_resource type="Script" uid="uid://cbip46mck5cpe" path="res://assets/scenes/levels/FogOfWarViewport.cs" id="22_wljqp"]
 [ext_resource type="Script" uid="uid://dafnw2fokavhl" path="res://assets/scenes/levels/FogOfWarTexture.cs" id="23_0bk1i"]
 [ext_resource type="PackedScene" uid="uid://dysij4ljb531l" path="res://assets/scenes/props/Brazier/Brazier.tscn" id="23_1bjkc"]
 [ext_resource type="PackedScene" uid="uid://cw3jq6xrdjxp0" path="res://assets/scenes/player/Player.tscn" id="23_27t6w"]
@@ -52,6 +53,9 @@ viewport_path = NodePath("FogOfWarViewport")
 [sub_resource type="ViewportTexture" id="ViewportTexture_mtfno"]
 viewport_path = NodePath("UIViewport")
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_0bk1i"]
+viewport_path = NodePath("FogOfWarViewport")
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_86t65"]
 viewport_path = NodePath("VisiblityViewport")
 
@@ -67,6 +71,10 @@ shader = ExtResource("2_ifppr")
 shader_parameter/mask_texture = SubResource("ViewportTexture_86t65")
 shader_parameter/over_mask_texture = SubResource("ViewportTexture_qv3c5")
 shader_parameter/under_mask_texture = SubResource("ViewportTexture_mf6b5")
+shader_parameter/fog_of_war_texture = SubResource("ViewportTexture_0bk1i")
+shader_parameter/camera_position = Vector2(0, 0)
+shader_parameter/fog_of_war_size = Vector2(0, 0)
+shader_parameter/window_size = Vector2(0, 0)
 shader_parameter/weighted = true
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_vpixm"]
@@ -595,6 +603,7 @@ visibilityMapContainer = NodePath("VisiblityViewport/Map")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ViewportDebug" type="TextureRect" parent="CanvasLayer"]
+visible = false
 visibility_layer = 2
 z_index = 1
 material = SubResource("CanvasItemMaterial_2kdu2")
@@ -611,22 +620,24 @@ scale = Vector2(0.05, 0.05)
 texture = SubResource("ViewportTexture_va2h5")
 
 [node name="FogOfWarDebug" type="TextureRect" parent="CanvasLayer"]
+visible = false
 visibility_layer = 2
 z_index = 1
 material = SubResource("CanvasItemMaterial_2kdu2")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 738.0
-offset_top = 25.0
-offset_right = 2018.0
-offset_bottom = 745.0
+offset_left = 32.0001
+offset_top = 16.0
+offset_right = 308.0
+offset_bottom = 171.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.2, 0.2)
 texture = SubResource("ViewportTexture_ee886")
 
 [node name="FogOfWarDebug2" type="ColorRect" parent="CanvasLayer/FogOfWarDebug"]
+visible = false
 modulate = Color(1, 0, 1, 1)
 show_behind_parent = true
 visibility_layer = 2
@@ -649,7 +660,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("ViewportTexture_mtfno")
 
-[node name="CombinedView" type="TextureRect" parent="CanvasLayer" groups=["combined_view"]]
+[node name="CombinedView" type="TextureRect" parent="CanvasLayer" node_paths=PackedStringArray("playerCamera", "fogOfWarViewport") groups=["combined_view"]]
 visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_1ujod")
@@ -664,6 +675,8 @@ size_flags_vertical = 4
 mouse_filter = 2
 texture = SubResource("ViewportTexture_vpixm")
 script = ExtResource("3_p7crv")
+playerCamera = NodePath("../../SubViewportContainer/ActiveViewport/GameContainer/MainCamera")
+fogOfWarViewport = NodePath("../../FogOfWarViewport")
 desiredZoom = 3.0
 
 [node name="UIViewport" type="SubViewport" parent="."]
@@ -866,14 +879,16 @@ target = NodePath("../../SubViewportContainer/ActiveViewport/GameContainer/Playe
 
 [node name="DoorOccluders" type="Node2D" parent="VisiblityViewport"]
 
-[node name="FogOfWarViewport" type="SubViewport" parent="."]
+[node name="FogOfWarViewport" type="SubViewport" parent="." node_paths=PackedStringArray("staticTilemap")]
 transparent_bg = true
 canvas_item_default_texture_filter = 0
 size = Vector2i(1264, 384)
 render_target_clear_mode = 2
 render_target_update_mode = 4
+script = ExtResource("22_wljqp")
+staticTilemap = NodePath("../SubViewportContainer/ActiveViewport/GameContainer/Map/StaticTiles")
 
-[node name="ViewportDebug" type="TextureRect" parent="FogOfWarViewport" node_paths=PackedStringArray("visibilityViewport", "playerCamera")]
+[node name="FogOfWarMap" type="TextureRect" parent="FogOfWarViewport" node_paths=PackedStringArray("visibilityViewport", "playerCamera")]
 visibility_layer = 2
 z_index = 1
 material = SubResource("ShaderMaterial_0bk1i")
@@ -1127,7 +1142,7 @@ position = Vector2(446, 248)
 
 [node name="Player" parent="SubViewportContainer/ActiveViewport/GameContainer" instance=ExtResource("23_27t6w")]
 z_as_relative = false
-position = Vector2(8, 8)
+position = Vector2(520, 269)
 collision_layer = 4
 motion_mode = 1
 

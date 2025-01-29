@@ -4,6 +4,12 @@ using System;
 public partial class CombinedView : TextureRect
 {
     [Export]
+    Camera2D playerCamera;
+
+    [Export]
+    SubViewport fogOfWarViewport;
+
+    [Export]
     Vector2 designedResolution = new Vector2(1280, 720);
 
     [Export]
@@ -13,9 +19,12 @@ public partial class CombinedView : TextureRect
 
     public float DesiredZoom { get => desiredZoom; }
 
+    ShaderMaterial shader;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        shader = (ShaderMaterial)Material;
         Show();
         GetTree().Root.SizeChanged += OnWindowSizeChanged;
         OnWindowSizeChanged();
@@ -50,6 +59,10 @@ public partial class CombinedView : TextureRect
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
+        shader.SetShaderParameter("camera_position", playerCamera.GlobalPosition);
+        shader.SetShaderParameter("window_size", Size);
+        shader.SetShaderParameter("fog_of_war_size", fogOfWarViewport.Size);
+
         if (Input.IsActionJustPressed("zoom_in"))
         {
             if (desiredZoom <= 3)
