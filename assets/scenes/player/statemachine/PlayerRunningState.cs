@@ -104,9 +104,6 @@ public partial class PlayerRunningState : PlayerState
                 {
                     if (col.GetNormal().Dot(-direction) > 0.5)
                     {
-                        GD.Print(col.GetNormal());
-                        GD.Print(player.Velocity);
-                        GD.Print(col.GetNormal() * player.Velocity/2);
                         body.Velocity = col.GetNormal() * -player.Velocity.Abs()/2;
                         body.MoveAndSlide();
                         player.GlobalPosition += body.GetPositionDelta();

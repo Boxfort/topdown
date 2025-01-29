@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://br7wx7jnukgnj"]
+
+[ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="1_c1oe0"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_523xq"]
+cull_mode = 2
+polygon = PackedVector2Array(-8, 7, -8, -8, 6, -8, 6, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4buxb"]
+atlas = ExtResource("1_c1oe0")
+region = Rect2(64, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_523xq"]
+atlas = ExtResource("1_c1oe0")
+region = Rect2(96, 80, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4buxb"]
+size = Vector2(14.5, 10)
+
+[node name="Bookcase" type="StaticBody2D" groups=["nav_collision"]]
+collision_layer = 3
+collision_mask = 12
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="."]
+position = Vector2(1, 0)
+occluder = SubResource("OccluderPolygon2D_523xq")
+
+[node name="Shadow2" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.501961)
+position = Vector2(0, 6)
+texture = SubResource("AtlasTexture_4buxb")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+y_sort_enabled = true
+texture = SubResource("AtlasTexture_523xq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_4buxb")

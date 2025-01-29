@@ -16,6 +16,7 @@ public partial class GuardAlertState : GuardState
         guard.AlertAudio.Play();
         guard.ExclaimationMarkSprite.Show();
         guard.QuestionMarkSprite.Hide();
+        alertedTimer = 0;
         var direction = (Vector2)data["direction"];
         velocity = alertedInitialVelocity * direction;
         guard.SetVelocity(velocity);

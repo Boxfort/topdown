@@ -10,8 +10,13 @@ public partial class GuardChaseState : GuardState
         player.StoppedBeingDetectedBy(guard);
         guard.NavAgent.MaxSpeed = GuardController.Speed;
         guard.NavAgent.PathDesiredDistance = 1;
-        guard.NavAgent.TargetDesiredDistance = 1;
+        guard.NavAgent.TargetDesiredDistance = GuardController.AttackRange;
+        guard.NavAgent.TargetPosition = player.GlobalPosition;
+        playerLostTimer = 0;
     }
+
+    const float playerLostTime = 3.0f;
+    float playerLostTimer = 0;
 
     public override void Exit()
     {
@@ -28,18 +33,19 @@ public partial class GuardChaseState : GuardState
         // no-op
     }
 
+    // TODO: On hearing a noise when the player is lost, go to that point.
     public override void PhysicsProcess(double delta)
     {
         Vector2 direction = Vector2.Zero;
-
 
         direction = guard.GlobalPosition.DirectionTo(guard.NavAgent.GetNextPathPosition());
         guard.WeaponContainer.LookAt(guard.Position + direction);
         guard.WeaponContainer.Rotate(Mathf.DegToRad(180));
 
         // TODO: This should be done in a thread on a timer so we're not calculating navigation every step
-        if (guard.CanSeeNode(player))
+        if (guard.CanSeeNode(player, false))
         {
+            playerLostTimer = 0;
             guard.PlayerLastLocationMarker.Hide();
             guard.NavAgent.TargetPosition = player.GlobalPosition;
         }
@@ -53,15 +59,20 @@ public partial class GuardChaseState : GuardState
 
         if (guard.NavAgent.IsNavigationFinished())
         {
-            if (!guard.CanSeeNode(player))
+            if (!guard.CanSeeNode(player, false))
             {
-                guard.PlayerLastLocationMarker.Hide();
-                EmitSignal(SignalName.Finished, GuardStates.Patrol.ToString(), NO_DATA);
+                playerLostTimer += (float)delta;
+
+                if (playerLostTimer >= playerLostTime)
+                {
+                    guard.PlayerLastLocationMarker.Hide();
+                    EmitSignal(SignalName.Finished, GuardStates.Patrol.ToString(), NO_DATA);
+                }
             }
             else if (CanAttack(player))
             {
                 guard.NavAgent.SetVelocity(Vector2.Zero);
-                EmitSignal(SignalName.Finished, GuardStates.Attacking.ToString(), new Godot.Collections.Dictionary() { ["direction"] = direction });
+                EmitSignal(SignalName.Finished, GuardStates.Attacking.ToString(), new Godot.Collections.Dictionary() { ["direction"] = guard.GlobalPosition.DirectionTo(player.GlobalPosition) });
             }
         }
         else
@@ -77,6 +88,6 @@ public partial class GuardChaseState : GuardState
 
     private bool CanAttack(Node2D node)
     {
-        return guard.GlobalPosition.DistanceTo(node.GlobalPosition) < GuardController.AttackRange && guard.CanSeeNode(node);
+        return guard.GlobalPosition.DistanceTo(node.GlobalPosition) < GuardController.AttackRange;
     }
 }

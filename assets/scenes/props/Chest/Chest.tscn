@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://chty0jlbhbce"]
+
+[ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="1_16o81"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4buxb"]
+atlas = ExtResource("1_16o81")
+region = Rect2(64, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tf7kj"]
+atlas = ExtResource("1_16o81")
+region = Rect2(96, 96, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3eoru"]
+size = Vector2(11, 9)
+
+[node name="Chest" type="StaticBody2D" groups=["nav_collision"]]
+
+[node name="Shadow2" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.501961)
+position = Vector2(0, 6)
+texture = SubResource("AtlasTexture_4buxb")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+y_sort_enabled = true
+texture = SubResource("AtlasTexture_tf7kj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 2.5)
+shape = SubResource("RectangleShape2D_3eoru")

@@ -3,11 +3,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 public partial class GuardController : CharacterBody2D
 {
     [Export(PropertyHint.NodeType, "NpcPath")]
     NpcPath patrolPath;
+
+    [Export]
+    bool canSee = true;
+
+    [Export]
+    bool canHear = true;
 
     Sprite2D playerLastLocationMarker;
 
@@ -129,6 +136,8 @@ public partial class GuardController : CharacterBody2D
 
     private void OnNoiseHeard(Vector2 fromPosition)
     {
+        if (!canHear) return;
+
         if (
             stateMachine.CurrentState.Name != "Dead" &&
              stateMachine.CurrentState.Name != "KnockedOut" &&
@@ -193,24 +202,22 @@ public partial class GuardController : CharacterBody2D
     public const float jiggleSpeed = 20.0f;
     float deltaCount = 0;
 
-    public bool CanSeeNode(Node2D node)
+    public bool CanSeeNode(Node2D node, bool directional)
     {
+        if (!canSee) return false;
+
         if (GlobalPosition.DistanceTo(node.GlobalPosition) <= GuardController.DetectionRadius)
         {
             var lookDir = Vector2.Right.Rotated(lastLookAngle);
             var targetDir = GlobalPosition.DirectionTo(node.GlobalPosition);
 
-            if (lookDir.Dot(targetDir) < 0f) return false; // we're not facing the correct direction
+            if (directional && lookDir.Dot(targetDir) < 0f) return false; // we're not facing the correct direction
 
             var spaceState = GetViewport().GetWorld2D().DirectSpaceState;
-            var query = PhysicsRayQueryParameters2D.Create(GlobalPosition, node.GlobalPosition, 0b0000_0110);
+            var query = PhysicsRayQueryParameters2D.Create(GlobalPosition, node.GlobalPosition, 0b0000_0010);
             var result = spaceState.IntersectRay(query);
 
-            if (result.Count > 0)
-            {
-                Node2D collidedNode = (Node2D)result["collider"];
-                return collidedNode == node;
-            }
+            return result.Count == 0;
         }
 
         return false;
@@ -220,9 +227,8 @@ public partial class GuardController : CharacterBody2D
     {
         bool playerSeen = false;
 
-        if (CanSeeNode(player))
+        if (CanSeeNode(player, true))
         {
-
             if (GlobalPosition.DistanceTo(player.GlobalPosition) <= AutomaticDetectionRadius)
             {
                 currentDetection = 1;
@@ -303,11 +309,8 @@ public partial class GuardController : CharacterBody2D
     {
         deltaCount = (deltaCount + (float)(delta * jiggleSpeed)) % 100;
 
-        GD.Print("IN -> " + guardSprite.RotationDegrees);
-
         if (GetRealVelocity() != Vector2.Zero)
         {
-            GD.Print("do something");
             float spriteRotation = Mathf.Sin(deltaCount) * 10f;
             guardSprite.RotationDegrees = spriteRotation;
         }
@@ -315,7 +318,5 @@ public partial class GuardController : CharacterBody2D
         {
             guardSprite.RotationDegrees = Mathf.Lerp(guardSprite.RotationDegrees, 0, (float)delta * jiggleSpeed);
         }
-
-        GD.Print("OUT -> " + guardSprite.RotationDegrees);
     }
 }
