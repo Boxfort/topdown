@@ -25,11 +25,11 @@ public partial class GameManager : Node2D
 
     private void SetupLevel()
     {
-        TileMapLayer staticTiles = (TileMapLayer)currentLevel.staticTiles.Duplicate();
+        Node2D staticTiles = (Node2D)currentLevel.staticTilesContainer.Duplicate();
         TileMapLayer destructableTiles = (TileMapLayer)currentLevel.destructableTiles.Duplicate();
 
         unlitViewport.SetupViewport(currentLevel.mainCamera, staticTiles, destructableTiles);
-        visibilityViewport.SetupViewport(currentLevel.player, currentLevel.mainCamera, (TileMapLayer)staticTiles.Duplicate());
+        visibilityViewport.SetupViewport(currentLevel.player, currentLevel.mainCamera, (Node2D)staticTiles.Duplicate());
         fogOfWarViewport.SetupFogOfWarViewport(visibilityViewport, currentLevel.mainCamera);
 
         combinedView.SetupCombinedView(currentLevel.mainCamera, fogOfWarViewport);

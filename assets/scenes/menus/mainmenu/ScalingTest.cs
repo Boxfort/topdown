@@ -33,9 +33,9 @@ public partial class ScalingTest : TextureRect
             var newSize = Size;
             newSize.Y = windowSize.Y;
             newSize.X = newSize.Y * yRatio;
-            Size = newSize;
+            Size = newSize.Round();
             Position = Vector2.Zero;
-            Position = (windowSize/2) - (Size/2);
+            Position = ((windowSize/2) - (Size/2)).Round();
         }
         else
         {
@@ -43,9 +43,9 @@ public partial class ScalingTest : TextureRect
             var newSize = Size;
             newSize.X = windowSize.X;
             newSize.Y = newSize.X * xRatio;
-            Size = newSize;
+            Size = newSize.Round();
             Position = Vector2.Zero;
-            Position = (windowSize/2)- (Size/2);
+            Position = ((windowSize/2)- (Size/2)).Round();
         }
     }
 

@@ -28,17 +28,17 @@ public partial class FootstepAudio : AudioStreamPlayer2DCustom
 
     float brickFootstepNoiseValue = 30;
 
-    TileMapLayer staticTiles;
+    TileMapLayer floorTiles;
 
     public override void _Ready()
     {
-        staticTiles = (TileMapLayer)GetTree().GetFirstNodeInGroup("static_tiles");
+        floorTiles = (TileMapLayer)GetTree().GetFirstNodeInGroup("floor_tiles");
     }
 
     public float PlayFootstep(float noiseFactor = 1)
     {
-        Vector2I tileCoord = staticTiles.LocalToMap(staticTiles.ToLocal(GlobalPosition + (Vector2.Down * 6)));
-        TileData tileData = staticTiles.GetCellTileData(tileCoord);
+        Vector2I tileCoord = floorTiles.LocalToMap(floorTiles.ToLocal(GlobalPosition + (Vector2.Down * 6)));
+        TileData tileData = floorTiles.GetCellTileData(tileCoord);
 
         string footstepType = "grass";
 

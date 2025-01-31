@@ -3,5 +3,9 @@
 [ext_resource type="FontFile" uid="uid://c1ymecm4o27k" path="res://assets/fonts/LanaPixel.ttf" id="1_by5hd"]
 
 [resource]
+default_font_size = 11
+Label/colors/font_color = Color(0.121569, 0.0627451, 0.164706, 1)
 Label/font_sizes/font_size = 22
 Label/fonts/font = ExtResource("1_by5hd")
+LabelDisabled/base_type = &"Label"
+LabelDisabled/colors/font_color = Color(0.431534, 0.323198, 0.40933, 1)

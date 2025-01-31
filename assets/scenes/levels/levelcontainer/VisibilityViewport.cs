@@ -24,10 +24,10 @@ public partial class VisibilityViewport : SubViewport
         doorOccludersContainer = GetNode<Node2D>("DoorOccluders");
     }
 
-    public void SetupViewport(PlayerController player, Camera2D mainCamera, TileMapLayer staticTilesCopy)
+    public void SetupViewport(PlayerController player, Camera2D mainCamera, Node2D staticTilesContainerCopy)
     {
         visibilityLight.target = player;
         visibilityCamera.mainCamera = mainCamera;
-        MapContainer.AddChild(staticTilesCopy);
+        MapContainer.AddChild(staticTilesContainerCopy);
     }
 }

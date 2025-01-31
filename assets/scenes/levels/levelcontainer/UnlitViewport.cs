@@ -15,10 +15,10 @@ public partial class UnlitViewport : SubViewport
         mapContainer = GetNode<Node2D>("Map");
     }
 
-    public void SetupViewport(Camera2D mainCamera, TileMapLayer staticTilesCopy, TileMapLayer destructibleTilesCopy)
+    public void SetupViewport(Camera2D mainCamera, Node2D staticTilesContainerCopy, TileMapLayer destructibleTilesCopy)
     {
         UnlitCamera.mainCamera = mainCamera;
-        MapContainer.AddChild(staticTilesCopy);
+        MapContainer.AddChild(staticTilesContainerCopy);
         MapContainer.AddChild(destructibleTilesCopy);
     }
 }

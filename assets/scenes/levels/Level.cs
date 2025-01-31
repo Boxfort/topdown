@@ -3,8 +3,8 @@ using System;
 
 public partial class Level : Node2D
 {
-    [Export(PropertyHint.NodeType, "TileMapLayer")]
-    public TileMapLayer staticTiles;
+    [Export(PropertyHint.NodeType, "Node2D")]
+    public Node2D staticTilesContainer;
 
     [Export(PropertyHint.NodeType, "TileMapLayer")]
     public TileMapLayer destructableTiles;

@@ -52,6 +52,7 @@ position = Vector2(0, 1)
 texture = SubResource("AtlasTexture_452q4")
 
 [node name="PointLight2D" type="PointLight2D" parent="." groups=["player_light"]]
+blend_mode = 2
 shadow_enabled = true
 texture = ExtResource("2_qb1gy")
 

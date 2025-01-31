@@ -1,0 +1,315 @@
+[gd_scene load_steps=10 format=3 uid="uid://tp4gid7x24sr"]
+
+[ext_resource type="Texture2D" uid="uid://blfmcqy38qk1o" path="res://assets/scenes/menus/mainmenu/Book.png" id="1_kqnon"]
+[ext_resource type="Theme" uid="uid://bepkvtd152dn8" path="res://assets/themes/UITheme.tres" id="2_00vu5"]
+[ext_resource type="FontFile" uid="uid://bu5yjrtspc05b" path="res://assets/fonts/FantasyWarrior-Regular.ttf" id="3_1dgta"]
+[ext_resource type="FontFile" uid="uid://c1ymecm4o27k" path="res://assets/fonts/LanaPixel.ttf" id="4_7uw5t"]
+[ext_resource type="Script" uid="uid://xt27ixko7cxu" path="res://assets/scenes/menus/mainmenu/MenuEntry.cs" id="5_00vu5"]
+[ext_resource type="Script" uid="uid://8bbqnni17far" path="res://assets/scenes/menus/mainmenu/MenuList.cs" id="5_1dgta"]
+[ext_resource type="Texture2D" uid="uid://bplt1r5404q1k" path="res://assets/scenes/menus/mainmenu/sprites/flag_arrow_right.png" id="6_00vu5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hg3f4"]
+bg_color = Color(0.94902, 0.682353, 0.6, 1)
+expand_margin_left = 8.0
+expand_margin_right = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4iai"]
+bg_color = Color(0.94902, 0.682353, 0.6, 1)
+expand_margin_left = 8.0
+expand_margin_right = 8.0
+
+[node name="UI" type="Control"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Book" type="TextureRect" parent="."]
+texture_filter = 1
+custom_minimum_size = Vector2(640, 360)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -269.5
+offset_top = -159.5
+offset_right = 269.5
+offset_bottom = 159.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_kqnon")
+expand_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Left Page" type="Control" parent="Book"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="UntitledSneakyFrogGame" type="Label" parent="Book/Left Page"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 48.545
+offset_top = 15.0
+offset_right = 240.545
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_00vu5")
+theme_override_colors/font_color = Color(0.121569, 0.0627451, 0.164706, 1)
+theme_override_fonts/font = ExtResource("3_1dgta")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_hg3f4")
+text = "Untitled
+Sneaky
+ Frog 
+Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VersionLabel" type="Label" parent="Book/Left Page"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 132.0
+offset_top = 293.815
+offset_right = 156.0
+offset_bottom = 305.815
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_00vu5")
+theme_override_colors/font_color = Color(0.121569, 0.0627451, 0.164706, 1)
+theme_override_fonts/font = ExtResource("4_7uw5t")
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_l4iai")
+text = "v0.0.1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Right Page" type="Control" parent="Book"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Title" type="Label" parent="Book/Right Page"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 408.545
+offset_top = 13.0
+offset_right = 504.545
+offset_bottom = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_00vu5")
+theme_override_colors/font_color = Color(0.121569, 0.0627451, 0.164706, 1)
+theme_override_fonts/font = ExtResource("3_1dgta")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_hg3f4")
+text = "Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Content" type="Control" parent="Book/Right Page"]
+anchors_preset = 0
+offset_left = 362.0
+offset_top = 65.0
+offset_right = 589.0
+offset_bottom = 306.0
+
+[node name="MenuList" type="VBoxContainer" parent="Book/Right Page/Content"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -65.5
+offset_bottom = 65.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_1dgta")
+
+[node name="MenuEntry" type="HBoxContainer" parent="Book/Right Page/Content/MenuList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+script = ExtResource("5_00vu5")
+isEnabled = false
+identifier = "CONTINUE"
+
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry"]
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("6_00vu5")
+
+[node name="Label" type="Label" parent="Book/Right Page/Content/MenuList/MenuEntry"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_00vu5")
+text = "Continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry"]
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("6_00vu5")
+flip_h = true
+
+[node name="MenuEntry2" type="HBoxContainer" parent="Book/Right Page/Content/MenuList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+script = ExtResource("5_00vu5")
+identifier = "NEW_GAME"
+
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("6_00vu5")
+
+[node name="Label" type="Label" parent="Book/Right Page/Content/MenuList/MenuEntry2"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_00vu5")
+text = "New Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("6_00vu5")
+flip_h = true
+
+[node name="MenuEntry6" type="HBoxContainer" parent="Book/Right Page/Content/MenuList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+script = ExtResource("5_00vu5")
+identifier = "LEVEL_SELECT"
+
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry6"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("6_00vu5")
+
+[node name="Label" type="Label" parent="Book/Right Page/Content/MenuList/MenuEntry6"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_00vu5")
+text = "Level Select"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry6"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("6_00vu5")
+flip_h = true
+
+[node name="MenuEntry3" type="HBoxContainer" parent="Book/Right Page/Content/MenuList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+script = ExtResource("5_00vu5")
+isEnabled = false
+identifier = "SETTINGS"
+
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry3"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("6_00vu5")
+
+[node name="Label" type="Label" parent="Book/Right Page/Content/MenuList/MenuEntry3"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_00vu5")
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry3"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("6_00vu5")
+flip_h = true
+
+[node name="MenuEntry4" type="HBoxContainer" parent="Book/Right Page/Content/MenuList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+script = ExtResource("5_00vu5")
+isEnabled = false
+identifier = "CREDITS"
+
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry4"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("6_00vu5")
+
+[node name="Label" type="Label" parent="Book/Right Page/Content/MenuList/MenuEntry4"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_00vu5")
+text = "Credits"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry4"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("6_00vu5")
+flip_h = true
+
+[node name="MenuEntry5" type="HBoxContainer" parent="Book/Right Page/Content/MenuList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+script = ExtResource("5_00vu5")
+identifier = "EXIT"
+
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry5"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("6_00vu5")
+
+[node name="Label" type="Label" parent="Book/Right Page/Content/MenuList/MenuEntry5"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_00vu5")
+text = "Exit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry5"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("6_00vu5")
+flip_h = true
