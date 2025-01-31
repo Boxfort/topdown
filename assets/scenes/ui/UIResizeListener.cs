@@ -6,7 +6,7 @@ public partial class UIResizeListener : Node
     [Export]
     Vector2 designedResolution = new Vector2(1280, 720);
 
-    public float currentFactor = 1;
+    public Vector2 currentFactor = new(1,1);
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -20,9 +20,9 @@ public partial class UIResizeListener : Node
         SubViewport viewport = GetParent<SubViewport>();
         Vector2I windowSize = GetTree().Root.GetWindow().Size;
 
-        currentFactor = designedResolution.Y / windowSize.Y;
+        currentFactor = new (designedResolution.X / windowSize.X, designedResolution.Y / windowSize.Y);
 
-        viewport.Size = (Vector2I)((Vector2)windowSize * currentFactor);
+        viewport.Size = (Vector2I)((Vector2)windowSize * currentFactor.Y);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

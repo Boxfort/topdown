@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bepkvtd152dn8"]
+
+[ext_resource type="FontFile" uid="uid://c1ymecm4o27k" path="res://assets/fonts/LanaPixel.ttf" id="1_by5hd"]
+
+[resource]
+Label/font_sizes/font_size = 22
+Label/fonts/font = ExtResource("1_by5hd")

@@ -1,0 +1,152 @@
+[gd_scene load_steps=15 format=3 uid="uid://d36oj7b8ci50u"]
+
+[ext_resource type="Theme" uid="uid://bepkvtd152dn8" path="res://assets/themes/UITheme.tres" id="1_4x6eg"]
+[ext_resource type="Script" uid="uid://knish3bjr2jj" path="res://assets/scenes/menus/mainmenu/ScalingTest.cs" id="1_ddsn0"]
+[ext_resource type="Shader" uid="uid://bk6ehod5bnpu4" path="res://assets/shaders/dither/color_reduction_dithering.gdshader" id="1_wlt6m"]
+[ext_resource type="Texture2D" uid="uid://dbms6u46mx4kq" path="res://mulfok32-1x.png" id="2_xt5yb"]
+[ext_resource type="Shader" uid="uid://o1qd8s1so1ki" path="res://assets/shaders/fog.gdshader" id="3_kehkn"]
+[ext_resource type="Texture2D" uid="uid://blfmcqy38qk1o" path="res://assets/scenes/menus/mainmenu/Book.png" id="4_ddsn0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_45st3"]
+shader = ExtResource("1_wlt6m")
+shader_parameter/quantize_size = 5.0
+shader_parameter/handle_scale = false
+shader_parameter/handle_subpixels = false
+shader_parameter/dither_enabled = true
+shader_parameter/bayer_pattern = 1.0
+shader_parameter/divisions = 2.0
+shader_parameter/contrast = 1.0
+shader_parameter/shift = 0.0
+shader_parameter/grayscale = false
+shader_parameter/use_palette = true
+shader_parameter/palette = ExtResource("2_xt5yb")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_45st3"]
+viewport_path = NodePath("BackgroundViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xt5yb"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_47ege"]
+viewport_path = NodePath("BookViewport")
+
+[sub_resource type="Gradient" id="Gradient_wlt6m"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xt5yb"]
+frequency = 0.0015
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_45st3"]
+width = 640
+height = 320
+generate_mipmaps = false
+seamless = true
+seamless_blend_skirt = 0.15
+color_ramp = SubResource("Gradient_wlt6m")
+noise = SubResource("FastNoiseLite_xt5yb")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uvrst"]
+shader = ExtResource("3_kehkn")
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_45st3")
+shader_parameter/density = 0.686
+shader_parameter/speed = Vector2(0.02, 0.01)
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Background" type="TextureRect" parent="CanvasLayer"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_45st3")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("ViewportTexture_45st3")
+stretch_mode = 1
+
+[node name="Book" type="TextureRect" parent="CanvasLayer"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_xt5yb")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 323.0
+offset_top = 187.0
+offset_right = -317.0
+offset_bottom = -173.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("ViewportTexture_47ege")
+expand_mode = 1
+script = ExtResource("1_ddsn0")
+
+[node name="BackgroundViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(640, 360)
+
+[node name="ResizeListener" type="Node" parent="BackgroundViewport"]
+
+[node name="ColorRect" type="ColorRect" parent="BackgroundViewport"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_uvrst")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.482353, 0.329412, 0.501961, 1)
+
+[node name="BookViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(640, 360)
+
+[node name="UI" type="Control" parent="BookViewport"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control4" type="TextureRect" parent="BookViewport/UI"]
+top_level = true
+custom_minimum_size = Vector2(540, 320)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -170.0
+offset_right = 270.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ddsn0")
+expand_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="BookViewport/UI/Control4"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -138.81
+offset_right = -54.0
+offset_bottom = -115.81
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_4x6eg")
+theme_override_colors/font_color = Color(0.121569, 0.0627451, 0.164706, 1)
+text = "Sneaky Frog Game"
+horizontal_alignment = 1
+vertical_alignment = 1

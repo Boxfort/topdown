@@ -48,6 +48,7 @@ public partial class GuardChaseState : GuardState
             playerLostTimer = 0;
             guard.PlayerLastLocationMarker.Hide();
             guard.NavAgent.TargetPosition = player.GlobalPosition;
+            guard.NavAgent.TargetDesiredDistance = GuardController.AttackRange;
         }
         else
         {
@@ -55,6 +56,7 @@ public partial class GuardChaseState : GuardState
             guard.PlayerLastLocationMarker.Show();
             guard.PlayerLastLocationMarker.GlobalPosition = guard.NavAgent.TargetPosition;
             guard.NavAgent.TargetPosition = guard.PlayerLastLocationMarker.GlobalPosition;
+            guard.NavAgent.TargetDesiredDistance = 1;
         }
 
         if (guard.NavAgent.IsNavigationFinished())

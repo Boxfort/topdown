@@ -3,11 +3,9 @@ using System;
 
 public partial class CombinedView : TextureRect
 {
-    [Export]
-    Camera2D playerCamera;
+    public Camera2D playerCamera;
 
-    [Export]
-    SubViewport fogOfWarViewport;
+    public FogOfWarViewport fogOfWarViewport;
 
     [Export]
     Vector2 designedResolution = new Vector2(1280, 720);
@@ -28,6 +26,12 @@ public partial class CombinedView : TextureRect
         Show();
         GetTree().Root.SizeChanged += OnWindowSizeChanged;
         OnWindowSizeChanged();
+    }
+
+    public void SetupCombinedView(Camera2D mainCamera, FogOfWarViewport fogOfWarViewport)
+    {
+        this.playerCamera = mainCamera;
+        this.fogOfWarViewport = fogOfWarViewport;
     }
 
     public Vector2 GetGameWorldMousePosition(Viewport fromViewport)
@@ -51,7 +55,6 @@ public partial class CombinedView : TextureRect
 
     private void SetDesiredZoom(float zoom)
     {
-        desiredZoom = zoom;
         Vector2 newScale = Vector2.One * desiredZoom * (1 / currentFactor);
         Scale = new Vector2(Mathf.Max(1, newScale.X), Mathf.Max(1, newScale.Y));
     }
@@ -65,6 +68,7 @@ public partial class CombinedView : TextureRect
 
         if (Input.IsActionJustPressed("zoom_in"))
         {
+            GD.Print("zoomy");
             if (desiredZoom <= 3)
             {
                 desiredZoom += 1;

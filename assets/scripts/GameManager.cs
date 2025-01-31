@@ -3,23 +3,36 @@ using System;
 
 public partial class GameManager : Node2D
 {
-    [Export(PropertyHint.NodeType, "SubViewport")]
-    ActiveViewport activeViewport;
+    [Export(PropertyHint.NodeType)]
+    Level currentLevel;
 
-    [Export(PropertyHint.NodeType, "Node2D")]
-    Node2D unlitMapContainer;
+    FogOfWarViewport fogOfWarViewport;
+    VisibilityViewport visibilityViewport;
+    UnlitViewport unlitViewport;
+    CombinedView combinedView;
 
-    [Export(PropertyHint.NodeType, "Node2D")]
-    Node2D visibilityMapContainer;
+    // TODO: HUD setup
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        var staticTiles = activeViewport.staticTiles.Duplicate();
-        var destructableTiles = activeViewport.destructableTiles.Duplicate();
-        unlitMapContainer.AddChild(staticTiles);
-        visibilityMapContainer.AddChild(staticTiles.Duplicate());
-        unlitMapContainer.AddChild(destructableTiles);
+        fogOfWarViewport = GetNode<FogOfWarViewport>("FogOfWarViewport");
+        visibilityViewport = GetNode<VisibilityViewport>("VisibilityViewport");
+        unlitViewport = GetNode<UnlitViewport>("UnlitViewport");
+        combinedView = GetNode<CombinedView>("CanvasLayer/CombinedView");
+        SetupLevel();
+    }
+
+    private void SetupLevel()
+    {
+        TileMapLayer staticTiles = (TileMapLayer)currentLevel.staticTiles.Duplicate();
+        TileMapLayer destructableTiles = (TileMapLayer)currentLevel.destructableTiles.Duplicate();
+
+        unlitViewport.SetupViewport(currentLevel.mainCamera, staticTiles, destructableTiles);
+        visibilityViewport.SetupViewport(currentLevel.player, currentLevel.mainCamera, (TileMapLayer)staticTiles.Duplicate());
+        fogOfWarViewport.SetupFogOfWarViewport(visibilityViewport, currentLevel.mainCamera);
+
+        combinedView.SetupCombinedView(currentLevel.mainCamera, fogOfWarViewport);
     }
 
     public override void _Input(InputEvent @event)

@@ -28,7 +28,9 @@ public partial class TilemapDestructionHandler : Node2D
     NavigationRegion2D navigationRegion;
 
     const float wallsLayer = 2.0f;
-    Vector2I cellSize = new(8, 8);
+    Vector2I cellSize = new(16, 16);
+
+    public Node2D MainOccludersContainer { get => mainOccludersContainer; set => mainOccludersContainer = value; }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Threading.Tasks;
 
 public partial class GuardController : CharacterBody2D
 {
@@ -83,7 +84,7 @@ public partial class GuardController : CharacterBody2D
         navAgent.VelocityComputed += OnVelocityComputed;
     }
 
-    
+
     bool wasStuck = false;
 
     private void OnVelocityComputed(Vector2 safeVelocity)
@@ -99,7 +100,7 @@ public partial class GuardController : CharacterBody2D
             Velocity = safeVelocity;
             MoveAndSlide();
 
-            var isStuck = GetRealVelocity().Abs() < requestedVelocity/7.5f && requestedVelocity > Vector2.Zero;
+            var isStuck = GetRealVelocity().Abs() < requestedVelocity / 7.5f && requestedVelocity > Vector2.Zero;
 
             // We need to check both as at the end of a patch we can sometimes hit a single frame of 0 safe velocity
             if (isStuck && wasStuck)
@@ -136,24 +137,33 @@ public partial class GuardController : CharacterBody2D
 
     private void OnNoiseHeard(Vector2 fromPosition)
     {
-        if (!canHear) return;
-
-        if (
-            stateMachine.CurrentState.Name != "Dead" &&
-             stateMachine.CurrentState.Name != "KnockedOut" &&
-             stateMachine.CurrentState.Name != "Chase" &&
-             stateMachine.CurrentState.Name != "Alert" &&
-             stateMachine.CurrentState.Name != "Attacking"
-             )
+        Task.Run(async () =>
         {
-            stateMachine.ForceStateSwitch(GuardState.GuardStates.Investigating.ToString(),
-                new Godot.Collections.Dictionary()
-                {
-                    ["investigation_position"] = fromPosition,
-                    ["initial_position"] = GlobalPosition
-                }
-            );
-        }
+            // Wait three frames before responding to the sound
+            // This is to stop the guard insta-turning and spotting the player if they swing at them.
+            // TODO: maybe set a timer after hearing a noise and then run that?
+            await ToSignal(GetTree().CreateTimer(0.25), Timer.SignalName.Timeout);
+
+            if (!canHear) return;
+
+            if (
+                    stateMachine.CurrentState.Name != "Dead" &&
+                     stateMachine.CurrentState.Name != "KnockedOut" &&
+                     stateMachine.CurrentState.Name != "Chase" &&
+                     stateMachine.CurrentState.Name != "Alert" &&
+                     stateMachine.CurrentState.Name != "Attacking"
+                     )
+            {
+
+                stateMachine.ForceStateSwitch(GuardState.GuardStates.Investigating.ToString(),
+                        new Godot.Collections.Dictionary()
+                        {
+                            ["investigation_position"] = fromPosition,
+                            ["initial_position"] = GlobalPosition
+                        }
+                    );
+            }
+        });
     }
 
     public override void _PhysicsProcess(double delta)

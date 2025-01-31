@@ -1,50 +1,53 @@
-[gd_scene load_steps=121 format=4 uid="uid://iiy8nfvj47mb"]
+[gd_scene load_steps=124 format=4 uid="uid://mcdxqnv2bwyc"]
 
-[ext_resource type="Script" uid="uid://coty7v6508bt3" path="res://assets/scripts/GameManager.cs" id="1_2hywx"]
-[ext_resource type="Shader" uid="uid://do4xjxk1wn3ii" path="res://assets/shaders/masked_texture.gdshader" id="2_ifppr"]
-[ext_resource type="Script" uid="uid://btm42jcxe2ect" path="res://assets/scripts/CombinedView.cs" id="3_p7crv"]
-[ext_resource type="Script" uid="uid://b2160cv4fmtfr" path="res://assets/scenes/ui/UIResizeListener.cs" id="5_1bjkc"]
-[ext_resource type="Script" uid="uid://bi6m4eupsycyi" path="res://assets/scenes/ui/HUD.cs" id="6_d7j7w"]
-[ext_resource type="Script" uid="uid://d0a8tyyvax7e5" path="res://assets/scenes/ui/health/HealthContainer.cs" id="7_523xq"]
-[ext_resource type="Texture2D" uid="uid://crnliurwdt65m" path="res://assets/scenes/ui/health/heart.png" id="8_tf7kj"]
-[ext_resource type="Texture2D" uid="uid://csuvpyw52cdwl" path="res://assets/scenes/ui/health/heart_half.png" id="9_452q4"]
-[ext_resource type="Texture2D" uid="uid://c742yxx1a1127" path="res://assets/scenes/ui/health/heart_empty.png" id="10_2vr7j"]
-[ext_resource type="Script" uid="uid://6toiye3pyjqj" path="res://assets/scenes/ui/lightgem/LightGem.cs" id="11_3eoru"]
-[ext_resource type="Texture2D" uid="uid://c8kbxaya0ee0u" path="res://assets/scenes/ui/lightgem/light_gem-sheet.png" id="12_cnb6s"]
-[ext_resource type="FontFile" uid="uid://c1ymecm4o27k" path="res://assets/fonts/LanaPixel.ttf" id="13_m88fe"]
-[ext_resource type="Texture2D" uid="uid://q2rgop4hgwsn" path="res://assets/scenes/ui/staff_big.png" id="14_523xq"]
-[ext_resource type="Script" uid="uid://ccp0dxtvxvbc4" path="res://assets/scenes/ui/ViewportResizeListener.cs" id="14_d2wm2"]
-[ext_resource type="Script" uid="uid://bqo5w5l4e6btw" path="res://assets/scripts/DummyCamera.cs" id="15_0ob7c"]
-[ext_resource type="Texture2D" uid="uid://bec85fkisqhmu" path="res://assets/scenes/ui/soundmeter/sound_meter_sheet.png" id="15_cnb6s"]
-[ext_resource type="Script" uid="uid://bv7wdm26pxcq7" path="res://assets/scenes/ui/soundmeter/SoundMeter.cs" id="15_m88fe"]
-[ext_resource type="Shader" uid="uid://c0qs2ih3b1a4k" path="res://assets/shaders/full_white.gdshader" id="16_adyuk"]
-[ext_resource type="Texture2D" uid="uid://7tk0j3hec1t8" path="res://icon.svg" id="17_0d5lr"]
-[ext_resource type="Script" uid="uid://phc15f8q60w7" path="res://assets/scripts/FollowTarget.cs" id="18_17sjx"]
-[ext_resource type="Script" uid="uid://e505xjk2bpw0" path="res://assets/scripts/CameraController.cs" id="19_fbj2f"]
-[ext_resource type="Script" uid="uid://cebk08dvg8d0y" path="res://assets/scripts/CameraShaker.cs" id="20_3x3tk"]
-[ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="21_m86ii"]
-[ext_resource type="Script" uid="uid://dh17ab0pukcha" path="res://assets/scenes/tilemapdestruction/TilemapDestructionHandler.cs" id="22_7vvlh"]
-[ext_resource type="Shader" uid="uid://by5hhxo8gymxv" path="res://assets/shaders/greyscale.gdshader" id="22_452q4"]
-[ext_resource type="Shader" uid="uid://brif7r0u7xj32" path="res://assets/shaders/fog_of_war.gdshader" id="22_lf64n"]
-[ext_resource type="Script" uid="uid://cbip46mck5cpe" path="res://assets/scenes/levels/levelcontainer/FogOfWarViewport.cs" id="22_wljqp"]
-[ext_resource type="Script" uid="uid://dafnw2fokavhl" path="res://assets/scenes/levels/levelcontainer/FogOfWarTexture.cs" id="23_0bk1i"]
-[ext_resource type="PackedScene" uid="uid://dysij4ljb531l" path="res://assets/scenes/props/Brazier/Brazier.tscn" id="23_1bjkc"]
-[ext_resource type="PackedScene" uid="uid://cw3jq6xrdjxp0" path="res://assets/scenes/player/Player.tscn" id="23_27t6w"]
-[ext_resource type="PackedScene" uid="uid://ds0fhkjrapp1q" path="res://assets/scenes/guard/Guard.tscn" id="24_8kdx8"]
-[ext_resource type="PackedScene" uid="uid://3x308e2e0xjv" path="res://assets/scenes/door/Door.tscn" id="25_qple1"]
-[ext_resource type="PackedScene" uid="uid://dp8ji6763dpux" path="res://assets/scenes/props/Crate/Crate.tscn" id="26_2vr7j"]
-[ext_resource type="Script" uid="uid://c6382brn4kk2h" path="res://assets/scenes/paths/NpcPath.cs" id="26_4buxb"]
-[ext_resource type="Texture2D" uid="uid://b1dtal28llvxb" path="res://assets/scenes/light/SteppedLightGradient.tres" id="26_ifppr"]
-[ext_resource type="Script" uid="uid://c8k4b4p1uxqs8" path="res://assets/scenes/paths/PathNode.cs" id="27_1bjkc"]
-[ext_resource type="PackedScene" uid="uid://nord3d84p2um" path="res://assets/scenes/props/WallTorch/WallTorch.tscn" id="27_3eoru"]
-[ext_resource type="PackedScene" uid="uid://b56eeq3k2et7j" path="res://assets/scenes/props/Tree/Tree.tscn" id="29_3eoru"]
-[ext_resource type="Texture2D" uid="uid://dpydvg2cekgx1" path="res://assets/scenes/player/sprites/frog_man2.png" id="32_tf7kj"]
+[ext_resource type="Script" uid="uid://coty7v6508bt3" path="res://assets/scripts/GameManager.cs" id="1_eqbiu"]
+[ext_resource type="Shader" uid="uid://do4xjxk1wn3ii" path="res://assets/shaders/masked_texture.gdshader" id="2_dr8ss"]
+[ext_resource type="Script" uid="uid://btm42jcxe2ect" path="res://assets/scripts/CombinedView.cs" id="3_drcs7"]
+[ext_resource type="Script" uid="uid://b2160cv4fmtfr" path="res://assets/scenes/ui/UIResizeListener.cs" id="5_6776h"]
+[ext_resource type="Script" uid="uid://bi6m4eupsycyi" path="res://assets/scenes/ui/HUD.cs" id="6_q884d"]
+[ext_resource type="Texture2D" uid="uid://q2rgop4hgwsn" path="res://assets/scenes/ui/staff_big.png" id="7_rd8sv"]
+[ext_resource type="FontFile" uid="uid://c1ymecm4o27k" path="res://assets/fonts/LanaPixel.ttf" id="8_jov2i"]
+[ext_resource type="Script" uid="uid://d0a8tyyvax7e5" path="res://assets/scenes/ui/health/HealthContainer.cs" id="9_7mqb2"]
+[ext_resource type="Texture2D" uid="uid://crnliurwdt65m" path="res://assets/scenes/ui/health/heart.png" id="10_qw6ry"]
+[ext_resource type="Texture2D" uid="uid://csuvpyw52cdwl" path="res://assets/scenes/ui/health/heart_half.png" id="11_s1415"]
+[ext_resource type="Texture2D" uid="uid://c742yxx1a1127" path="res://assets/scenes/ui/health/heart_empty.png" id="12_x2rgg"]
+[ext_resource type="Script" uid="uid://6toiye3pyjqj" path="res://assets/scenes/ui/lightgem/LightGem.cs" id="13_s2bkr"]
+[ext_resource type="Texture2D" uid="uid://c8kbxaya0ee0u" path="res://assets/scenes/ui/lightgem/light_gem-sheet.png" id="14_bi5pe"]
+[ext_resource type="Script" uid="uid://bv7wdm26pxcq7" path="res://assets/scenes/ui/soundmeter/SoundMeter.cs" id="15_ikxly"]
+[ext_resource type="Script" uid="uid://b8ty0qqvlvgij" path="res://assets/scenes/levels/levelcontainer/UnlitViewport.cs" id="16_dr8ss"]
+[ext_resource type="Texture2D" uid="uid://bec85fkisqhmu" path="res://assets/scenes/ui/soundmeter/sound_meter_sheet.png" id="16_xdprm"]
+[ext_resource type="Script" uid="uid://ccp0dxtvxvbc4" path="res://assets/scenes/ui/ViewportResizeListener.cs" id="17_es1sy"]
+[ext_resource type="Script" uid="uid://bqo5w5l4e6btw" path="res://assets/scripts/DummyCamera.cs" id="18_bf5b8"]
+[ext_resource type="Script" uid="uid://datlnnx6oobwa" path="res://assets/scenes/levels/levelcontainer/VisibilityViewport.cs" id="19_drcs7"]
+[ext_resource type="Shader" uid="uid://c0qs2ih3b1a4k" path="res://assets/shaders/full_white.gdshader" id="19_f6apl"]
+[ext_resource type="Texture2D" uid="uid://7tk0j3hec1t8" path="res://icon.svg" id="20_pph3a"]
+[ext_resource type="Script" uid="uid://phc15f8q60w7" path="res://assets/scripts/FollowTarget.cs" id="21_l2ow3"]
+[ext_resource type="Script" uid="uid://cbip46mck5cpe" path="res://assets/scenes/levels/levelcontainer/FogOfWarViewport.cs" id="22_u2lnd"]
+[ext_resource type="Shader" uid="uid://brif7r0u7xj32" path="res://assets/shaders/fog_of_war.gdshader" id="23_5n63w"]
+[ext_resource type="Script" uid="uid://dafnw2fokavhl" path="res://assets/scenes/levels/levelcontainer/FogOfWarTexture.cs" id="24_petex"]
+[ext_resource type="Script" uid="uid://dutqas6auvwhe" path="res://assets/scenes/levels/Level.cs" id="25_yn4h1"]
+[ext_resource type="Script" uid="uid://e505xjk2bpw0" path="res://assets/scripts/CameraController.cs" id="26_c0rcp"]
+[ext_resource type="Script" uid="uid://cebk08dvg8d0y" path="res://assets/scripts/CameraShaker.cs" id="27_cx0n5"]
+[ext_resource type="Shader" uid="uid://by5hhxo8gymxv" path="res://assets/shaders/greyscale.gdshader" id="28_2cxy7"]
+[ext_resource type="Texture2D" uid="uid://dpydvg2cekgx1" path="res://assets/scenes/player/sprites/frog_man2.png" id="29_17kf2"]
+[ext_resource type="Texture2D" uid="uid://c8lolbcl80n5m" path="res://assets/sprites/16x16.png" id="30_b5fej"]
+[ext_resource type="Script" uid="uid://dh17ab0pukcha" path="res://assets/scenes/tilemapdestruction/TilemapDestructionHandler.cs" id="31_xwun7"]
+[ext_resource type="PackedScene" uid="uid://dp8ji6763dpux" path="res://assets/scenes/props/Crate/Crate.tscn" id="32_31d58"]
+[ext_resource type="PackedScene" uid="uid://nord3d84p2um" path="res://assets/scenes/props/WallTorch/WallTorch.tscn" id="33_ytq8g"]
+[ext_resource type="PackedScene" uid="uid://dysij4ljb531l" path="res://assets/scenes/props/Brazier/Brazier.tscn" id="34_ae7vm"]
+[ext_resource type="PackedScene" uid="uid://b56eeq3k2et7j" path="res://assets/scenes/props/Tree/Tree.tscn" id="35_4t6jf"]
+[ext_resource type="PackedScene" uid="uid://cw3jq6xrdjxp0" path="res://assets/scenes/player/Player.tscn" id="36_ljdke"]
+[ext_resource type="Texture2D" uid="uid://b1dtal28llvxb" path="res://assets/scenes/light/SteppedLightGradient.tres" id="37_es8bl"]
+[ext_resource type="PackedScene" uid="uid://ds0fhkjrapp1q" path="res://assets/scenes/guard/Guard.tscn" id="38_01lfp"]
+[ext_resource type="Script" uid="uid://c6382brn4kk2h" path="res://assets/scenes/paths/NpcPath.cs" id="39_g5tu5"]
+[ext_resource type="Script" uid="uid://c8k4b4p1uxqs8" path="res://assets/scenes/paths/PathNode.cs" id="40_rutfd"]
+[ext_resource type="PackedScene" uid="uid://3x308e2e0xjv" path="res://assets/scenes/door/Door.tscn" id="41_phreu"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2kdu2"]
 light_mode = 1
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_va2h5"]
-viewport_path = NodePath("VisiblityViewport")
+viewport_path = NodePath("VisibilityViewport")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ee886"]
 viewport_path = NodePath("FogOfWarViewport")
@@ -56,7 +59,7 @@ viewport_path = NodePath("UIViewport")
 viewport_path = NodePath("FogOfWarViewport")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_86t65"]
-viewport_path = NodePath("VisiblityViewport")
+viewport_path = NodePath("VisibilityViewport")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_qv3c5"]
 viewport_path = NodePath("SubViewportContainer/ActiveViewport")
@@ -66,7 +69,7 @@ viewport_path = NodePath("UnlitViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1ujod"]
 resource_local_to_scene = true
-shader = ExtResource("2_ifppr")
+shader = ExtResource("2_dr8ss")
 shader_parameter/mask_texture = SubResource("ViewportTexture_86t65")
 shader_parameter/over_mask_texture = SubResource("ViewportTexture_qv3c5")
 shader_parameter/under_mask_texture = SubResource("ViewportTexture_mf6b5")
@@ -80,27 +83,27 @@ shader_parameter/weighted = false
 viewport_path = NodePath("SubViewportContainer/ActiveViewport")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ia04w"]
-atlas = ExtResource("12_cnb6s")
+atlas = ExtResource("14_bi5pe")
 region = Rect2(0, 0, 64, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i1exu"]
-atlas = ExtResource("12_cnb6s")
+atlas = ExtResource("14_bi5pe")
 region = Rect2(64, 0, 64, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dhw4p"]
-atlas = ExtResource("12_cnb6s")
+atlas = ExtResource("14_bi5pe")
 region = Rect2(128, 0, 64, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ubqk8"]
-atlas = ExtResource("12_cnb6s")
+atlas = ExtResource("14_bi5pe")
 region = Rect2(192, 0, 64, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4vyn3"]
-atlas = ExtResource("12_cnb6s")
+atlas = ExtResource("14_bi5pe")
 region = Rect2(256, 0, 64, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hubus"]
-atlas = ExtResource("12_cnb6s")
+atlas = ExtResource("14_bi5pe")
 region = Rect2(320, 0, 64, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8g2jj"]
@@ -130,119 +133,119 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m88fe"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(0, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d2wm2"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(64, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ob7c"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(128, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_adyuk"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(192, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0d5lr"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(256, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_17sjx"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(320, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fbj2f"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(384, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3x3tk"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(448, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m86ii"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(512, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7vvlh"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(576, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_27t6w"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(640, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8kdx8"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(704, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qple1"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(768, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_338q0"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(832, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aexxd"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(896, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vpsk1"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(960, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r7dlg"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1024, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_83xsm"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1088, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bj11t"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1152, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fs4g6"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1216, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pixmg"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1280, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yq7a4"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1344, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e3ptd"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1408, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6pu65"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1472, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s6gwg"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1536, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xn0a6"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1600, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6lgde"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1664, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dqqtc"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1728, 0, 64, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hcesq"]
-atlas = ExtResource("15_cnb6s")
+atlas = ExtResource("16_xdprm")
 region = Rect2(1792, 0, 64, 6)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4hy7o"]
@@ -341,7 +344,7 @@ animations = [{
 }]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pfnab"]
-shader = ExtResource("16_adyuk")
+shader = ExtResource("19_f6apl")
 
 [sub_resource type="Gradient" id="Gradient_q6bvd"]
 interpolation_mode = 1
@@ -357,7 +360,7 @@ fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0bk1i"]
 resource_local_to_scene = true
-shader = ExtResource("22_lf64n")
+shader = ExtResource("23_5n63w")
 shader_parameter/mask_texture = SubResource("ViewportTexture_va2h5")
 shader_parameter/mask_position = null
 shader_parameter/mask_size = null
@@ -371,7 +374,7 @@ source_geometry_group_name = &"nav_collision"
 agent_radius = 7.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2vr7j"]
-shader = ExtResource("22_452q4")
+shader = ExtResource("28_2cxy7")
 shader_parameter/weighted = true
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_71oqi"]
@@ -420,7 +423,7 @@ polygon = PackedVector2Array(-8, 2, -2, 2, -2, 8, 2, 8, 2, 2, 8, 2, 8, -2, 2, -2
 polygon = PackedVector2Array(-2, -8, -2, -2, -8, -2, -8, 2, -2, 2, -2, 8, 2, 8, 2, 2, 8, 2, 8, -2, 2, -2, 2, -8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_65id4"]
-texture = ExtResource("21_m86ii")
+texture = ExtResource("30_b5fej")
 1:0/0 = 0
 1:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_fjio1")
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -8, 8, 8, 8, 8, -8)
@@ -553,32 +556,32 @@ custom_data_layer_0/type = 4
 sources/0 = SubResource("TileSetAtlasSource_65id4")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4buxb"]
-atlas = ExtResource("21_m86ii")
+atlas = ExtResource("30_b5fej")
 region = Rect2(64, 96, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2hywx"]
-atlas = ExtResource("21_m86ii")
+atlas = ExtResource("30_b5fej")
 region = Rect2(48, 80, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4buxb"]
 size = Vector2(14.5, 10)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tf7kj"]
-atlas = ExtResource("21_m86ii")
+atlas = ExtResource("30_b5fej")
 region = Rect2(96, 96, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3eoru"]
 size = Vector2(11, 9)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1bjkc"]
-atlas = ExtResource("21_m86ii")
+atlas = ExtResource("30_b5fej")
 region = Rect2(48, 96, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ifppr"]
 size = Vector2(11, 9)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ifppr"]
-atlas = ExtResource("21_m86ii")
+atlas = ExtResource("30_b5fej")
 region = Rect2(64, 80, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2vr7j"]
@@ -589,12 +592,13 @@ cull_mode = 2
 polygon = PackedVector2Array(-8, 7, -8, -8, 6, -8, 6, 7)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_523xq"]
-atlas = ExtResource("21_m86ii")
+atlas = ExtResource("30_b5fej")
 region = Rect2(96, 80, 16, 16)
 
-[node name="GameContainer" type="Node2D"]
+[node name="GameContainer" type="Node2D" node_paths=PackedStringArray("currentLevel")]
 texture_filter = 1
-script = ExtResource("1_2hywx")
+script = ExtResource("1_eqbiu")
+currentLevel = NodePath("SubViewportContainer/ActiveViewport/Level")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -655,6 +659,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("ViewportTexture_mtfno")
+expand_mode = 1
 
 [node name="CombinedView" type="TextureRect" parent="CanvasLayer" groups=["combined_view"]]
 visible = false
@@ -670,7 +675,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 texture = SubResource("ViewportTexture_vpixm")
-script = ExtResource("3_p7crv")
+script = ExtResource("3_drcs7")
 desiredZoom = 3.0
 
 [node name="UIViewport" type="SubViewport" parent="."]
@@ -679,7 +684,7 @@ canvas_item_default_texture_filter = 0
 size = Vector2i(640, 360)
 
 [node name="ResizeListener" type="Node" parent="UIViewport"]
-script = ExtResource("5_1bjkc")
+script = ExtResource("5_6776h")
 designedResolution = Vector2(640, 360)
 
 [node name="UI" type="Control" parent="UIViewport"]
@@ -697,7 +702,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("6_d7j7w")
+script = ExtResource("6_q884d")
 
 [node name="Weapon" type="Control" parent="UIViewport/UI/HUD"]
 layout_mode = 1
@@ -719,7 +724,7 @@ offset_right = 64.0
 offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("14_523xq")
+texture = ExtResource("7_rd8sv")
 
 [node name="Ammo" type="Label" parent="UIViewport/UI/HUD/Weapon"]
 layout_mode = 1
@@ -733,7 +738,7 @@ offset_top = -17.0
 offset_right = -5.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("13_m88fe")
+theme_override_fonts/font = ExtResource("8_jov2i")
 theme_override_font_sizes/font_size = 11
 text = "∞"
 
@@ -747,10 +752,10 @@ offset_left = 32.0
 offset_top = -32.0
 offset_right = 98.0
 grow_vertical = 0
-script = ExtResource("7_523xq")
-fullHeart = ExtResource("8_tf7kj")
-halfHeart = ExtResource("9_452q4")
-emptyHeart = ExtResource("10_2vr7j")
+script = ExtResource("9_7mqb2")
+fullHeart = ExtResource("10_qw6ry")
+halfHeart = ExtResource("11_s1415")
+emptyHeart = ExtResource("12_x2rgg")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UIViewport/UI/HUD/Health"]
 layout_mode = 2
@@ -760,17 +765,17 @@ theme_override_constants/separation = -15
 
 [node name="Heart1" type="TextureRect" parent="UIViewport/UI/HUD/Health/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("8_tf7kj")
+texture = ExtResource("10_qw6ry")
 stretch_mode = 2
 
 [node name="Heart2" type="TextureRect" parent="UIViewport/UI/HUD/Health/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("8_tf7kj")
+texture = ExtResource("10_qw6ry")
 stretch_mode = 2
 
 [node name="Heart3" type="TextureRect" parent="UIViewport/UI/HUD/Health/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("8_tf7kj")
+texture = ExtResource("10_qw6ry")
 stretch_mode = 2
 
 [node name="LightGem" type="Control" parent="UIViewport/UI/HUD"]
@@ -785,7 +790,7 @@ offset_top = -20.0
 offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 0
-script = ExtResource("11_3eoru")
+script = ExtResource("13_s2bkr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UIViewport/UI/HUD/LightGem"]
 sprite_frames = SubResource("SpriteFrames_8g2jj")
@@ -798,7 +803,7 @@ offset_right = 31.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("13_m88fe")
+theme_override_fonts/font = ExtResource("8_jov2i")
 theme_override_font_sizes/font_size = 16
 text = "1234"
 horizontal_alignment = 1
@@ -815,7 +820,7 @@ offset_top = -36.19
 offset_bottom = -12.19
 grow_horizontal = 2
 grow_vertical = 0
-script = ExtResource("15_m88fe")
+script = ExtResource("15_ikxly")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UIViewport/UI/HUD/SoundMeter"]
 sprite_frames = SubResource("SpriteFrames_4hy7o")
@@ -826,9 +831,10 @@ transparent_bg = true
 canvas_item_default_texture_filter = 0
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
+script = ExtResource("16_dr8ss")
 
 [node name="ResizeListener" type="Node" parent="UnlitViewport"]
-script = ExtResource("14_d2wm2")
+script = ExtResource("17_es1sy")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="UnlitViewport"]
 color = Color(0.156863, 0.156863, 0.156863, 1)
@@ -837,40 +843,41 @@ color = Color(0.156863, 0.156863, 0.156863, 1)
 
 [node name="UnlitCamera" type="Camera2D" parent="UnlitViewport" node_paths=PackedStringArray("mainCamera")]
 zoom = Vector2(4, 4)
-script = ExtResource("15_0ob7c")
-mainCamera = NodePath("../../SubViewportContainer/ActiveViewport/GameContainer/MainCamera")
+script = ExtResource("18_bf5b8")
+mainCamera = NodePath("../../SubViewportContainer/ActiveViewport/Level/MainCamera")
 
-[node name="VisiblityViewport" type="SubViewport" parent="."]
+[node name="VisibilityViewport" type="SubViewport" parent="."]
 transparent_bg = true
 canvas_item_default_texture_filter = 0
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
+script = ExtResource("19_drcs7")
 
-[node name="ResizeListener" type="Node" parent="VisiblityViewport"]
-script = ExtResource("14_d2wm2")
+[node name="ResizeListener" type="Node" parent="VisibilityViewport"]
+script = ExtResource("17_es1sy")
 
-[node name="Map" type="Node2D" parent="VisiblityViewport"]
+[node name="Map" type="Node2D" parent="VisibilityViewport"]
 
-[node name="VisibilityCamera" type="Camera2D" parent="VisiblityViewport" node_paths=PackedStringArray("mainCamera")]
-script = ExtResource("15_0ob7c")
-mainCamera = NodePath("../../SubViewportContainer/ActiveViewport/GameContainer/MainCamera")
+[node name="VisibilityCamera" type="Camera2D" parent="VisibilityViewport" node_paths=PackedStringArray("mainCamera")]
+script = ExtResource("18_bf5b8")
+mainCamera = NodePath("../../SubViewportContainer/ActiveViewport/Level/MainCamera")
 
-[node name="Quad" type="Sprite2D" parent="VisiblityViewport/VisibilityCamera"]
+[node name="Quad" type="Sprite2D" parent="VisibilityViewport/VisibilityCamera"]
 material = SubResource("ShaderMaterial_pfnab")
 scale = Vector2(100, 100)
-texture = ExtResource("17_0d5lr")
+texture = ExtResource("20_pph3a")
 
-[node name="Occluders" type="Node2D" parent="VisiblityViewport"]
+[node name="Occluders" type="Node2D" parent="VisibilityViewport"]
 
-[node name="VisiblityLight" type="PointLight2D" parent="VisiblityViewport" node_paths=PackedStringArray("target")]
+[node name="VisibilityLight" type="PointLight2D" parent="VisibilityViewport" node_paths=PackedStringArray("target")]
 position = Vector2(266.74, 150)
 blend_mode = 1
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_6x8qp")
-script = ExtResource("18_17sjx")
-target = NodePath("../../SubViewportContainer/ActiveViewport/GameContainer/Player")
+script = ExtResource("21_l2ow3")
+target = NodePath("../../SubViewportContainer/ActiveViewport/Level/Player")
 
-[node name="DoorOccluders" type="Node2D" parent="VisiblityViewport"]
+[node name="DoorOccluders" type="Node2D" parent="VisibilityViewport"]
 
 [node name="FogOfWarViewport" type="SubViewport" parent="."]
 transparent_bg = true
@@ -878,7 +885,7 @@ canvas_item_default_texture_filter = 0
 size = Vector2i(1264, 384)
 render_target_clear_mode = 2
 render_target_update_mode = 4
-script = ExtResource("22_wljqp")
+script = ExtResource("22_u2lnd")
 
 [node name="FogOfWarMap" type="TextureRect" parent="FogOfWarViewport"]
 visibility_layer = 2
@@ -894,7 +901,7 @@ size_flags_vertical = 4
 texture = SubResource("ViewportTexture_va2h5")
 expand_mode = 1
 stretch_mode = 2
-script = ExtResource("23_0bk1i")
+script = ExtResource("24_petex")
 metadata/_edit_use_anchors_ = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
@@ -910,315 +917,321 @@ size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
 [node name="ResizeListener" type="Node" parent="SubViewportContainer/ActiveViewport"]
-script = ExtResource("14_d2wm2")
+script = ExtResource("17_es1sy")
 
-[node name="GameContainer" type="Node2D" parent="SubViewportContainer/ActiveViewport"]
+[node name="Level" type="Node2D" parent="SubViewportContainer/ActiveViewport" node_paths=PackedStringArray("staticTiles", "destructableTiles", "mainCamera", "player", "tilemapDestructionHandler")]
 y_sort_enabled = true
+script = ExtResource("25_yn4h1")
+staticTiles = NodePath("Map/StaticTiles")
+destructableTiles = NodePath("Map/TileDestructionHandler/DestructionMask/DestructibleTiles")
+mainCamera = NodePath("MainCamera")
+player = NodePath("Player")
+tilemapDestructionHandler = NodePath("Map/TileDestructionHandler")
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="SubViewportContainer/ActiveViewport/GameContainer"]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="SubViewportContainer/ActiveViewport/Level"]
 navigation_polygon = SubResource("NavigationPolygon_hjh4f")
 
-[node name="CanvasModulate" type="CanvasModulate" parent="SubViewportContainer/ActiveViewport/GameContainer"]
+[node name="CanvasModulate" type="CanvasModulate" parent="SubViewportContainer/ActiveViewport/Level"]
 color = Color(0.188235, 0.188235, 0.188235, 1)
 
-[node name="MainCamera" type="Camera2D" parent="SubViewportContainer/ActiveViewport/GameContainer" node_paths=PackedStringArray("cameraTarget", "combinedView")]
-script = ExtResource("19_fbj2f")
+[node name="MainCamera" type="Camera2D" parent="SubViewportContainer/ActiveViewport/Level" node_paths=PackedStringArray("cameraTarget", "combinedView")]
+script = ExtResource("26_c0rcp")
 cameraTarget = NodePath("../Player")
 combinedView = NodePath("../../../../CanvasLayer/CombinedView")
 
-[node name="CameraShaker" type="Node2D" parent="SubViewportContainer/ActiveViewport/GameContainer/MainCamera" groups=["camera_shaker"]]
-script = ExtResource("20_3x3tk")
+[node name="CameraShaker" type="Node2D" parent="SubViewportContainer/ActiveViewport/Level/MainCamera" groups=["camera_shaker"]]
+script = ExtResource("27_cx0n5")
 
-[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer"]
+[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level"]
 modulate = Color(1, 1, 1, 0.501961)
 z_index = 1
 material = SubResource("ShaderMaterial_2vr7j")
 position = Vector2(889, 269)
-texture = ExtResource("32_tf7kj")
+texture = ExtResource("29_17kf2")
 
-[node name="Map" type="Node2D" parent="SubViewportContainer/ActiveViewport/GameContainer"]
+[node name="Map" type="Node2D" parent="SubViewportContainer/ActiveViewport/Level"]
 
-[node name="OccludersContainer" type="Node2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Map"]
+[node name="OccludersContainer" type="Node2D" parent="SubViewportContainer/ActiveViewport/Level/Map"]
 
-[node name="StaticTiles" type="TileMapLayer" parent="SubViewportContainer/ActiveViewport/GameContainer/Map" groups=["nav_collision", "static_tiles"]]
+[node name="StaticTiles" type="TileMapLayer" parent="SubViewportContainer/ActiveViewport/Level/Map" groups=["nav_collision", "static_tiles"]]
 tile_map_data = PackedByteArray("AAAAAAAAAAAHAAEAAAAAAAEAAAAHAAEAAAAAAAIAAAAHAAEAAAAAAAMAAAAHAAEAAAAAAAQAAAAGAAEAAAAAAAUAAAAHAAEAAAAAAAYAAAAHAAEAAAAAAAcAAAAHAAEAAAAAAAgAAAAHAAEAAAAAAAkAAAAHAAEAAAAAAAoAAAAHAAEAAAAAAAsAAAAHAAEAAAAAAAwAAAAGAAEAAAAAAA0AAAAHAAEAAAAAAA4AAAAHAAEAAAAAAA8AAAAHAAEAAAAAABAAAAAHAAEAAAAAABEAAAAHAAEAAAAAABIAAAAHAAEAAAAAABMAAAAHAAEAAAAAABQAAAAHAAEAAAAAABUAAAAHAAEAAAAAABYAAAAHAAEAAAAAABcAAAAHAAEAAAABAAAAAAAHAAEAAAABAAEAAAAHAAEAAAABAAIAAAAGAAEAAAABAAMAAAAGAAEAAAABAAQAAAAHAAEAAAABAAUAAAAHAAEAAAABAAYAAAAHAAEAAAABAAcAAAAHAAEAAAABAAgAAAAHAAEAAAABAAkAAAAHAAEAAAABAAoAAAAHAAEAAAABAAsAAAAGAAEAAAABAAwAAAAHAAEAAAABAA0AAAAHAAEAAAABAA4AAAAHAAEAAAABAA8AAAAHAAEAAAABABAAAAAHAAEAAAABABEAAAAHAAEAAAABABIAAAAHAAEAAAABABMAAAAHAAEAAAABABQAAAAHAAEAAAABABUAAAAHAAEAAAABABYAAAAHAAEAAAABABcAAAAHAAEAAAACAAAAAAAHAAEAAAACAAEAAAAGAAEAAAACAAIAAAAHAAEAAAACAAMAAAAHAAEAAAACAAQAAAAHAAEAAAACAAUAAAAHAAEAAAACAAYAAAAHAAEAAAACAAcAAAAHAAEAAAACAAgAAAAHAAEAAAACAAkAAAAHAAEAAAACAAoAAAAHAAEAAAACAAsAAAAGAAEAAAACAAwAAAAHAAEAAAACAA0AAAAHAAEAAAACAA4AAAAHAAEAAAACAA8AAAAHAAEAAAACABAAAAAHAAEAAAACABEAAAAHAAEAAAACABIAAAAHAAEAAAACABMAAAAHAAEAAAACABQAAAAHAAEAAAACABUAAAAHAAEAAAACABYAAAAHAAEAAAACABcAAAAHAAEAAAADAAAAAAAHAAEAAAADAAEAAAAGAAEAAAADAAIAAAAHAAEAAAADAAMAAAAHAAEAAAADAAQAAAAHAAEAAAADAAUAAAAHAAEAAAADAAYAAAAHAAEAAAADAAcAAAAHAAEAAAADAAgAAAAHAAEAAAADAAkAAAAHAAEAAAADAAoAAAAGAAEAAAADAAsAAAAHAAEAAAADAAwAAAAHAAEAAAADAA0AAAAHAAEAAAADAA4AAAAHAAEAAAADAA8AAAAHAAEAAAADABAAAAAHAAEAAAADABEAAAAHAAIAAAADABIAAAAHAAEAAAADABMAAAAHAAEAAAADABQAAAAHAAEAAAADABUAAAAHAAEAAAADABYAAAAHAAEAAAADABcAAAAHAAEAAAAEAAAAAAAGAAEAAAAEAAEAAAAHAAEAAAAEAAIAAAAHAAEAAAAEAAMAAAAHAAEAAAAEAAQAAAAHAAEAAAAEAAUAAAAHAAEAAAAEAAYAAAAHAAEAAAAEAAcAAAAHAAEAAAAEAAgAAAAHAAEAAAAEAAkAAAAHAAEAAAAEAAoAAAAGAAEAAAAEAAsAAAAHAAEAAAAEAAwAAAAHAAEAAAAEAA0AAAAHAAEAAAAEAA4AAAAHAAEAAAAEAA8AAAAHAAEAAAAEABAAAAAHAAEAAAAEABEAAAAHAAIAAAAEABIAAAAHAAEAAAAEABMAAAAHAAEAAAAEABQAAAAHAAEAAAAEABUAAAAGAAIAAAAEABYAAAAHAAEAAAAEABcAAAAHAAEAAAAFAAAAAAAHAAEAAAAFAAEAAAAHAAEAAAAFAAIAAAAHAAEAAAAFAAMAAAAHAAEAAAAFAAQAAAAHAAEAAAAFAAUAAAAHAAEAAAAFAAYAAAAHAAEAAAAFAAcAAAAHAAEAAAAFAAgAAAAHAAEAAAAFAAkAAAAHAAEAAAAFAAoAAAAGAAEAAAAFAAsAAAAHAAEAAAAFAAwAAAAHAAEAAAAFAA0AAAAHAAEAAAAFAA4AAAAHAAEAAAAFAA8AAAAHAAEAAAAFABAAAAAHAAEAAAAFABEAAAAHAAIAAAAFABIAAAAHAAEAAAAFABMAAAAHAAEAAAAFABQAAAAGAAIAAAAFABUAAAAHAAEAAAAFABYAAAAHAAEAAAAFABcAAAAHAAEAAAAGAAAAAAAHAAEAAAAGAAEAAAAHAAEAAAAGAAIAAAAHAAEAAAAGAAMAAAAHAAEAAAAGAAQAAAAHAAAAAAAGAAUAAAAHAAAAAAAGAAYAAAAHAAAAAAAGAAcAAAAHAAAAAAAGAAgAAAAHAAAAAAAGAAkAAAAHAAAAAAAGAAoAAAAHAAAAAAAGAAsAAAAHAAAAAAAGAAwAAAAHAAAAAAAGAA0AAAAHAAAAAAAGAA4AAAAHAAAAAAAGAA8AAAAHAAEAAAAGABAAAAAHAAEAAAAGABEAAAAHAAIAAAAGABIAAAAHAAEAAAAGABMAAAAHAAEAAAAGABQAAAAHAAEAAAAGABUAAAAHAAEAAAAGABYAAAAHAAEAAAAGABcAAAAHAAEAAAAHAAAAAAAHAAEAAAAHAAEAAAAHAAEAAAAHAAIAAAAHAAEAAAAHAAMAAAAGAAIAAAAHAAQAAAAHAAAAAAAHAAUAAAAHAAEAAAAHAAYAAAAHAAEAAAAHAAcAAAAHAAEAAAAHAAgAAAAHAAEAAAAHAAkAAAAGAAEAAAAHAAoAAAAHAAEAAAAHAAsAAAAHAAEAAAAHAAwAAAAHAAEAAAAHAA0AAAAHAAEAAAAHAA4AAAAHAAAAAAAHAA8AAAAHAAEAAAAHABAAAAAHAAEAAAAHABEAAAAHAAIAAAAHABIAAAAHAAEAAAAHABMAAAAHAAEAAAAHABQAAAAHAAEAAAAHABUAAAAHAAEAAAAHABYAAAAHAAEAAAAHABcAAAAHAAEAAAAIAAAAAAAHAAEAAAAIAAEAAAAHAAEAAAAIAAIAAAAHAAEAAAAIAAMAAAAGAAIAAAAIAAQAAAAHAAAAAAAIAAUAAAAHAAEAAAAIAAYAAAAHAAEAAAAIAAcAAAAHAAEAAAAIAAgAAAAGAAEAAAAIAAkAAAAHAAEAAAAIAAoAAAAHAAEAAAAIAAsAAAAHAAEAAAAIAAwAAAAHAAEAAAAIAA0AAAAHAAEAAAAIAA4AAAAHAAAAAAAIAA8AAAAHAAEAAAAIABAAAAAHAAEAAAAIABEAAAAHAAIAAAAIABIAAAAHAAEAAAAIABMAAAAHAAEAAAAIABQAAAAHAAEAAAAIABUAAAAHAAEAAAAIABYAAAAHAAEAAAAIABcAAAAHAAEAAAAJAAAAAAAHAAEAAAAJAAEAAAAHAAEAAAAJAAIAAAAHAAEAAAAJAAMAAAAGAAIAAAAJAAQAAAAHAAAAAAAJAAUAAAAHAAEAAAAJAAYAAAAHAAEAAAAJAAcAAAAHAAEAAAAJAAgAAAAGAAEAAAAJAAkAAAAHAAEAAAAJAAoAAAAHAAEAAAAJAAsAAAAHAAEAAAAJAAwAAAAHAAEAAAAJAA0AAAAHAAEAAAAJAA4AAAAHAAAAAAAJAA8AAAAHAAEAAAAJABAAAAAHAAEAAAAJABEAAAAHAAIAAAAJABIAAAAHAAEAAAAJABMAAAAHAAEAAAAJABQAAAAGAAEAAAAJABUAAAAGAAEAAAAJABYAAAAGAAEAAAAJABcAAAAHAAEAAAAKAAAAAAAHAAEAAAAKAAEAAAAHAAEAAAAKAAIAAAAGAAIAAAAKAAMAAAAHAAEAAAAKAAQAAAAHAAAAAAAKAAUAAAAHAAEAAAAKAAYAAAAHAAEAAAAKAAcAAAAGAAEAAAAKAAgAAAAHAAEAAAAKAAkAAAAHAAEAAAAKAAoAAAAHAAIAAAAKAAsAAAAGAAIAAAAKAAwAAAAGAAIAAAAKAA0AAAAGAAIAAAAKAA4AAAAHAAAAAAAKAA8AAAAHAAEAAAAKABAAAAAHAAEAAAAKABEAAAAHAAEAAAAKABIAAAAGAAEAAAAKABMAAAAGAAEAAAAKABQAAAAHAAEAAAAKABUAAAAHAAEAAAAKABYAAAAGAAEAAAAKABcAAAAHAAEAAAALAAAAAAAHAAEAAAALAAEAAAAGAAIAAAALAAIAAAAHAAEAAAALAAMAAAAHAAEAAAALAAQAAAAHAAAAAAALAAUAAAAHAAEAAAALAAYAAAAGAAEAAAALAAcAAAAHAAEAAAALAAgAAAAHAAEAAAALAAkAAAAGAAIAAAALAAoAAAAHAAIAAAALAAsAAAAGAAIAAAALAAwAAAAHAAEAAAALAA0AAAAGAAIAAAALAA4AAAAHAAAAAAALAA8AAAAHAAEAAAALABAAAAAHAAEAAAALABEAAAAGAAEAAAALABIAAAAHAAEAAAALABMAAAAHAAEAAAALABQAAAAGAAIAAAALABUAAAAHAAEAAAALABYAAAAGAAEAAAALABcAAAAHAAEAAAAMAAAAAAAHAAEAAAAMAAEAAAAGAAIAAAAMAAIAAAAHAAEAAAAMAAMAAAAHAAEAAAAMAAQAAAAHAAAAAAAMAAUAAAAHAAEAAAAMAAYAAAAGAAEAAAAMAAcAAAAHAAEAAAAMAAgAAAAGAAIAAAAMAAkAAAAHAAEAAAAMAAoAAAAHAAIAAAAMAAsAAAAHAAEAAAAMAAwAAAAHAAEAAAAMAA0AAAAGAAIAAAAMAA4AAAAHAAAAAAAMAA8AAAAGAAEAAAAMABAAAAAGAAEAAAAMABEAAAAHAAEAAAAMABIAAAAHAAEAAAAMABMAAAAHAAEAAAAMABQAAAAGAAIAAAAMABUAAAAHAAEAAAAMABYAAAAGAAEAAAAMABcAAAAHAAEAAAANAAAAAAAHAAEAAAANAAEAAAAGAAIAAAANAAIAAAAHAAEAAAANAAMAAAAHAAEAAAANAAQAAAAHAAAAAAANAAUAAAAGAAEAAAANAAYAAAAHAAEAAAANAAcAAAAGAAIAAAANAAgAAAAHAAEAAAANAAkAAAAHAAEAAAANAAoAAAAHAAIAAAANAAsAAAAHAAEAAAANAAwAAAAHAAEAAAANAA0AAAAGAAIAAAANAA4AAAAHAAAAAAANAA8AAAAHAAAAAAANABAAAAAHAAAAAAANABEAAAAHAAAAAAANABIAAAAHAAAAAAANABMAAAAHAAAAAAANABQAAAAHAAAAAAANABUAAAAHAAAAAAANABYAAAAGAAEAAAANABcAAAAHAAEAAAAOAAAAAAAGAAIAAAAOAAEAAAAHAAEAAAAOAAIAAAAHAAEAAAAOAAMAAAAHAAEAAAAOAAQAAAAHAAAAAAAOAAUAAAAGAAIAAAAOAAYAAAAGAAIAAAAOAAcAAAAHAAEAAAAOAAgAAAAHAAEAAAAOAAkAAAAHAAEAAAAOAAoAAAAHAAIAAAAOAAsAAAAHAAEAAAAOAAwAAAAGAAEAAAAOAA0AAAAGAAIAAAAOAA4AAAAHAAEAAAAOAA8AAAAHAAEAAAAOABAAAAAHAAEAAAAOABEAAAAHAAEAAAAOABIAAAAHAAEAAAAOABMAAAAHAAEAAAAOABQAAAAHAAEAAAAOABUAAAAHAAAAAAAOABYAAAAHAAEAAAAOABcAAAAHAAEAAAAPAAAAAAAGAAIAAAAPAAEAAAAHAAEAAAAPAAIAAAAHAAEAAAAPAAMAAAAHAAEAAAAPAAQAAAAHAAAAAAAPAAUAAAAHAAEAAAAPAAYAAAAHAAEAAAAPAAcAAAAHAAEAAAAPAAgAAAAHAAEAAAAPAAkAAAAHAAEAAAAPAAoAAAAHAAIAAAAPAAsAAAAGAAEAAAAPAAwAAAAHAAEAAAAPAA0AAAAGAAIAAAAPAA4AAAAHAAEAAAAPAA8AAAAHAAEAAAAPABAAAAAHAAEAAAAPABEAAAAHAAEAAAAPABIAAAAHAAEAAAAPABMAAAAHAAEAAAAPABQAAAAHAAEAAAAPABUAAAAHAAAAAAAPABYAAAAHAAEAAAAPABcAAAAHAAEAAAAQAAAAAAAGAAIAAAAQAAEAAAAHAAEAAAAQAAIAAAAGAAIAAAAQAAMAAAAGAAIAAAAQAAQAAAAHAAAAAAAQAAUAAAAHAAEAAAAQAAYAAAAHAAEAAAAQAAcAAAAHAAEAAAAQAAgAAAAGAAEAAAAQAAkAAAAGAAEAAAAQAAoAAAAHAAIAAAAQAAsAAAAHAAEAAAAQAAwAAAAGAAIAAAAQAA0AAAAGAAIAAAAQAA4AAAAHAAEAAAAQAA8AAAAHAAEAAAAQABAAAAABAAIAAAAQABEAAAAGAAIAAAAQABIAAAAGAAIAAAAQABMAAAABAAAAAAAQABQAAAAGAAEAAAAQABUAAAAHAAAAAAAQABYAAAAHAAEAAAAQABcAAAAHAAEAAAARAAAAAAAGAAIAAAARAAEAAAAGAAIAAAARAAIAAAAHAAEAAAARAAMAAAAGAAEAAAARAAQAAAAHAAAAAAARAAUAAAAHAAEAAAARAAYAAAAHAAEAAAARAAcAAAAGAAEAAAARAAgAAAAHAAEAAAARAAkAAAAHAAEAAAARAAoAAAAHAAEAAAARAAsAAAAHAAEAAAARAAwAAAAGAAIAAAARAA0AAAAHAAEAAAARAA4AAAAHAAEAAAARAA8AAAAHAAEAAAARABAAAAABAAIAAAARABEAAAAGAAIAAAARABIAAAAGAAIAAAARABMAAAABAAAAAAARABQAAAAGAAEAAAARABUAAAAHAAAAAAARABYAAAAHAAEAAAARABcAAAAHAAEAAAASAAAAAAAHAAEAAAASAAEAAAAHAAIAAAASAAIAAAAHAAEAAAASAAMAAAAGAAEAAAASAAQAAAAHAAAAAAASAAUAAAAHAAEAAAASAAYAAAAGAAEAAAASAAcAAAAHAAEAAAASAAgAAAAHAAEAAAASAAkAAAAHAAEAAAASAAoAAAAHAAEAAAASAAsAAAAHAAEAAAASAAwAAAAGAAIAAAASAA0AAAAHAAEAAAASAA4AAAAHAAEAAAASAA8AAAAHAAEAAAASABAAAAABAAIAAAASABEAAAAGAAIAAAASABIAAAAGAAIAAAASABMAAAABAAAAAAASABQAAAAHAAEAAAASABUAAAAHAAAAAAASABYAAAAHAAEAAAASABcAAAAHAAEAAAATAAAAAAAHAAEAAAATAAEAAAAHAAIAAAATAAIAAAAGAAEAAAATAAMAAAAHAAEAAAATAAQAAAAHAAAAAAATAAUAAAAGAAEAAAATAAYAAAAHAAIAAAATAAcAAAAHAAEAAAATAAgAAAAHAAEAAAATAAkAAAAHAAEAAAATAAoAAAAHAAEAAAATAAsAAAAHAAEAAAATAAwAAAAGAAIAAAATAA0AAAAHAAEAAAATAA4AAAAHAAEAAAATAA8AAAAHAAEAAAATABAAAAABAAIAAAATABEAAAAGAAIAAAATABIAAAAGAAIAAAATABMAAAABAAAAAAATABQAAAAHAAEAAAATABUAAAAHAAAAAAATABYAAAAHAAEAAAATABcAAAAHAAEAAAAUAAAAAAAHAAEAAAAUAAEAAAAHAAIAAAAUAAIAAAAHAAEAAAAUAAMAAAAGAAEAAAAUAAQAAAAHAAAAAAAUAAUAAAAHAAEAAAAUAAYAAAAHAAIAAAAUAAcAAAAHAAEAAAAUAAgAAAAHAAEAAAAUAAkAAAAHAAEAAAAUAAoAAAAHAAEAAAAUAAsAAAAHAAEAAAAUAAwAAAAGAAIAAAAUAA0AAAAHAAEAAAAUAA4AAAAHAAEAAAAUAA8AAAAHAAEAAAAUABAAAAABAAIAAAAUABEAAAAGAAIAAAAUABIAAAAGAAIAAAAUABMAAAABAAAAAAAUABQAAAAHAAEAAAAUABUAAAAHAAAAAAAUABYAAAAHAAEAAAAUABcAAAAHAAEAAAAVAAAAAAAGAAEAAAAVAAEAAAAHAAIAAAAVAAIAAAAGAAEAAAAVAAMAAAAHAAEAAAAVAAQAAAAHAAAAAAAVAAUAAAAHAAEAAAAVAAYAAAAHAAIAAAAVAAcAAAAHAAIAAAAVAAgAAAAHAAIAAAAVAAkAAAAHAAIAAAAVAAoAAAAHAAIAAAAVAAsAAAAHAAIAAAAVAAwAAAAHAAIAAAAVAA0AAAAHAAEAAAAVAA4AAAAHAAEAAAAVAA8AAAAHAAEAAAAVABAAAAABAAIAAAAVABEAAAAGAAIAAAAVABIAAAAGAAIAAAAVABMAAAABAAAAAAAVABQAAAAHAAEAAAAVABUAAAAHAAAAAAAVABYAAAAHAAEAAAAVABcAAAAHAAEAAAAWAAAAAAAGAAEAAAAWAAEAAAAHAAIAAAAWAAIAAAAHAAEAAAAWAAMAAAAHAAEAAAAWAAQAAAAHAAAAAAAWAAUAAAAHAAEAAAAWAAYAAAAHAAEAAAAWAAcAAAAHAAEAAAAWAAgAAAAHAAEAAAAWAAkAAAAHAAEAAAAWAAoAAAAHAAEAAAAWAAsAAAAGAAIAAAAWAAwAAAAHAAIAAAAWAA0AAAAHAAEAAAAWAA4AAAAHAAEAAAAWAA8AAAAHAAEAAAAWABAAAAABAAIAAAAWABEAAAAGAAIAAAAWABIAAAAGAAIAAAAWABMAAAABAAAAAAAWABQAAAAHAAEAAAAWABUAAAAHAAAAAAAWABYAAAAHAAEAAAAWABcAAAAHAAEAAAAXAAAAAAAGAAEAAAAXAAEAAAAHAAIAAAAXAAIAAAAHAAEAAAAXAAMAAAAHAAEAAAAXAAQAAAAHAAAAAAAXAAUAAAAHAAEAAAAXAAYAAAAHAAEAAAAXAAcAAAAHAAEAAAAXAAgAAAAHAAEAAAAXAAkAAAAHAAEAAAAXAAoAAAAGAAIAAAAXAAsAAAAHAAEAAAAXAAwAAAAHAAIAAAAXAA0AAAAHAAEAAAAXAA4AAAAHAAEAAAAXAA8AAAAHAAEAAAAXABAAAAABAAIAAAAXABEAAAAGAAIAAAAXABIAAAAGAAIAAAAXABMAAAABAAAAAAAXABQAAAAHAAEAAAAXABUAAAAHAAAAAAAXABYAAAAHAAEAAAAXABcAAAAHAAEAAAAYAAAAAAAHAAEAAAAYAAEAAAAHAAEAAAAYAAIAAAAHAAEAAAAYAAMAAAAHAAEAAAAYAAQAAAAHAAAAAAAYAAUAAAAHAAEAAAAYAAYAAAAHAAEAAAAYAAcAAAAHAAEAAAAYAAgAAAAHAAEAAAAYAAkAAAAHAAEAAAAYAAoAAAAGAAIAAAAYAAsAAAAHAAEAAAAYAAwAAAAHAAIAAAAYAA0AAAAHAAEAAAAYAA4AAAAHAAEAAAAYAA8AAAAGAAEAAAAYABAAAAACAAAAAAAYABEAAAAAAAEAAAAYABIAAAAAAAEAAAAYABMAAAACAAIAAAAYABQAAAAHAAEAAAAYABUAAAAHAAAAAAAYABYAAAAHAAEAAAAYABcAAAAHAAEAAAAZAAAAAAAHAAEAAAAZAAEAAAAHAAEAAAAZAAIAAAAHAAEAAAAZAAMAAAAHAAEAAAAZAAQAAAAHAAAAAAAZAAUAAAAHAAAAAAAZAAYAAAAHAAEAAAAZAAcAAAAHAAEAAAAZAAgAAAAHAAEAAAAZAAkAAAAHAAEAAAAZAAoAAAAGAAIAAAAZAAsAAAAHAAEAAAAZAAwAAAAHAAIAAAAZAA0AAAAHAAEAAAAZAA4AAAAGAAEAAAAZAA8AAAAHAAEAAAAZABAAAAAHAAEAAAAZABEAAAAHAAEAAAAZABIAAAAHAAEAAAAZABMAAAAHAAEAAAAZABQAAAAHAAEAAAAZABUAAAAHAAAAAAAZABYAAAAHAAEAAAAZABcAAAAHAAEAAAAaAAAAAAAHAAEAAAAaAAEAAAAHAAEAAAAaAAIAAAAHAAEAAAAaAAMAAAAGAAIAAAAaAAQAAAAHAAAAAAAaAAUAAAAHAAAAAAAaAAYAAAAHAAAAAAAaAAcAAAAHAAAAAAAaAAgAAAAHAAAAAAAaAAkAAAAHAAAAAAAaAAoAAAAHAAAAAAAaAAsAAAAHAAAAAAAaAAwAAAAHAAAAAAAaAA0AAAAHAAAAAAAaAA4AAAAHAAAAAAAaAA8AAAAHAAAAAAAaABAAAAAHAAAAAAAaABEAAAAHAAAAAAAaABIAAAAHAAAAAAAaABMAAAAHAAAAAAAaABQAAAAHAAAAAAAaABUAAAAHAAAAAAAaABYAAAAHAAEAAAAaABcAAAAHAAEAAAAbAAAAAAAHAAEAAAAbAAEAAAAHAAEAAAAbAAIAAAAHAAEAAAAbAAMAAAAHAAEAAAAbAAQAAAAHAAEAAAAbAAUAAAAHAAEAAAAbAAYAAAAHAAEAAAAbAAcAAAAHAAEAAAAbAAgAAAAHAAEAAAAbAAkAAAAGAAIAAAAbAAoAAAAHAAEAAAAbAAsAAAAHAAEAAAAbAAwAAAAHAAIAAAAbAA0AAAAGAAIAAAAbAA4AAAAHAAAAAAAbAA8AAAAGAAIAAAAbABAAAAAGAAIAAAAbABEAAAAGAAIAAAAbABIAAAAGAAIAAAAbABQAAAAGAAIAAAAbABUAAAAGAAIAAAAbABYAAAAGAAIAAAAbABcAAAAGAAIAAAAcAAAAAAAHAAEAAAAcAAEAAAAHAAEAAAAcAAIAAAAHAAEAAAAcAAMAAAAHAAEAAAAcAAQAAAAHAAEAAAAcAAUAAAAHAAEAAAAcAAYAAAAHAAEAAAAcAAcAAAAHAAEAAAAcAAgAAAAGAAIAAAAcAAkAAAAHAAEAAAAcAAoAAAAHAAEAAAAcAAsAAAAGAAEAAAAcAAwAAAAHAAIAAAAcAA0AAAAGAAIAAAAcAA4AAAAHAAAAAAAcAA8AAAAGAAIAAAAcABAAAAAGAAIAAAAcABEAAAAGAAIAAAAcABIAAAAGAAIAAAAcABQAAAAHAAEAAAAcABUAAAAHAAEAAAAcABYAAAAHAAEAAAAcABcAAAAHAAEAAAAdAAAAAAAHAAEAAAAdAAEAAAAHAAEAAAAdAAIAAAAHAAEAAAAdAAMAAAAHAAEAAAAdAAQAAAAHAAEAAAAdAAUAAAAHAAEAAAAdAAYAAAAHAAEAAAAdAAcAAAAHAAEAAAAdAAgAAAAGAAIAAAAdAAkAAAAHAAEAAAAdAAoAAAAGAAEAAAAdAAsAAAAHAAEAAAAdAAwAAAAHAAIAAAAdAA0AAAAGAAIAAAAdAA4AAAAHAAAAAAAdAA8AAAAGAAIAAAAdABAAAAAGAAIAAAAdABEAAAAGAAIAAAAdABIAAAAGAAIAAAAdABMAAAAHAAEAAAAdABQAAAAHAAEAAAAdABUAAAAHAAEAAAAdABYAAAAHAAEAAAAdABcAAAAHAAEAAAAeAAAAAAAHAAEAAAAeAAEAAAAHAAEAAAAeAAIAAAAGAAIAAAAeAAMAAAAHAAEAAAAeAAQAAAAHAAEAAAAeAAUAAAAHAAEAAAAeAAYAAAAHAAEAAAAeAAcAAAAHAAEAAAAeAAgAAAAGAAIAAAAeAAkAAAAHAAEAAAAeAAoAAAAGAAEAAAAeAAsAAAAHAAEAAAAeAAwAAAAHAAIAAAAeAA0AAAAGAAIAAAAeAA4AAAAHAAAAAAAeABAAAAAGAAIAAAAeABEAAAAGAAIAAAAeABIAAAAGAAIAAAAeABMAAAAHAAEAAAAeABQAAAAHAAEAAAAeABUAAAAHAAEAAAAeABYAAAAHAAEAAAAeABcAAAAHAAEAAAAfAAAAAAAHAAEAAAAfAAEAAAAHAAEAAAAfAAIAAAAHAAEAAAAfAAMAAAAHAAEAAAAfAAQAAAAHAAEAAAAfAAUAAAAHAAEAAAAfAAYAAAAHAAEAAAAfAAcAAAAHAAIAAAAfAAgAAAAHAAIAAAAfAAkAAAAHAAIAAAAfAAoAAAAHAAIAAAAfAAsAAAAHAAIAAAAfAAwAAAAHAAIAAAAfAA0AAAAGAAIAAAAfAA4AAAAHAAAAAAAfAA8AAAAGAAIAAAAfABAAAAAGAAIAAAAfABEAAAAGAAIAAAAfABIAAAAGAAIAAAAfABMAAAAHAAEAAAAfABQAAAAHAAEAAAAfABUAAAAHAAEAAAAfABYAAAAHAAEAAAAfABcAAAAHAAEAAAAgAAAAAAAAAAMAAAAgAAEAAAAAAAQAAAAgAAIAAAAAAAMAAAAgAAMAAAAAAAQAAAAgAAQAAAAAAAMAAAAgAAUAAAAAAAQAAAAgAAYAAAAAAAMAAAAgAAcAAAAAAAQAAAAgAAgAAAAAAAMAAAAgAAkAAAAAAAQAAAAgAAoAAAAAAAMAAAAgAAsAAAAAAAMAAAAgAAwAAAAAAAQAAAAgAA0AAAAAAAMAAAAgAA4AAAAEAAQAAAAgAA8AAAAAAAMAAAAgABAAAAAAAAQAAAAgABEAAAAAAAMAAAAgABIAAAAAAAQAAAAgABMAAAAAAAMAAAAgABQAAAAAAAQAAAAgABUAAAAAAAMAAAAgABYAAAAAAAQAAAAgABcAAAAAAAMAAAAhAAAAAAABAAMAAAAhAAEAAAABAAQAAAAhAAIAAAABAAMAAAAhAAMAAAABAAQAAAAhAAQAAAABAAMAAAAhAAUAAAABAAQAAAAhAAYAAAABAAMAAAAhAAcAAAABAAQAAAAhAAgAAAABAAMAAAAhAAkAAAABAAQAAAAhAAoAAAACAAMAAAAhAAsAAAACAAQAAAAhAAwAAAABAAQAAAAhAA0AAAABAAMAAAAhAA4AAAAEAAQAAAAhAA8AAAABAAMAAAAhABAAAAABAAQAAAAhABEAAAABAAMAAAAhABIAAAABAAQAAAAhABMAAAABAAMAAAAhABQAAAABAAQAAAAhABUAAAABAAMAAAAhABYAAAACAAMAAAAhABcAAAACAAQAAAAiAAAAAAAAAAMAAAAiAAEAAAAAAAQAAAAiAAIAAAAAAAMAAAAiAAMAAAACAAMAAAAiAAQAAAACAAQAAAAiAAUAAAAAAAQAAAAiAAYAAAAAAAMAAAAiAAcAAAAAAAQAAAAiAAgAAAAAAAMAAAAiAAkAAAAAAAQAAAAiAAoAAAADAAMAAAAiAAsAAAADAAQAAAAiAAwAAAAAAAQAAAAiAA0AAAAAAAMAAAAiAA4AAAAEAAQAAAAiAA8AAAACAAMAAAAiABAAAAACAAQAAAAiABEAAAAAAAMAAAAiABIAAAACAAMAAAAiABMAAAACAAQAAAAiABQAAAAAAAQAAAAiABUAAAAAAAMAAAAiABYAAAADAAMAAAAiABcAAAADAAQAAAAjAAAAAAABAAMAAAAjAAEAAAABAAQAAAAjAAIAAAABAAMAAAAjAAMAAAADAAMAAAAjAAQAAAADAAQAAAAjAAUAAAABAAQAAAAjAAYAAAABAAMAAAAjAAcAAAABAAQAAAAjAAgAAAABAAMAAAAjAAkAAAABAAQAAAAjAAoAAAABAAMAAAAjAAsAAAACAAMAAAAjAAwAAAACAAQAAAAjAA0AAAABAAMAAAAjAA4AAAAEAAQAAAAjAA8AAAADAAMAAAAjABAAAAADAAQAAAAjABEAAAABAAMAAAAjABIAAAADAAMAAAAjABMAAAADAAQAAAAjABQAAAABAAQAAAAjABUAAAABAAMAAAAjABYAAAABAAQAAAAjABcAAAABAAMAAAAkAAAAAAAAAAMAAAAkAAEAAAAAAAQAAAAkAAIAAAAAAAMAAAAkAAMAAAAAAAQAAAAkAAQAAAAAAAMAAAAkAAUAAAAAAAQAAAAkAAYAAAAAAAMAAAAkAAcAAAAAAAQAAAAkAAgAAAAAAAMAAAAkAAkAAAAAAAQAAAAkAAoAAAAAAAMAAAAkAAsAAAADAAMAAAAkAAwAAAADAAQAAAAkAA0AAAAAAAMAAAAkAA4AAAAEAAQAAAAkAA8AAAAAAAMAAAAkABAAAAAAAAQAAAAkABEAAAAAAAMAAAAkABIAAAAAAAQAAAAkABMAAAAAAAMAAAAkABQAAAAAAAQAAAAkABUAAAAAAAMAAAAkABYAAAAAAAQAAAAkABcAAAAAAAMAAAAlAAAAAAABAAMAAAAlAAEAAAABAAQAAAAlAAIAAAABAAMAAAAlAAMAAAACAAMAAAAlAAQAAAACAAQAAAAlAAUAAAABAAQAAAAlAAYAAAABAAMAAAAlAAcAAAABAAQAAAAlAAgAAAABAAMAAAAlAAkAAAABAAQAAAAlAAoAAAABAAMAAAAlAAsAAAABAAMAAAAlAAwAAAABAAQAAAAlAA0AAAABAAMAAAAlAA4AAAAEAAQAAAAlAA8AAAABAAMAAAAlABAAAAACAAMAAAAlABEAAAACAAQAAAAlABIAAAABAAQAAAAlABMAAAABAAMAAAAlABQAAAABAAQAAAAlABUAAAABAAMAAAAlABYAAAABAAQAAAAlABcAAAABAAMAAAAmAAAAAAAAAAMAAAAmAAEAAAACAAMAAAAmAAIAAAACAAQAAAAmAAMAAAADAAMAAAAmAAQAAAADAAQAAAAmAAUAAAAAAAQAAAAmAAYAAAAAAAMAAAAmAAcAAAAAAAQAAAAmAAgAAAAAAAMAAAAmAAkAAAACAAMAAAAmAAoAAAACAAQAAAAmAAsAAAAAAAMAAAAmAAwAAAAAAAQAAAAmAA0AAAAAAAMAAAAmAA4AAAAEAAQAAAAmAA8AAAAAAAMAAAAmABAAAAADAAMAAAAmABEAAAADAAQAAAAmABIAAAAAAAQAAAAmABMAAAACAAMAAAAmABQAAAACAAQAAAAmABUAAAAAAAMAAAAmABYAAAAAAAQAAAAmABcAAAAAAAMAAAAnAAAAAAABAAMAAAAnAAEAAAADAAMAAAAnAAIAAAADAAQAAAAnAAMAAAABAAQAAAAnAAQAAAABAAMAAAAnAAUAAAABAAQAAAAnAAYAAAACAAMAAAAnAAcAAAACAAQAAAAnAAgAAAABAAMAAAAnAAkAAAADAAMAAAAnAAoAAAADAAQAAAAnAAsAAAAHAAIAAAAnAAwAAAAHAAIAAAAnAA0AAAAHAAIAAAAnAA4AAAAHAAIAAAAnAA8AAAAHAAIAAAAnABAAAAAHAAIAAAAnABEAAAAHAAIAAAAnABIAAAAAAAMAAAAnABMAAAADAAMAAAAnABQAAAADAAQAAAAnABUAAAAAAAQAAAAnABYAAAAAAAMAAAAnABcAAAAAAAQAAAAoAAAAAAAAAAMAAAAoAAEAAAAAAAQAAAAoAAIAAAAAAAMAAAAoAAMAAAAAAAQAAAAoAAQAAAAAAAMAAAAoAAUAAAAAAAQAAAAoAAYAAAADAAMAAAAoAAcAAAADAAQAAAAoAAgAAAAAAAMAAAAoAAkAAAAAAAQAAAAoAAoAAAAAAAMAAAAoAAsAAAAHAAIAAAAoAAwAAAAGAAEAAAAoAA0AAAAGAAEAAAAoAA4AAAAGAAAAAAAoAA8AAAAGAAEAAAAoABAAAAAGAAEAAAAoABEAAAAHAAIAAAAoABIAAAABAAMAAAAoABMAAAABAAQAAAAoABQAAAACAAMAAAAoABUAAAACAAQAAAAoABYAAAACAAMAAAAoABcAAAACAAQAAAApAAAAAAABAAMAAAApAAEAAAABAAQAAAApAAIAAAABAAMAAAApAAMAAAABAAQAAAApAAQAAAABAAMAAAApAAUAAAAAAAMAAAApAAYAAAAAAAQAAAApAAcAAAAAAAQAAAApAAgAAAABAAMAAAApAAkAAAABAAQAAAApAAoAAAABAAMAAAApAAsAAAAHAAIAAAApAAwAAAAGAAEAAAApAA0AAAAGAAEAAAApAA4AAAAGAAAAAAApAA8AAAAGAAEAAAApABAAAAAGAAEAAAApABEAAAAHAAIAAAApABIAAAAAAAMAAAApABMAAAAAAAQAAAApABQAAAADAAMAAAApABUAAAADAAQAAAApABYAAAADAAMAAAApABcAAAADAAQAAAAqAAAAAAAAAAMAAAAqAAEAAAAAAAQAAAAqAAIAAAAAAAMAAAAqAAMAAAAAAAQAAAAqAAQAAAAAAAMAAAAqAAUAAAABAAMAAAAqAAYAAAABAAQAAAAqAAcAAAABAAQAAAAqAAgAAAAAAAMAAAAqAAkAAAAAAAQAAAAqAAoAAAAAAAMAAAAqAAsAAAAHAAIAAAAqAAwAAAAGAAEAAAAqAA0AAAAGAAEAAAAqAA4AAAAGAAAAAAAqAA8AAAAGAAEAAAAqABAAAAAGAAEAAAAqABEAAAAHAAIAAAAqABIAAAABAAMAAAAqABMAAAABAAQAAAAqABQAAAABAAMAAAAqABUAAAABAAQAAAAqABYAAAABAAMAAAAqABcAAAABAAQAAAArAAAAAAAAAAMAAAArAAEAAAAAAAQAAAArAAIAAAAAAAQAAAArAAMAAAAAAAMAAAArAAQAAAAAAAQAAAArAAUAAAAAAAMAAAArAAYAAAAAAAQAAAArAAcAAAAHAAIAAAArAAgAAAAHAAIAAAArAAkAAAAHAAIAAAArAAoAAAAHAAIAAAArAAsAAAAHAAIAAAArAAwAAAAHAAIAAAArAA0AAAAHAAIAAAArAA4AAAAGAAAAAAArAA8AAAAHAAIAAAArABAAAAAHAAIAAAArABEAAAAHAAIAAAArABIAAAAHAAIAAAArABMAAAAHAAIAAAArABQAAAAHAAIAAAArABUAAAAHAAIAAAArABYAAAAAAAMAAAArABcAAAAAAAQAAAAsAAAAAAABAAMAAAAsAAEAAAAAAAMAAAAsAAIAAAAAAAQAAAAsAAMAAAAAAAMAAAAsAAQAAAAAAAQAAAAsAAUAAAABAAMAAAAsAAYAAAABAAQAAAAsAAcAAAAHAAIAAAAsAAgAAAAGAAEAAAAsAAkAAAAGAAEAAAAsAAoAAAAGAAEAAAAsAAsAAAAGAAEAAAAsAAwAAAAGAAEAAAAsAA0AAAAGAAEAAAAsAA4AAAAGAAAAAAAsAA8AAAAGAAEAAAAsABAAAAAGAAEAAAAsABEAAAAGAAEAAAAsABIAAAAGAAEAAAAsABMAAAAGAAEAAAAsABQAAAAGAAEAAAAsABUAAAAHAAIAAAAsABYAAAABAAMAAAAsABcAAAABAAQAAAAtAAAAAAAAAAMAAAAtAAEAAAABAAMAAAAtAAIAAAACAAMAAAAtAAMAAAACAAQAAAAtAAQAAAABAAQAAAAtAAUAAAAAAAMAAAAtAAYAAAAAAAQAAAAtAAcAAAAHAAIAAAAtAAgAAAAGAAEAAAAtAAkAAAAGAAAAAAAtAAoAAAAGAAAAAAAtAAsAAAAGAAAAAAAtAAwAAAAGAAAAAAAtAA0AAAAGAAAAAAAtAA4AAAAGAAAAAAAtAA8AAAAGAAAAAAAtABAAAAAGAAAAAAAtABEAAAAGAAAAAAAtABIAAAAGAAAAAAAtABMAAAAGAAAAAAAtABQAAAAGAAEAAAAtABUAAAAHAAIAAAAtABYAAAACAAMAAAAtABcAAAACAAQAAAAuAAAAAAABAAMAAAAuAAEAAAAAAAMAAAAuAAIAAAADAAMAAAAuAAMAAAADAAQAAAAuAAQAAAAAAAQAAAAuAAUAAAABAAMAAAAuAAYAAAABAAQAAAAuAAcAAAAHAAIAAAAuAAgAAAAGAAEAAAAuAAkAAAAGAAAAAAAuAAoAAAAGAAEAAAAuAAsAAAAGAAEAAAAuAAwAAAAGAAEAAAAuAA0AAAAGAAEAAAAuAA4AAAAGAAEAAAAuAA8AAAAGAAEAAAAuABAAAAAGAAEAAAAuABEAAAAGAAEAAAAuABIAAAAGAAEAAAAuABMAAAAGAAAAAAAuABQAAAAGAAEAAAAuABUAAAAHAAIAAAAuABYAAAADAAMAAAAuABcAAAADAAQAAAAvAAAAAAAAAAMAAAAvAAEAAAABAAMAAAAvAAIAAAABAAQAAAAvAAMAAAABAAMAAAAvAAQAAAABAAQAAAAvAAUAAAAAAAMAAAAvAAYAAAAAAAQAAAAvAAcAAAAHAAIAAAAvAAgAAAAGAAEAAAAvAAkAAAAGAAAAAAAvAAoAAAAGAAEAAAAvAAsAAAAGAAEAAAAvAAwAAAAGAAEAAAAvAA0AAAAAAAUAAAAvAA4AAAAAAAYAAAAvAA8AAAAAAAcAAAAvABAAAAAGAAEAAAAvABEAAAAGAAEAAAAvABIAAAAGAAEAAAAvABMAAAAGAAAAAAAvABQAAAAGAAEAAAAvABUAAAAHAAIAAAAvABYAAAAAAAMAAAAvABcAAAAAAAQAAAAbABMAAAAGAAIAAAAcABMAAAAGAAEAAAAwAAAAAAABAAMAAAAwAAEAAAAAAAMAAAAwAAIAAAAAAAQAAAAwAAMAAAAAAAMAAAAwAAQAAAAAAAQAAAAwAAUAAAABAAMAAAAwAAYAAAABAAQAAAAwAAcAAAAHAAIAAAAwAAgAAAAGAAEAAAAwAAkAAAAGAAAAAAAwAAoAAAAGAAEAAAAwAAsAAAAGAAEAAAAwAAwAAAAGAAEAAAAwAA0AAAABAAUAAAAwAA4AAAABAAYAAAAwAA8AAAABAAcAAAAwABAAAAAGAAEAAAAwABEAAAAGAAEAAAAwABIAAAAGAAEAAAAwABMAAAAGAAAAAAAwABQAAAAGAAEAAAAwABUAAAAHAAIAAAAwABYAAAABAAMAAAAwABcAAAABAAQAAAAxAAAAAAACAAMAAAAxAAEAAAACAAQAAAAxAAIAAAABAAQAAAAxAAMAAAABAAMAAAAxAAQAAAABAAQAAAAxAAUAAAAAAAMAAAAxAAYAAAAAAAQAAAAxAAcAAAAHAAIAAAAxAAgAAAAGAAEAAAAxAAkAAAAGAAAAAAAxAAoAAAAGAAEAAAAxAAsAAAAGAAEAAAAxAAwAAAAGAAEAAAAxAA0AAAABAAUAAAAxAA4AAAABAAYAAAAxAA8AAAABAAcAAAAxABAAAAAGAAEAAAAxABEAAAAGAAEAAAAxABIAAAAGAAEAAAAxABMAAAAGAAAAAAAxABQAAAAGAAEAAAAxABUAAAAHAAIAAAAxABYAAAAHAAEAAAAxABcAAAAHAAEAAAAyAAAAAAADAAMAAAAyAAEAAAADAAQAAAAyAAIAAAAAAAQAAAAyAAMAAAACAAMAAAAyAAQAAAACAAQAAAAyAAUAAAABAAMAAAAyAAYAAAABAAQAAAAyAAcAAAAHAAIAAAAyAAgAAAAGAAEAAAAyAAkAAAAGAAAAAAAyAAoAAAAGAAEAAAAyAAsAAAAGAAEAAAAyAAwAAAAGAAEAAAAyAA0AAAABAAUAAAAyAA4AAAABAAYAAAAyAA8AAAABAAcAAAAyABAAAAAGAAEAAAAyABEAAAAGAAEAAAAyABIAAAAGAAEAAAAyABMAAAAGAAAAAAAyABQAAAAGAAEAAAAyABUAAAAHAAIAAAAyABYAAAAHAAEAAAAyABcAAAAHAAEAAAAzAAAAAAAAAAMAAAAzAAEAAAABAAMAAAAzAAIAAAABAAQAAAAzAAMAAAADAAMAAAAzAAQAAAADAAQAAAAzAAUAAAAAAAMAAAAzAAYAAAAAAAQAAAAzAAcAAAAHAAIAAAAzAAgAAAAGAAEAAAAzAAkAAAAGAAAAAAAzAAoAAAAGAAEAAAAzAAsAAAAGAAEAAAAzAAwAAAAGAAEAAAAzAA0AAAABAAUAAAAzAA4AAAABAAYAAAAzAA8AAAABAAcAAAAzABAAAAAGAAEAAAAzABEAAAAGAAEAAAAzABIAAAAGAAEAAAAzABMAAAAGAAAAAAAzABQAAAAGAAEAAAAzABUAAAAHAAIAAAAzABYAAAAHAAEAAAAzABcAAAAHAAEAAAA0AAAAAAABAAMAAAA0AAEAAAAAAAMAAAA0AAIAAAAAAAQAAAA0AAMAAAAAAAMAAAA0AAQAAAAAAAQAAAA0AAUAAAABAAMAAAA0AAYAAAABAAQAAAA0AAcAAAAHAAIAAAA0AAgAAAAGAAEAAAA0AAkAAAAGAAAAAAA0AAoAAAAGAAEAAAA0AAsAAAAGAAEAAAA0AAwAAAAGAAEAAAA0AA0AAAABAAUAAAA0AA4AAAABAAYAAAA0AA8AAAABAAcAAAA0ABAAAAAGAAEAAAA0ABEAAAAGAAEAAAA0ABIAAAAGAAEAAAA0ABMAAAAGAAAAAAA0ABQAAAAGAAEAAAA0ABUAAAAHAAIAAAA0ABYAAAAHAAEAAAA0ABcAAAAHAAEAAAA1AAAAAAAAAAMAAAA1AAEAAAABAAMAAAA1AAIAAAABAAQAAAA1AAMAAAABAAMAAAA1AAQAAAABAAQAAAA1AAUAAAAAAAMAAAA1AAYAAAAAAAQAAAA1AAcAAAAHAAIAAAA1AAgAAAAGAAEAAAA1AAkAAAAGAAAAAAA1AAoAAAAGAAEAAAA1AAsAAAAGAAEAAAA1AAwAAAAGAAEAAAA1AA0AAAABAAUAAAA1AA4AAAABAAYAAAA1AA8AAAABAAcAAAA1ABAAAAAGAAEAAAA1ABEAAAAGAAEAAAA1ABIAAAAGAAEAAAA1ABMAAAAGAAAAAAA1ABQAAAAGAAEAAAA1ABUAAAAHAAIAAAA1ABYAAAAHAAEAAAA1ABcAAAAHAAEAAAA2AAAAAAABAAMAAAA2AAEAAAAAAAMAAAA2AAIAAAAAAAQAAAA2AAMAAAAAAAMAAAA2AAQAAAAAAAQAAAA2AAUAAAABAAMAAAA2AAYAAAABAAQAAAA2AAcAAAAHAAIAAAA2AAgAAAAGAAEAAAA2AAkAAAAGAAAAAAA2AAoAAAAGAAEAAAA2AAsAAAAGAAEAAAA2AAwAAAAGAAEAAAA2AA0AAAABAAUAAAA2AA4AAAABAAYAAAA2AA8AAAABAAcAAAA2ABAAAAAGAAEAAAA2ABEAAAAGAAEAAAA2ABIAAAAGAAEAAAA2ABMAAAAGAAAAAAA2ABQAAAAGAAEAAAA2ABUAAAAHAAIAAAA2ABYAAAAHAAEAAAA2ABcAAAAHAAEAAAA3AAAAAAAAAAMAAAA3AAEAAAABAAMAAAA3AAIAAAABAAQAAAA3AAMAAAABAAMAAAA3AAQAAAACAAMAAAA3AAUAAAACAAQAAAA3AAYAAAAAAAQAAAA3AAcAAAAHAAIAAAA3AAgAAAAGAAEAAAA3AAkAAAAGAAAAAAA3AAoAAAAGAAEAAAA3AAsAAAAGAAEAAAA3AAwAAAAGAAEAAAA3AA0AAAABAAUAAAA3AA4AAAABAAYAAAA3AA8AAAABAAcAAAA3ABAAAAAGAAEAAAA3ABEAAAAGAAEAAAA3ABIAAAAGAAEAAAA3ABMAAAAGAAAAAAA3ABQAAAAGAAEAAAA3ABUAAAAHAAIAAAA3ABYAAAAHAAEAAAA3ABcAAAAHAAEAAAA4AAAAAAABAAMAAAA4AAEAAAAAAAMAAAA4AAIAAAACAAMAAAA4AAMAAAACAAQAAAA4AAQAAAADAAMAAAA4AAUAAAADAAQAAAA4AAYAAAABAAQAAAA4AAcAAAAHAAIAAAA4AAgAAAAGAAEAAAA4AAkAAAAGAAAAAAA4AAoAAAAGAAEAAAA4AAsAAAAGAAEAAAA4AAwAAAAGAAEAAAA4AA0AAAABAAUAAAA4AA4AAAABAAYAAAA4AA8AAAABAAcAAAA4ABAAAAAGAAEAAAA4ABEAAAAGAAEAAAA4ABIAAAAGAAEAAAA4ABMAAAAGAAAAAAA4ABQAAAAGAAEAAAA4ABUAAAAHAAIAAAA4ABYAAAAHAAEAAAA4ABcAAAAHAAEAAAA5AAAAAAAAAAMAAAA5AAEAAAABAAMAAAA5AAIAAAADAAMAAAA5AAMAAAADAAQAAAA5AAQAAAABAAQAAAA5AAUAAAAAAAMAAAA5AAYAAAAAAAQAAAA5AAcAAAAHAAIAAAA5AAgAAAAGAAEAAAA5AAkAAAAGAAAAAAA5AAoAAAAGAAEAAAA5AAsAAAAGAAEAAAA5AAwAAAAGAAEAAAA5AA0AAAABAAUAAAA5AA4AAAABAAYAAAA5AA8AAAABAAcAAAA5ABAAAAAGAAEAAAA5ABEAAAAGAAEAAAA5ABIAAAAGAAEAAAA5ABMAAAAGAAAAAAA5ABQAAAAGAAEAAAA5ABUAAAAHAAIAAAA5ABYAAAAHAAEAAAA5ABcAAAAHAAEAAAA6AAAAAAACAAMAAAA6AAEAAAACAAQAAAA6AAIAAAAAAAQAAAA6AAMAAAAAAAMAAAA6AAQAAAAAAAQAAAA6AAUAAAABAAMAAAA6AAYAAAABAAQAAAA6AAcAAAAHAAIAAAA6AAgAAAAGAAEAAAA6AAkAAAAGAAAAAAA6AAoAAAAGAAEAAAA6AAsAAAAGAAEAAAA6AAwAAAAGAAEAAAA6AA0AAAABAAUAAAA6AA4AAAABAAYAAAA6AA8AAAABAAcAAAA6ABAAAAAGAAEAAAA6ABEAAAAGAAEAAAA6ABIAAAAGAAEAAAA6ABMAAAAGAAAAAAA6ABQAAAAGAAEAAAA6ABUAAAAHAAIAAAA6ABYAAAAHAAEAAAA6ABcAAAAHAAEAAAA7AAAAAAADAAMAAAA7AAEAAAADAAQAAAA7AAIAAAABAAQAAAA7AAMAAAABAAMAAAA7AAQAAAABAAQAAAA7AAUAAAAAAAMAAAA7AAYAAAAAAAQAAAA7AAcAAAAHAAIAAAA7AAgAAAAGAAEAAAA7AAkAAAAGAAAAAAA7AAoAAAAGAAEAAAA7AAsAAAAGAAEAAAA7AAwAAAAGAAEAAAA7AA0AAAABAAUAAAA7AA4AAAABAAYAAAA7AA8AAAABAAcAAAA7ABAAAAAGAAEAAAA7ABEAAAAGAAEAAAA7ABIAAAAGAAEAAAA7ABMAAAAGAAAAAAA7ABQAAAAGAAEAAAA7ABUAAAAHAAIAAAA7ABYAAAAHAAEAAAA7ABcAAAAHAAEAAAA8AAAAAAACAAMAAAA8AAEAAAACAAQAAAA8AAIAAAACAAMAAAA8AAMAAAACAAQAAAA8AAQAAAAAAAQAAAA8AAUAAAABAAMAAAA8AAYAAAABAAQAAAA8AAcAAAAHAAIAAAA8AAgAAAAGAAEAAAA8AAkAAAAGAAAAAAA8AAoAAAAGAAEAAAA8AAsAAAAGAAEAAAA8AAwAAAAGAAEAAAA8AA0AAAACAAUAAAA8AA4AAAACAAYAAAA8AA8AAAACAAcAAAA8ABAAAAAGAAEAAAA8ABEAAAAGAAEAAAA8ABIAAAAGAAEAAAA8ABMAAAAGAAAAAAA8ABQAAAAGAAEAAAA8ABUAAAAHAAIAAAA8ABYAAAAHAAEAAAA8ABcAAAAHAAEAAAA9AAAAAAADAAMAAAA9AAEAAAADAAQAAAA9AAIAAAADAAMAAAA9AAMAAAACAAMAAAA9AAQAAAACAAQAAAA9AAUAAAACAAMAAAA9AAYAAAACAAQAAAA9AAcAAAAHAAIAAAA9AAgAAAAGAAEAAAA9AAkAAAAGAAAAAAA9AAoAAAAGAAEAAAA9AAsAAAAGAAEAAAA9AAwAAAAGAAEAAAA9AA0AAAAGAAEAAAA9AA4AAAAGAAEAAAA9AA8AAAAGAAEAAAA9ABAAAAAGAAEAAAA9ABEAAAAGAAEAAAA9ABIAAAAGAAEAAAA9ABMAAAAGAAAAAAA9ABQAAAAGAAEAAAA9ABUAAAAHAAIAAAA9ABYAAAAHAAEAAAA9ABcAAAAHAAEAAAA+AAAAAAABAAMAAAA+AAEAAAAAAAMAAAA+AAIAAAAAAAQAAAA+AAMAAAADAAMAAAA+AAQAAAADAAQAAAA+AAUAAAADAAMAAAA+AAYAAAADAAQAAAA+AAcAAAAHAAIAAAA+AAgAAAAGAAEAAAA+AAkAAAAGAAAAAAA+AAoAAAAGAAEAAAA+AAsAAAAGAAEAAAA+AAwAAAAGAAEAAAA+AA0AAAAGAAEAAAA+AA4AAAAGAAEAAAA+AA8AAAAGAAEAAAA+ABAAAAAGAAEAAAA+ABEAAAAGAAEAAAA+ABIAAAAGAAEAAAA+ABMAAAAGAAAAAAA+ABQAAAAGAAEAAAA+ABUAAAAHAAIAAAA+ABYAAAAHAAEAAAA+ABcAAAAHAAEAAAA/AAAAAAAAAAMAAAA/AAEAAAABAAMAAAA/AAIAAAABAAQAAAA/AAMAAAABAAMAAAA/AAQAAAABAAQAAAA/AAUAAAAAAAMAAAA/AAYAAAAAAAQAAAA/AAcAAAAHAAIAAAA/AAgAAAAGAAEAAAA/AAkAAAAGAAAAAAA/AAoAAAAGAAEAAAA/AAsAAAAGAAEAAAA/AAwAAAAGAAEAAAA/AA0AAAAGAAEAAAA/AA4AAAAGAAEAAAA/AA8AAAAGAAEAAAA/ABAAAAAGAAEAAAA/ABEAAAAGAAEAAAA/ABIAAAAGAAEAAAA/ABMAAAAGAAAAAAA/ABQAAAAGAAEAAAA/ABUAAAAHAAIAAAA/ABYAAAAHAAEAAAA/ABcAAAAHAAEAAABAAAAAAAABAAMAAABAAAEAAAAAAAMAAABAAAIAAAACAAMAAABAAAMAAAACAAQAAABAAAQAAAAAAAQAAABAAAUAAAABAAMAAABAAAYAAAABAAQAAABAAAcAAAAHAAIAAABAAAgAAAAGAAEAAABAAAkAAAAGAAEAAABAAAoAAAAGAAEAAABAAAsAAAAGAAEAAABAAAwAAAAGAAEAAABAAA0AAAAGAAEAAABAAA4AAAAGAAEAAABAAA8AAAAGAAEAAABAABAAAAAGAAEAAABAABEAAAAGAAEAAABAABIAAAAGAAEAAABAABMAAAAGAAEAAABAABQAAAAGAAEAAABAABUAAAAHAAIAAABAABYAAAAHAAEAAABAABcAAAAHAAEAAABBAAAAAAAAAAMAAABBAAEAAAABAAMAAABBAAIAAAADAAMAAABBAAMAAAADAAQAAABBAAQAAAABAAQAAABBAAUAAAAAAAMAAABBAAYAAAAAAAQAAABBAAcAAAAHAAIAAABBAAgAAAAGAAEAAABBAAkAAAAGAAEAAABBAAoAAAAGAAEAAABBAAsAAAAGAAEAAABBAAwAAAAGAAEAAABBAA0AAAAGAAEAAABBAA4AAAAGAAEAAABBAA8AAAAGAAEAAABBABAAAAAGAAEAAABBABEAAAAGAAEAAABBABIAAAAGAAEAAABBABMAAAAGAAEAAABBABQAAAAGAAEAAABBABUAAAAHAAIAAABBABYAAAAHAAEAAABBABcAAAAHAAEAAABCAAAAAAABAAMAAABCAAEAAAAAAAMAAABCAAIAAAAAAAQAAABCAAMAAAAAAAMAAABCAAQAAAAAAAQAAABCAAUAAAABAAMAAABCAAYAAAABAAQAAABCAAcAAAAHAAIAAABCAAgAAAAHAAIAAABCAAkAAAAHAAIAAABCAAoAAAAHAAIAAABCAAsAAAAHAAIAAABCAAwAAAAHAAIAAABCAA0AAAAHAAEAAABCAA4AAAAHAAIAAABCAA8AAAAHAAIAAABCABAAAAAHAAIAAABCABEAAAAHAAIAAABCABIAAAAHAAIAAABCABMAAAAHAAIAAABCABQAAAAHAAIAAABCABUAAAAHAAIAAABCABYAAAAHAAEAAABCABcAAAAHAAEAAABDAAAAAAAHAAEAAABDAAEAAAABAAMAAABDAAIAAAABAAQAAABDAAMAAAABAAMAAABDAAQAAAABAAQAAABDAAUAAAAHAAEAAABDAAYAAAAHAAEAAABDAAcAAAAHAAEAAABDAAgAAAAHAAEAAABDAAkAAAAHAAEAAABDAAoAAAAHAAEAAABDAAsAAAAHAAEAAABDAAwAAAAHAAEAAABDAA0AAAAHAAEAAABDAA4AAAAHAAEAAABDAA8AAAAHAAEAAABDABAAAAAHAAEAAABDABEAAAAHAAEAAABDABIAAAAHAAEAAABDABMAAAAHAAEAAABDABQAAAAHAAEAAABDABUAAAAHAAEAAABDABYAAAAHAAEAAABDABcAAAAHAAEAAABEAAAAAAAHAAEAAABEAAEAAAAHAAEAAABEAAIAAAAHAAEAAABEAAMAAAAHAAEAAABEAAQAAAAHAAEAAABEAAUAAAAHAAEAAABEAAYAAAAHAAEAAABEAAcAAAAHAAEAAABEAAgAAAAHAAEAAABEAAkAAAAHAAEAAABEAAoAAAAHAAEAAABEAAsAAAAHAAEAAABEAAwAAAAHAAEAAABEAA0AAAAHAAEAAABEAA4AAAAHAAEAAABEAA8AAAAHAAEAAABEABAAAAAHAAEAAABEABEAAAAHAAEAAABEABIAAAAHAAEAAABEABMAAAAHAAEAAABEABQAAAAHAAEAAABEABUAAAAHAAEAAABEABYAAAAHAAEAAABEABcAAAAHAAEAAABFAAAAAAAHAAEAAABFAAEAAAAHAAEAAABFAAIAAAAHAAEAAABFAAMAAAAHAAEAAABFAAQAAAAHAAEAAABFAAUAAAAHAAEAAABFAAYAAAAHAAEAAABFAAcAAAAHAAEAAABFAAgAAAAHAAEAAABFAAkAAAAHAAEAAABFAAoAAAAHAAEAAABFAAsAAAAHAAEAAABFAAwAAAAHAAEAAABFAA0AAAAHAAEAAABFAA4AAAAHAAEAAABFAA8AAAAHAAEAAABFABAAAAAHAAEAAABFABEAAAAHAAEAAABFABIAAAAHAAEAAABFABMAAAAHAAEAAABFABQAAAAHAAEAAABFABUAAAAHAAEAAABFABYAAAAHAAEAAABFABcAAAAHAAEAAABGAAAAAAAHAAEAAABGAAEAAAAHAAEAAABGAAIAAAAHAAEAAABGAAMAAAAHAAEAAABGAAQAAAAHAAEAAABGAAUAAAAHAAEAAABGAAYAAAAHAAEAAABGAAcAAAAHAAEAAABGAAgAAAAHAAEAAABGAAkAAAAHAAEAAABGAAoAAAAHAAEAAABGAAsAAAAHAAEAAABGAAwAAAAHAAEAAABGAA0AAAAHAAEAAABGAA4AAAAHAAEAAABGAA8AAAAHAAEAAABGABAAAAAHAAEAAABGABEAAAAHAAEAAABGABIAAAAHAAEAAABGABMAAAAHAAEAAABGABQAAAAHAAEAAABGABUAAAAHAAEAAABGABYAAAAHAAEAAABGABcAAAAHAAEAAABHAAAAAAAHAAEAAABHAAEAAAAHAAEAAABHAAIAAAAHAAEAAABHAAMAAAAHAAEAAABHAAQAAAAHAAEAAABHAAUAAAAHAAEAAABHAAYAAAAHAAEAAABHAAcAAAAHAAEAAABHAAgAAAAHAAEAAABHAAkAAAAHAAEAAABHAAoAAAAHAAEAAABHAAsAAAAHAAEAAABHAAwAAAAHAAEAAABHAA0AAAAHAAEAAABHAA4AAAAHAAEAAABHAA8AAAAHAAEAAABHABAAAAAHAAEAAABHABEAAAAHAAEAAABHABIAAAAHAAEAAABHABMAAAAHAAEAAABHABQAAAAHAAEAAABHABUAAAAHAAEAAABHABYAAAAHAAEAAABHABcAAAAHAAEAAABIAAAAAAAHAAEAAABIAAEAAAAHAAEAAABIAAIAAAAHAAEAAABIAAMAAAAHAAEAAABIAAQAAAAHAAEAAABIAAUAAAAHAAEAAABIAAYAAAAHAAEAAABIAAcAAAAHAAEAAABIAAgAAAAHAAEAAABIAAkAAAAHAAEAAABIAAoAAAAHAAEAAABIAAsAAAAHAAEAAABIAAwAAAAHAAEAAABIAA0AAAAHAAEAAABIAA4AAAAHAAEAAABIAA8AAAAHAAEAAABIABAAAAAHAAEAAABIABEAAAAHAAEAAABIABIAAAAHAAEAAABIABMAAAAHAAEAAABIABQAAAAHAAEAAABIABUAAAAHAAEAAABIABYAAAAHAAEAAABIABcAAAAHAAEAAABJAAAAAAAHAAEAAABJAAEAAAAHAAEAAABJAAIAAAAHAAEAAABJAAMAAAAHAAEAAABJAAQAAAAHAAEAAABJAAUAAAAHAAEAAABJAAYAAAAHAAEAAABJAAcAAAAHAAEAAABJAAgAAAAHAAEAAABJAAkAAAAHAAEAAABJAAoAAAAHAAEAAABJAAsAAAAHAAEAAABJAAwAAAAHAAEAAABJAA0AAAAHAAEAAABJAA4AAAAHAAEAAABJAA8AAAAHAAEAAABJABAAAAAHAAEAAABJABEAAAAHAAEAAABJABIAAAAHAAEAAABJABMAAAAHAAEAAABJABQAAAAHAAEAAABJABUAAAAHAAEAAABJABYAAAAHAAEAAABJABcAAAAHAAEAAABKAAAAAAAHAAEAAABKAAEAAAAHAAEAAABKAAIAAAAHAAEAAABKAAMAAAAHAAEAAABKAAQAAAAHAAEAAABKAAUAAAAHAAEAAABKAAYAAAAHAAEAAABKAAcAAAAHAAEAAABKAAgAAAAHAAEAAABKAAkAAAAHAAEAAABKAAoAAAAHAAEAAABKAAsAAAAHAAEAAABKAAwAAAAHAAEAAABKAA0AAAAHAAEAAABKAA4AAAAHAAEAAABKAA8AAAAHAAEAAABKABAAAAAHAAEAAABKABEAAAAHAAEAAABKABIAAAAHAAEAAABKABMAAAAHAAEAAABKABQAAAAHAAEAAABKABUAAAAHAAEAAABKABYAAAAHAAEAAABKABcAAAAHAAEAAABLAAAAAAAHAAEAAABLAAEAAAAHAAEAAABLAAIAAAAHAAEAAABLAAMAAAAHAAEAAABLAAQAAAAHAAEAAABLAAUAAAAHAAEAAABLAAYAAAAHAAEAAABLAAcAAAAHAAEAAABLAAgAAAAHAAEAAABLAAkAAAAHAAEAAABLAAoAAAAHAAEAAABLAAsAAAAHAAEAAABLAAwAAAAHAAEAAABLAA0AAAAHAAEAAABLAA4AAAAHAAEAAABLAA8AAAAHAAEAAABLABAAAAAHAAEAAABLABEAAAAHAAEAAABLABIAAAAHAAEAAABLABMAAAAHAAEAAABLABQAAAAHAAEAAABLABUAAAAHAAEAAABLABYAAAAHAAEAAABLABcAAAAHAAEAAABMAAAAAAAHAAEAAABMAAEAAAAHAAEAAABMAAIAAAAHAAEAAABMAAMAAAAHAAEAAABMAAQAAAAHAAEAAABMAAUAAAAHAAEAAABMAAYAAAAHAAEAAABMAAcAAAAHAAEAAABMAAgAAAAHAAEAAABMAAkAAAAHAAEAAABMAAoAAAAHAAEAAABMAAsAAAAHAAEAAABMAAwAAAAHAAEAAABMAA0AAAAHAAEAAABMAA4AAAAHAAEAAABMAA8AAAAHAAEAAABMABAAAAAHAAEAAABMABEAAAAHAAEAAABMABIAAAAHAAEAAABMABMAAAAHAAEAAABMABQAAAAHAAEAAABMABUAAAAHAAEAAABMABYAAAAHAAEAAABMABcAAAAHAAEAAABNAAAAAAAHAAEAAABNAAEAAAAHAAEAAABNAAIAAAAHAAEAAABNAAMAAAAHAAEAAABNAAQAAAAHAAEAAABNAAUAAAAHAAEAAABNAAYAAAAHAAEAAABNAAcAAAAHAAEAAABNAAgAAAAHAAEAAABNAAkAAAAHAAEAAABNAAoAAAAHAAEAAABNAAsAAAAHAAEAAABNAAwAAAAHAAEAAABNAA0AAAAHAAEAAABNAA4AAAAHAAEAAABNAA8AAAAHAAEAAABNABAAAAAHAAEAAABNABEAAAAHAAEAAABNABIAAAAHAAEAAABNABMAAAAHAAEAAABNABQAAAAHAAEAAABNABUAAAAHAAEAAABNABYAAAAHAAEAAABNABcAAAAHAAEAAABOAAAAAAAHAAEAAABOAAEAAAAHAAEAAABOAAIAAAAHAAEAAABOAAMAAAAHAAEAAABOAAQAAAAHAAEAAABOAAUAAAAHAAEAAABOAAYAAAAHAAEAAABOAAcAAAAHAAEAAABOAAgAAAAHAAEAAABOAAkAAAAHAAEAAABOAAoAAAAHAAEAAABOAAsAAAAHAAEAAABOAAwAAAAHAAEAAABOAA0AAAAHAAEAAABOAA4AAAAHAAEAAABOAA8AAAAHAAEAAABOABAAAAAHAAEAAABOABEAAAAHAAEAAABOABIAAAAHAAEAAABOABMAAAAHAAEAAABOABQAAAAHAAEAAABOABUAAAAHAAEAAABOABYAAAAHAAEAAABOABcAAAAHAAEAAAAeAA8AAAAGAAIAAAA=")
 tile_set = SubResource("TileSet_5rsfm")
 
-[node name="DestructableTiles" type="Node2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Map" node_paths=PackedStringArray("tileMap", "polygonMask", "collisionContainer", "visionCollisionContainer", "mainOccludersContainer", "copyOccludersContainer", "navigationRegion") groups=["destructible_tiles"]]
-script = ExtResource("22_7vvlh")
+[node name="TileDestructionHandler" type="Node2D" parent="SubViewportContainer/ActiveViewport/Level/Map" node_paths=PackedStringArray("tileMap", "polygonMask", "collisionContainer", "visionCollisionContainer", "mainOccludersContainer", "copyOccludersContainer", "navigationRegion") groups=["destructible_tiles"]]
+script = ExtResource("31_xwun7")
 tileMap = NodePath("DestructionMask/DestructibleTiles")
 polygonMask = NodePath("DestructionMask")
 collisionContainer = NodePath("CollisionContainer")
 visionCollisionContainer = NodePath("VisionCollisionContainer")
-mainOccludersContainer = NodePath("../../../../../VisiblityViewport/Occluders")
+mainOccludersContainer = NodePath("../../../../../VisibilityViewport/Occluders")
 copyOccludersContainer = NodePath("../OccludersContainer")
 navigationRegion = NodePath("../../NavigationRegion2D")
 
-[node name="DestructionMask" type="Polygon2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Map/DestructableTiles"]
+[node name="DestructionMask" type="Polygon2D" parent="SubViewportContainer/ActiveViewport/Level/Map/TileDestructionHandler"]
 clip_children = 1
 polygons = [null]
 
-[node name="DestructibleTiles" type="TileMapLayer" parent="SubViewportContainer/ActiveViewport/GameContainer/Map/DestructableTiles/DestructionMask" groups=["nav_collision"]]
+[node name="DestructibleTiles" type="TileMapLayer" parent="SubViewportContainer/ActiveViewport/Level/Map/TileDestructionHandler/DestructionMask" groups=["nav_collision"]]
 tile_map_data = PackedByteArray("AAADABEAAAADAAEAAwAEABEAAAABAAIAAAAFABEAAAABAAIAAAAGABEAAAABAAIAAAAHABEAAAABAAIAAAAIABEAAAABAAIAAAAJABEAAAADAAEAAAAKAAoAAAADAAEAAwALAAoAAAABAAIAAAAMAAoAAAABAAIAAAANAAoAAAABAAIAAAAOAAoAAAABAAIAAAAPAAoAAAABAAIAAAAQAAoAAAADAAEAAAATAAYAAAADAAEAAwAUAAYAAAABAAIAAAASAAEAAAABAAAAAAATAAEAAAABAAAAAAAUAAEAAAABAAAAAAAVAAEAAAABAAAAAAAWAAEAAAABAAAAAAAXAAEAAAABAAAAAAAVAAwAAAAAAAIAAAAfAAwAAAACAAIAAAAVAAYAAAACAAAAAAAfAAYAAAAAAAAAAAAgAAYAAAABAAIAAAAhAAYAAAADAAEAAAAWAAwAAAABAAIAAAAXAAwAAAABAAIAAAAYAAwAAAABAAIAAAAZAAwAAAADAAEAAAAbAAwAAAADAAEAAwAcAAwAAAABAAIAAAAdAAwAAAABAAIAAAAeAAwAAAABAAIAAAAVAAsAAAAAAAEAAAAVAAoAAAAAAAEAAAAVAAkAAAAAAAEAAAAVAAgAAAAAAAEAAAAVAAcAAAAAAAEAAAAfAAsAAAACAAEAAAAfAAoAAAACAAEAAAAfAAkAAAACAAEAAAAfAAgAAAACAAEAAAAfAAcAAAACAAEAAAAnAA8AAAADAAEAAgAnABAAAAACAAEAAAAnAA0AAAADAAEAAQAnAAwAAAACAAEAAAAoAAsAAAABAAAAAAApAAsAAAABAAAAAAAoABEAAAABAAAAAAApABEAAAABAAAAAAAqABEAAAABAAAAAAAqAAsAAAABAAAAAAArABAAAAACAAEAAAArAA8AAAADAAEAAgArAAwAAAACAAEAAAArABIAAAACAAEAAAArABMAAAACAAEAAAArAAoAAAACAAEAAAArAAkAAAACAAEAAAArAAgAAAACAAEAAAArABQAAAACAAEAAAAsABUAAAABAAIAAAAtABUAAAABAAIAAAAuABUAAAABAAIAAAAvABUAAAABAAIAAAAwABUAAAABAAIAAAAsAAcAAAABAAAAAAAtAAcAAAABAAAAAAAuAAcAAAABAAAAAAAvAAcAAAABAAAAAAAwAAcAAAABAAAAAAAxAAcAAAABAAAAAAAyAAcAAAABAAAAAAAxABUAAAABAAAAAAAyABUAAAABAAAAAAAzABUAAAABAAAAAAA0ABUAAAABAAAAAAArABUAAAAAAAIAAAAnABEAAAAAAAIAAAAnAAsAAAAAAAAAAAArAAsAAAADAAAAAAArABEAAAADAAAAAAArAAcAAAAAAAAAAAA1ABUAAAABAAIAAAA2ABUAAAABAAIAAAA3ABUAAAABAAIAAAA4ABUAAAABAAIAAAA5ABUAAAABAAIAAAA6ABUAAAABAAIAAAA7ABUAAAABAAIAAAA8ABUAAAABAAIAAAA9ABUAAAABAAIAAAAzAAcAAAABAAIAAAA0AAcAAAABAAIAAAA1AAcAAAABAAIAAAA2AAcAAAABAAIAAAA3AAcAAAABAAIAAAA4AAcAAAABAAIAAAA5AAcAAAABAAIAAAA9AAcAAAABAAIAAAA6AAcAAAABAAIAAAA7AAcAAAABAAIAAAA8AAcAAAABAAIAAAA+AAcAAAABAAIAAAA/AAcAAAABAAIAAABAAAcAAAABAAIAAAA+ABUAAAABAAIAAAA/ABUAAAABAAIAAABAABUAAAABAAIAAABBABUAAAABAAIAAABCABQAAAACAAEAAABCABMAAAACAAEAAABCABIAAAACAAEAAABCABEAAAADAAAAAABCABAAAAACAAEAAABCAA8AAAACAAEAAABCAA0AAAACAAEAAABCAAwAAAACAAEAAABCAAsAAAADAAAAAABCAAoAAAACAAEAAABCAAkAAAACAAEAAABCAAgAAAACAAEAAABBAAsAAAABAAIAAABAAAsAAAABAAIAAAA/AAsAAAABAAIAAAA+AAsAAAAAAAIAAABBABEAAAABAAIAAABAABEAAAABAAIAAAA/ABEAAAABAAIAAAA+ABEAAAAAAAAAAAA+ABIAAAADAAEAAQA+AAoAAAADAAEAAgBBAAcAAAABAAIAAABCAAcAAAACAAAAAABCABUAAAACAAIAAAAwAAoAAAAAAAAAAAAwAAsAAAAAAAIAAAAxAAoAAAACAAAAAAAxAAsAAAACAAIAAAA4AAoAAAAAAAAAAAA4AAsAAAAAAAIAAAA5AAoAAAACAAAAAAA5AAsAAAACAAIAAAA4ABEAAAAAAAAAAAA4ABIAAAAAAAIAAAA5ABEAAAACAAAAAAA5ABIAAAACAAIAAAAwABEAAAAAAAAAAAAwABIAAAAAAAIAAAAxABEAAAACAAAAAAAxABIAAAACAAIAAAArAA0AAAADAAEAAQA=")
 tile_set = SubResource("TileSet_5rsfm")
 
-[node name="CollisionContainer" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Map/DestructableTiles" groups=["nav_collision"]]
+[node name="CollisionContainer" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/Level/Map/TileDestructionHandler" groups=["nav_collision"]]
 
-[node name="VisionCollisionContainer" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Map/DestructableTiles" groups=["nav_collision"]]
+[node name="VisionCollisionContainer" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/Level/Map/TileDestructionHandler" groups=["nav_collision"]]
 collision_layer = 2
 collision_mask = 2
 
-[node name="Props" type="Node2D" parent="SubViewportContainer/ActiveViewport/GameContainer"]
+[node name="Props" type="Node2D" parent="SubViewportContainer/ActiveViewport/Level"]
 y_sort_enabled = true
 
-[node name="Crate" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("26_2vr7j")]
+[node name="Crate" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("32_31d58")]
 position = Vector2(849, 250)
 collision_layer = 257
 motion_mode = 1
 
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Crate"]
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Crate"]
 radius = 12.0
 vertices = PackedVector2Array(-7, -7, 7, -7, 7, 6, -7, 6)
 
-[node name="Crate3" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("26_2vr7j")]
+[node name="Crate3" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("32_31d58")]
 position = Vector2(824, 304)
 collision_layer = 257
 motion_mode = 1
 
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Crate3"]
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Crate3"]
 radius = 12.0
 
-[node name="Table" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" groups=["nav_collision"]]
+[node name="Table" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/Level/Props" groups=["nav_collision"]]
 position = Vector2(841, 184)
 
-[node name="Shadow2" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Table"]
+[node name="Shadow2" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Table"]
 modulate = Color(1, 1, 1, 0.501961)
 position = Vector2(0, 6)
 texture = SubResource("AtlasTexture_4buxb")
 
-[node name="Sprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Table"]
+[node name="Sprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Table"]
 y_sort_enabled = true
 texture = SubResource("AtlasTexture_2hywx")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Table"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Table"]
 position = Vector2(0.25, 2)
 shape = SubResource("RectangleShape2D_4buxb")
 
-[node name="WallTorch" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("27_3eoru")]
+[node name="WallTorch" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("33_ytq8g")]
 position = Vector2(473, 206)
 
-[node name="Chest" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" groups=["nav_collision"]]
+[node name="Chest" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/Level/Props" groups=["nav_collision"]]
 position = Vector2(1009, 200)
 
-[node name="Shadow2" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Chest"]
+[node name="Shadow2" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Chest"]
 modulate = Color(1, 1, 1, 0.501961)
 position = Vector2(0, 6)
 texture = SubResource("AtlasTexture_4buxb")
 
-[node name="Sprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Chest"]
+[node name="Sprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Chest"]
 y_sort_enabled = true
 texture = SubResource("AtlasTexture_tf7kj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Chest"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Chest"]
 position = Vector2(0.5, 2.5)
 shape = SubResource("RectangleShape2D_3eoru")
 
-[node name="Key" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" groups=["nav_collision"]]
+[node name="Key" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/Level/Props" groups=["nav_collision"]]
 position = Vector2(955, 192)
 
-[node name="Shadow2" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Key"]
+[node name="Shadow2" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Key"]
 modulate = Color(1, 1, 1, 0.501961)
 position = Vector2(0, 4)
 texture = SubResource("AtlasTexture_4buxb")
 
-[node name="Sprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Key"]
+[node name="Sprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Key"]
 texture = SubResource("AtlasTexture_1bjkc")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Key"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Key"]
 position = Vector2(0.5, 0.75)
 shape = SubResource("RectangleShape2D_ifppr")
 
-[node name="Chair" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" groups=["nav_collision"]]
+[node name="Chair" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/Level/Props" groups=["nav_collision"]]
 position = Vector2(824, 184)
 
-[node name="Shadow" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Chair"]
+[node name="Shadow" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Chair"]
 modulate = Color(1, 1, 1, 0.501961)
 position = Vector2(0, 5)
 texture = SubResource("AtlasTexture_4buxb")
 
-[node name="Sprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Chair"]
+[node name="Sprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Chair"]
 texture = SubResource("AtlasTexture_ifppr")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Chair"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Chair"]
 position = Vector2(0.5, 2.5)
 shape = SubResource("RectangleShape2D_ifppr")
 
-[node name="Chair2" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" groups=["nav_collision"]]
+[node name="Chair2" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/Level/Props" groups=["nav_collision"]]
 position = Vector2(857, 184)
 
-[node name="Shadow2" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Chair2"]
+[node name="Shadow2" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Chair2"]
 modulate = Color(1, 1, 1, 0.501961)
 position = Vector2(0, 5)
 texture = SubResource("AtlasTexture_4buxb")
 
-[node name="Sprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Chair2"]
+[node name="Sprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Chair2"]
 texture = SubResource("AtlasTexture_ifppr")
 flip_h = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Chair2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Chair2"]
 position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_2vr7j")
 
-[node name="Brazier" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("23_1bjkc")]
+[node name="Brazier" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("34_ae7vm")]
 position = Vector2(784, 200)
 
-[node name="Brazier2" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("23_1bjkc")]
+[node name="Brazier2" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("34_ae7vm")]
 position = Vector2(912, 200)
 
-[node name="Brazier3" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("23_1bjkc")]
+[node name="Brazier3" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("34_ae7vm")]
 position = Vector2(784, 256)
 
-[node name="Brazier4" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("23_1bjkc")]
+[node name="Brazier4" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("34_ae7vm")]
 position = Vector2(912, 256)
 
-[node name="Bookcase" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" groups=["nav_collision"]]
+[node name="Bookcase" type="StaticBody2D" parent="SubViewportContainer/ActiveViewport/Level/Props" groups=["nav_collision"]]
 position = Vector2(847, 136)
 collision_layer = 3
 collision_mask = 12
 
-[node name="LightOccluder2D2" type="LightOccluder2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Bookcase"]
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Bookcase"]
 position = Vector2(1, 0)
 occluder = SubResource("OccluderPolygon2D_523xq")
 
-[node name="Shadow2" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Bookcase"]
+[node name="Shadow2" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Bookcase"]
 modulate = Color(1, 1, 1, 0.501961)
 position = Vector2(0, 6)
 texture = SubResource("AtlasTexture_4buxb")
 
-[node name="Sprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Bookcase"]
+[node name="Sprite" type="Sprite2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Bookcase"]
 y_sort_enabled = true
 texture = SubResource("AtlasTexture_523xq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Props/Bookcase"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/ActiveViewport/Level/Props/Bookcase"]
 visible = false
 shape = SubResource("RectangleShape2D_4buxb")
 
-[node name="Tree" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("29_3eoru")]
+[node name="Tree" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("35_4t6jf")]
 position = Vector2(555, 269)
 
-[node name="Tree2" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("29_3eoru")]
+[node name="Tree2" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("35_4t6jf")]
 position = Vector2(595, 288)
 
-[node name="Tree3" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("29_3eoru")]
+[node name="Tree3" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("35_4t6jf")]
 position = Vector2(564, 328)
 
-[node name="Tree4" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("29_3eoru")]
+[node name="Tree4" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("35_4t6jf")]
 position = Vector2(611, 340)
 
-[node name="Tree5" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("29_3eoru")]
+[node name="Tree5" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("35_4t6jf")]
 position = Vector2(649, 312)
 
-[node name="Tree6" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("29_3eoru")]
+[node name="Tree6" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("35_4t6jf")]
 position = Vector2(536, 364)
 
-[node name="Tree7" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("29_3eoru")]
+[node name="Tree7" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("35_4t6jf")]
 position = Vector2(652, 364)
 
-[node name="Crate2" parent="SubViewportContainer/ActiveViewport/GameContainer/Props" instance=ExtResource("26_2vr7j")]
+[node name="Crate2" parent="SubViewportContainer/ActiveViewport/Level/Props" instance=ExtResource("32_31d58")]
 position = Vector2(446, 248)
 
-[node name="Player" parent="SubViewportContainer/ActiveViewport/GameContainer" instance=ExtResource("23_27t6w")]
+[node name="Player" parent="SubViewportContainer/ActiveViewport/Level" instance=ExtResource("36_ljdke")]
 z_as_relative = false
 position = Vector2(520, 269)
 collision_layer = 4
 motion_mode = 1
 
-[node name="Lights" type="Node2D" parent="SubViewportContainer/ActiveViewport/GameContainer"]
+[node name="Lights" type="Node2D" parent="SubViewportContainer/ActiveViewport/Level"]
 
-[node name="PointLight2D-yellow2" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Lights" groups=["player_light"]]
+[node name="PointLight2D-yellow2" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/Level/Lights" groups=["player_light"]]
 position = Vector2(350, 400)
 energy = 0.25
 blend_mode = 2
 shadow_enabled = true
-texture = ExtResource("26_ifppr")
+texture = ExtResource("37_es8bl")
 
-[node name="PointLight2D-red4" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Lights" groups=["player_light"]]
+[node name="PointLight2D-red4" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/Level/Lights" groups=["player_light"]]
 position = Vector2(600, 310)
 energy = 0.25
 blend_mode = 2
 shadow_enabled = true
-texture = ExtResource("26_ifppr")
+texture = ExtResource("37_es8bl")
 
-[node name="PointLight2D-red5" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Lights" groups=["player_light"]]
+[node name="PointLight2D-red5" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/Level/Lights" groups=["player_light"]]
 position = Vector2(600, 150)
 energy = 0.25
 blend_mode = 2
 shadow_enabled = true
-texture = ExtResource("26_ifppr")
+texture = ExtResource("37_es8bl")
 
-[node name="PointLight2D-yellow" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Lights" groups=["player_light"]]
+[node name="PointLight2D-yellow" type="PointLight2D" parent="SubViewportContainer/ActiveViewport/Level/Lights" groups=["player_light"]]
 position = Vector2(200, 200)
 blend_mode = 2
 shadow_enabled = true
-texture = ExtResource("26_ifppr")
+texture = ExtResource("37_es8bl")
 
-[node name="Guard" parent="SubViewportContainer/ActiveViewport/GameContainer" node_paths=PackedStringArray("patrolPath") instance=ExtResource("24_8kdx8")]
+[node name="Guard" parent="SubViewportContainer/ActiveViewport/Level" node_paths=PackedStringArray("patrolPath") instance=ExtResource("38_01lfp")]
 position = Vector2(900, 230)
 patrolPath = NodePath("PathContainer")
 
-[node name="PathContainer" type="Node" parent="SubViewportContainer/ActiveViewport/GameContainer/Guard"]
-script = ExtResource("26_4buxb")
+[node name="PathContainer" type="Node" parent="SubViewportContainer/ActiveViewport/Level/Guard"]
+script = ExtResource("39_g5tu5")
 
-[node name="1" type="Marker2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Guard/PathContainer"]
+[node name="1" type="Marker2D" parent="SubViewportContainer/ActiveViewport/Level/Guard/PathContainer"]
 position = Vector2(776, 220)
-script = ExtResource("27_1bjkc")
+script = ExtResource("40_rutfd")
 
-[node name="2" type="Marker2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Guard/PathContainer"]
+[node name="2" type="Marker2D" parent="SubViewportContainer/ActiveViewport/Level/Guard/PathContainer"]
 position = Vector2(961, 216)
-script = ExtResource("27_1bjkc")
+script = ExtResource("40_rutfd")
 
-[node name="3" type="Marker2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Guard/PathContainer"]
+[node name="3" type="Marker2D" parent="SubViewportContainer/ActiveViewport/Level/Guard/PathContainer"]
 position = Vector2(968, 224)
-script = ExtResource("27_1bjkc")
+script = ExtResource("40_rutfd")
 
-[node name="9" type="Marker2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Guard/PathContainer"]
+[node name="9" type="Marker2D" parent="SubViewportContainer/ActiveViewport/Level/Guard/PathContainer"]
 position = Vector2(936, 230)
-script = ExtResource("27_1bjkc")
+script = ExtResource("40_rutfd")
 shouldFaceDirection = true
 direction = Vector2(-1, 0)
 shouldWait = true
 waitTime = 3.0
 
-[node name="4" type="Marker2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Guard/PathContainer"]
+[node name="4" type="Marker2D" parent="SubViewportContainer/ActiveViewport/Level/Guard/PathContainer"]
 position = Vector2(968, 240)
-script = ExtResource("27_1bjkc")
+script = ExtResource("40_rutfd")
 
-[node name="5" type="Marker2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Guard/PathContainer"]
+[node name="5" type="Marker2D" parent="SubViewportContainer/ActiveViewport/Level/Guard/PathContainer"]
 position = Vector2(961, 246)
-script = ExtResource("27_1bjkc")
+script = ExtResource("40_rutfd")
 
-[node name="6" type="Marker2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Guard/PathContainer"]
+[node name="6" type="Marker2D" parent="SubViewportContainer/ActiveViewport/Level/Guard/PathContainer"]
 position = Vector2(773, 242)
-script = ExtResource("27_1bjkc")
+script = ExtResource("40_rutfd")
 
-[node name="7" type="Marker2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Guard/PathContainer"]
+[node name="7" type="Marker2D" parent="SubViewportContainer/ActiveViewport/Level/Guard/PathContainer"]
 position = Vector2(760, 240)
-script = ExtResource("27_1bjkc")
+script = ExtResource("40_rutfd")
 
-[node name="8" type="Marker2D" parent="SubViewportContainer/ActiveViewport/GameContainer/Guard/PathContainer"]
+[node name="8" type="Marker2D" parent="SubViewportContainer/ActiveViewport/Level/Guard/PathContainer"]
 position = Vector2(760, 222)
-script = ExtResource("27_1bjkc")
+script = ExtResource("40_rutfd")
 
-[node name="Doors" type="Node2D" parent="SubViewportContainer/ActiveViewport/GameContainer"]
+[node name="Doors" type="Node2D" parent="SubViewportContainer/ActiveViewport/Level"]
 
-[node name="Door" parent="SubViewportContainer/ActiveViewport/GameContainer/Doors" node_paths=PackedStringArray("doorVisionOccluderContainer") instance=ExtResource("25_qple1")]
+[node name="Door" parent="SubViewportContainer/ActiveViewport/Level/Doors" node_paths=PackedStringArray("doorVisionOccluderContainer") instance=ExtResource("41_phreu")]
 position = Vector2(632, 232)
-doorVisionOccluderContainer = NodePath("../../../../../VisiblityViewport/DoorOccluders")
+doorVisionOccluderContainer = NodePath("../../../../../VisibilityViewport/DoorOccluders")
 
-[node name="Door2" parent="SubViewportContainer/ActiveViewport/GameContainer/Doors" node_paths=PackedStringArray("doorVisionOccluderContainer") instance=ExtResource("25_qple1")]
+[node name="Door2" parent="SubViewportContainer/ActiveViewport/Level/Doors" node_paths=PackedStringArray("doorVisionOccluderContainer") instance=ExtResource("41_phreu")]
 position = Vector2(696, 232)
-doorVisionOccluderContainer = NodePath("../../../../../VisiblityViewport/DoorOccluders")
+doorVisionOccluderContainer = NodePath("../../../../../VisibilityViewport/DoorOccluders")
 
-[node name="Door3" parent="SubViewportContainer/ActiveViewport/GameContainer/Doors" node_paths=PackedStringArray("doorVisionOccluderContainer") instance=ExtResource("25_qple1")]
+[node name="Door3" parent="SubViewportContainer/ActiveViewport/Level/Doors" node_paths=PackedStringArray("doorVisionOccluderContainer") instance=ExtResource("41_phreu")]
 position = Vector2(1064, 232)
-doorVisionOccluderContainer = NodePath("../../../../../VisiblityViewport/DoorOccluders")
+doorVisionOccluderContainer = NodePath("../../../../../VisibilityViewport/DoorOccluders")
