@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="TopDown"
+run/main_scene="uid://d36oj7b8ci50u"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 

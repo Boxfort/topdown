@@ -44,11 +44,11 @@ public partial class GameManager : Node2D
         Node2D staticTiles = (Node2D)currentLevel.staticTilesContainer.Duplicate();
         TileMapLayer destructableTiles = (TileMapLayer)currentLevel.destructableTiles.Duplicate();
 
-        currentLevel.SetupLevel(visibilityViewport.OccludersContainer, visibilityViewport.DoorOccludersContainer);
+        currentLevel.SetupLevel(visibilityViewport.OccludersContainer, visibilityViewport.DoorOccludersContainer, combinedView);
 
         unlitViewport.SetupViewport(currentLevel.mainCamera, staticTiles, destructableTiles);
         visibilityViewport.SetupViewport(currentLevel.player, currentLevel.mainCamera, (Node2D)staticTiles.Duplicate());
-        fogOfWarViewport.SetupFogOfWarViewport(visibilityViewport, currentLevel.mainCamera);
+        fogOfWarViewport.SetupFogOfWarViewport(visibilityViewport, currentLevel.mainStaticTiles, currentLevel.mainCamera);
         uiViewport.SetupUIViewport(currentLevel.player);
 
         combinedView.SetupCombinedView(currentLevel.mainCamera, fogOfWarViewport);

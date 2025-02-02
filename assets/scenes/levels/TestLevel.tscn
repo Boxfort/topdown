@@ -290,10 +290,11 @@ polygon = PackedVector2Array(-8, 7, -8, -8, 6, -8, 6, 7)
 atlas = ExtResource("31_c03fu")
 region = Rect2(96, 80, 16, 16)
 
-[node name="Level" type="Node2D" node_paths=PackedStringArray("staticTilesContainer", "destructableTiles", "mainCamera", "player", "tilemapDestructionHandler")]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("staticTilesContainer", "mainStaticTiles", "destructableTiles", "mainCamera", "player", "tilemapDestructionHandler")]
 y_sort_enabled = true
 script = ExtResource("26_156k5")
 staticTilesContainer = NodePath("Map/StaticTilesContainer")
+mainStaticTiles = NodePath("Map/StaticTilesContainer/FloorTiles")
 destructableTiles = NodePath("Map/TileDestructionHandler/DestructionMask/DestructibleTiles")
 mainCamera = NodePath("MainCamera")
 player = NodePath("Player")

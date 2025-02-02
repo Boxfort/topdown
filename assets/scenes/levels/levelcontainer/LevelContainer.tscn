@@ -348,6 +348,7 @@ shader = ExtResource("23_5n63w")
 shader_parameter/mask_texture = SubResource("ViewportTexture_va2h5")
 shader_parameter/mask_position = null
 shader_parameter/mask_size = null
+shader_parameter/reset_color = Color(1, 0, 1, 1)
 
 [node name="GameContainer" type="Node2D"]
 texture_filter = 1
@@ -373,7 +374,6 @@ scale = Vector2(0.05, 0.05)
 texture = SubResource("ViewportTexture_va2h5")
 
 [node name="FogOfWarDebug" type="TextureRect" parent="CanvasLayer"]
-visible = false
 visibility_layer = 2
 z_index = 1
 material = SubResource("CanvasItemMaterial_2kdu2")

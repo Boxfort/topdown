@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class FogOfWarViewport : SubViewport
 {
@@ -12,10 +13,21 @@ public partial class FogOfWarViewport : SubViewport
         fogOfWarMap = GetNode<FogOfWarTexture>("FogOfWarMap");
     }
 
-    public void SetupFogOfWarViewport(VisibilityViewport visibilityViewport, Camera2D mainCamera)
+    public void SetupFogOfWarViewport(VisibilityViewport visibilityViewport, TileMapLayer staticTiles, Camera2D mainCamera)
     {
         fogOfWarMap.VisibilityViewport = visibilityViewport;
         fogOfWarMap.MainCamera = mainCamera;
+        SetFogOfWarMapSize(staticTiles);
+        _ = ResetFogOfWar();
+    }
+
+    public async Task ResetFogOfWar()
+    {
+        RenderTargetClearMode = ClearMode.Always;
+
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        RenderTargetClearMode = ClearMode.Once;
     }
 
     public void SetFogOfWarMapSize(TileMapLayer tileMap)

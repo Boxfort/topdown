@@ -13,6 +13,8 @@ public partial class CameraController : Camera2D
     float followSpeed = 10f;
     float maxLookDistance = 100f;
 
+    public CombinedView CombinedView { get => combinedView; set => combinedView = value; }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {

@@ -3,6 +3,7 @@ shader_type canvas_item;
 uniform sampler2D mask_texture: filter_nearest;
 uniform vec3 mask_position;
 uniform vec2 mask_size;
+uniform vec4 reset_color: source_color;
 
 
 void vertex() {
@@ -12,10 +13,14 @@ void vertex() {
 void fragment() {
     vec4 mask = texture(mask_texture, UV);
 
-   	if(mask.r > 0.5) {
+    if (mask == reset_color) {
         mask.a = 0.0;
-	} else {
-        mask.rgb = vec3(1,1,1);
+    } else {
+       	if(mask.r > 0.5) {
+            mask.a = 0.0;
+   	    } else {
+            mask.rgb = vec3(1,1,1);
+        }
     }
 
     COLOR = mask;
