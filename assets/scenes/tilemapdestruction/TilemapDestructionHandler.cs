@@ -30,21 +30,22 @@ public partial class TilemapDestructionHandler : Node2D
     const float wallsLayer = 2.0f;
     Vector2I cellSize = new(16, 16);
 
-    public Node2D MainOccludersContainer { get => mainOccludersContainer; set => mainOccludersContainer = value; }
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         cellSize = tileMap.TileSet.TileSize;
-        if (tileMap != null)
-        {
-            // Make the tileset data unique so we can fuck with it.
-            var tileset = tileMap.TileSet;
-            tileMap.TileSet = (TileSet)tileset.Duplicate();
-            tileMap.CollisionEnabled = false;
-            CombineOccluders(tileMap);
-            ConstructColliders(tileMap);
-        }
+    }
+
+    public void SetupTilemapDestructionHandler(Node2D visionOccluderContainer)
+    {
+        mainOccludersContainer = visionOccluderContainer;
+
+        // Make the tileset data unique so we can fuck with it.
+        var tileset = tileMap.TileSet;
+        tileMap.TileSet = (TileSet)tileset.Duplicate();
+        tileMap.CollisionEnabled = false;
+        CombineOccluders(tileMap);
+        ConstructColliders(tileMap);
     }
 
     public void Carve(CollisionPolygon2D clippingPolygon)
@@ -201,7 +202,8 @@ public partial class TilemapDestructionHandler : Node2D
         }
 
         // We can't find a way to do this clip so just exit.
-        if (err == 2){
+        if (err == 2)
+        {
             GD.PushWarning("Could not find a way to clip polygon.");
             return;
         }
@@ -244,7 +246,7 @@ public partial class TilemapDestructionHandler : Node2D
                     }
                     for (int i = 1; i < roundedClippedPolygons.Count; i++)
                     {
-                        T newNode = constructNode( roundedClippedPolygons[i]);
+                        T newNode = constructNode(roundedClippedPolygons[i]);
                         if (!IsPolygonTooSmall(getPolygon(newNode), isOccluder))
                         {
                             nodeContainer.AddChild(newNode);
@@ -260,7 +262,7 @@ public partial class TilemapDestructionHandler : Node2D
                 }
                 for (int i = 1; i < roundedClippedPolygons.Count; i++)
                 {
-                    T newNode = constructNode( roundedClippedPolygons[i]);
+                    T newNode = constructNode(roundedClippedPolygons[i]);
                     if (!IsPolygonTooSmall(getPolygon(newNode), isOccluder))
                     {
                         nodeContainer.AddChild(newNode);
@@ -383,7 +385,8 @@ public partial class TilemapDestructionHandler : Node2D
 
             // Remove the collision polygons, we're using our own
             TileData tileData = tileMap.GetCellTileData(cellCoord);
-            for(int i = 0; i < tileData.GetCollisionPolygonsCount(0); i++) {
+            for (int i = 0; i < tileData.GetCollisionPolygonsCount(0); i++)
+            {
                 tileData.SetCollisionPolygonPoints(0, i, null);
             }
         }

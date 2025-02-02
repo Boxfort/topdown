@@ -126,4 +126,3 @@ vec4 ditherTexture(sampler2D in_texture, vec2 in_uv) {
     vec4 c = quantizeTexture(in_texture, in_uv, world_vertex);
     return dither_internal(c, world_vertex, false);
 }
-

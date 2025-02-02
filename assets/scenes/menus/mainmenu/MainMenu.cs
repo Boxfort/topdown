@@ -1,33 +1,105 @@
 using Godot;
 using System;
 
-public partial class MainMenu : Node2D
+public partial class MainMenu : Control
 {
     [Export]
-    SubViewport inputViewport;
-    
+    Control mainMenuContainer;
+
     [Export]
-    Control viewportGraphic;
+    Control levelSelectContainer;
 
-    public override void _Input(InputEvent @event)
+    [Export]
+    MenuList mainMenuList;
+
+    [Export]
+    MenuList levelSelectList;
+
+    Control currentPage;
+    Control nextPage;
+
+    bool isFadingIn = false;
+    bool isFadingOut = false;
+
+    float fadeInTime = 0.2f;
+    float fadeOutTime = 0.2f;
+    float fadeTimer = 0;
+
+    public override void _Ready()
     {
+        mainMenuList.OnMenuEntrySelected += OnMainMenuClicked;
+        levelSelectList.OnMenuEntrySelected += OnLevelSelectClicked;
 
-        if (@event is InputEventMouse mouseEvent)
+        currentPage = mainMenuContainer;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (nextPage != null)
         {
-            // GET MOUSE POSITION RELATIVE TO THE GRAPHIC
-            Vector2 currentFactor = new (inputViewport.Size.X / viewportGraphic.Size.X, inputViewport.Size.Y / viewportGraphic.Size.Y);
-            var relativePos = mouseEvent.Position - viewportGraphic.Position;
+            fadeTimer += (float)delta;
 
-            /*
-            GD.Print("MOUSE POS " + mouseEvent.Position);
-            GD.Print("GRAPHIC POS " + viewportGraphic.Position);
-            GD.Print("RELATIVE POS" + relativePos);
-            GD.Print("RELATIVE POS SCALED" + relativePos * currentFactor);
-            */
+            if (isFadingOut)
+            {
+                GD.Print("FADING CURR: " + currentPage.Name);
+                ((ShaderMaterial)currentPage.Material).SetShaderParameter("dissolve_value", fadeTimer / fadeOutTime);
 
-            mouseEvent.Position = relativePos * currentFactor;
-            inputViewport.PushInput(@event);
+                if (fadeTimer >= fadeOutTime)
+                {
+                    fadeTimer = 0;
+                    isFadingOut = false;
+                    isFadingIn = true;
+                    currentPage.Hide();
+                    ((ShaderMaterial)nextPage.Material).SetShaderParameter("dissolve_value", 1);
+                    nextPage.Show();
+                }
+            }
+            else if (isFadingIn)
+            {
+                GD.Print("FADING IN NEXT: " + nextPage.Name);
+                ((ShaderMaterial)nextPage.Material).SetShaderParameter("dissolve_value", 1 - (fadeTimer / fadeInTime));
+
+                if (fadeTimer >= fadeInTime)
+                {
+                    fadeTimer = 0;
+                    isFadingIn = false;
+                    currentPage = nextPage;
+                    nextPage = null;
+                }
+            }
         }
     }
 
+    private void OnMainMenuClicked(string identifier)
+    {
+        if (nextPage != null) return;
+
+        switch (identifier)
+        {
+            case "LEVEL_SELECT":
+                nextPage = levelSelectContainer;
+                isFadingOut = true;
+                break;
+        }
+    }
+
+    private void OnLevelSelectClicked(string identifier)
+    {
+        if (nextPage != null) return;
+
+        switch (identifier)
+        {
+            case "TEST_LEVEL":
+                var parameters = new Godot.Collections.Dictionary()
+                {
+                    ["level_path"] = "res://assets/scenes/levels/TestLevel.tscn",
+                };
+                SceneSwitcher.Instance.ChangeScene("res://assets/scenes/levels/levelcontainer/LevelContainer.tscn", parameters);
+                break;
+            case "BACK":
+                nextPage = mainMenuContainer;
+                isFadingOut = true;
+                break;
+        }
+    }
 }

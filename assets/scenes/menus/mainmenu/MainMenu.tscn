@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://d36oj7b8ci50u"]
 
-[ext_resource type="Script" uid="uid://yusc3yhytawc" path="res://assets/scenes/menus/mainmenu/MainMenu.cs" id="1_45st3"]
-[ext_resource type="Script" uid="uid://knish3bjr2jj" path="res://assets/scenes/menus/mainmenu/ScalingTest.cs" id="1_ddsn0"]
+[ext_resource type="Script" uid="uid://bnnlm330ne3qc" path="res://assets/scenes/menus/mainmenu/MainMenuInputHandler.cs" id="1_45st3"]
+[ext_resource type="Script" uid="uid://knish3bjr2jj" path="res://assets/scenes/menus/components/ScalingItem.cs" id="1_ddsn0"]
 [ext_resource type="Shader" uid="uid://bk6ehod5bnpu4" path="res://assets/shaders/dither/color_reduction_dithering.gdshader" id="1_wlt6m"]
 [ext_resource type="Texture2D" uid="uid://y7kduntkyn1o" path="res://assets/sprites/palettes/mulfok-greyscale-1x.png" id="2_wlt6m"]
 [ext_resource type="Shader" uid="uid://o1qd8s1so1ki" path="res://assets/shaders/fog.gdshader" id="3_kehkn"]
@@ -11,7 +11,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_45st3"]
 shader = ExtResource("1_wlt6m")
-shader_parameter/quantize_size = 4.0
+shader_parameter/quantize_size = 1.0
 shader_parameter/handle_scale = true
 shader_parameter/handle_subpixels = false
 shader_parameter/dither_enabled = true

@@ -3,9 +3,6 @@ using System;
 
 public partial class DoorScript : Node2D
 {
-    [Export]
-    Node2D doorVisionOccluderContainer;
-
     RigidBody2D door;
     PinJoint2D pinJoint;
     StaticBody2D hinge;
@@ -19,8 +16,11 @@ public partial class DoorScript : Node2D
         pinJoint = GetNode<PinJoint2D>("PinJoint2D");
         hinge = GetNode<StaticBody2D>("StaticHinge");
         occluder = door.GetNode<LightOccluder2D>("LightOccluder2D");
-
         occluderCopy = (LightOccluder2D)occluder.Duplicate();
+    }
+
+    public void SetupDoor(Node2D doorVisionOccluderContainer) 
+    {
         doorVisionOccluderContainer.AddChild(occluderCopy);
         occluder.TreeExiting += () => occluderCopy.Free();
     }

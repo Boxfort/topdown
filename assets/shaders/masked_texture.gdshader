@@ -25,7 +25,7 @@ void fragment() {
     vec2 fogUV = ((UV*window_size)+camera_position-(window_size/2.0))/fog_of_war_size;
     fogUV = clamp(fogUV, vec2(0.0), vec2(1.0));
     vec4 fogOfWar = texture(fog_of_war_texture, fogUV);
-    
+
 	if(mask.r > 0.5) {
         if (underMask.a == 0.0) {
             color = overMask;

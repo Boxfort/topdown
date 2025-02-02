@@ -2,11 +2,14 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class MenuList : VBoxContainer
+public abstract partial class MenuList : VBoxContainer
 {
-    List<MenuEntry> menuEntries = [];
+    [Signal]
+    public delegate void OnMenuEntrySelectedEventHandler(string identifier);
 
-    MenuEntry currentHovering;
+    protected List<MenuEntry> menuEntries = [];
+
+    protected MenuEntry currentHovering;
 
     public override void _Ready()
     {
@@ -22,24 +25,14 @@ public partial class MenuList : VBoxContainer
         }
     }
 
-    private void OnMenuEntryClicked(MenuEntry menuEntry)
+    private void OnMenuEntryClickedBefore(MenuEntry menuEntry)
     {
         if (!menuEntry.IsEnabled) return;
 
-        switch (menuEntry.Identifier)
-        {
-            case "NEW_GAME":
-                break;
-            case "LEVEL_SELECT":
-                break;
-            case "EXIT":
-                GetTree().Quit();
-                break;
-            default:
-                GD.PushWarning("Unhandled menulist item: " + menuEntry.Identifier);
-                break;
-        }
+        OnMenuEntryClicked(menuEntry);
     }
+
+    protected abstract void OnMenuEntryClicked(MenuEntry menuEntry);
 
     private void OnMouseEnteredMenuEntry(MenuEntry menuEntry)
     {

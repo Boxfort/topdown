@@ -7,10 +7,11 @@ public partial class LightGem : Control
     AnimatedSprite2D lightGemSprite;
     Label debugLabel;
 
+    public PlayerController Player { get => player; set => player = value; }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        player = (PlayerController)GetTree().GetFirstNodeInGroup("player");
         lightGemSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         debugLabel = GetNode<Label>("Debug");
     }
@@ -18,6 +19,8 @@ public partial class LightGem : Control
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
+        if (player == null) return;
+
         debugLabel.Text = player.CurrentLightValue.ToString();
 
         // TODO: do this on a signal rather than setting it every frame

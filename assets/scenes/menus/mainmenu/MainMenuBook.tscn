@@ -1,12 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://tp4gid7x24sr"]
+[gd_scene load_steps=21 format=3 uid="uid://tp4gid7x24sr"]
 
-[ext_resource type="Texture2D" uid="uid://blfmcqy38qk1o" path="res://assets/scenes/menus/mainmenu/Book.png" id="1_kqnon"]
+[ext_resource type="Script" uid="uid://c682o8inn3oh5" path="res://assets/scenes/menus/mainmenu/MainMenu.cs" id="1_7uw5t"]
+[ext_resource type="Texture2D" uid="uid://blfmcqy38qk1o" path="res://assets/scenes/menus/mainmenu/sprites/Book.png" id="1_kqnon"]
 [ext_resource type="Theme" uid="uid://bepkvtd152dn8" path="res://assets/themes/UITheme.tres" id="2_00vu5"]
 [ext_resource type="FontFile" uid="uid://bu5yjrtspc05b" path="res://assets/fonts/FantasyWarrior-Regular.ttf" id="3_1dgta"]
 [ext_resource type="FontFile" uid="uid://c1ymecm4o27k" path="res://assets/fonts/LanaPixel.ttf" id="4_7uw5t"]
-[ext_resource type="Script" uid="uid://xt27ixko7cxu" path="res://assets/scenes/menus/mainmenu/MenuEntry.cs" id="5_00vu5"]
-[ext_resource type="Script" uid="uid://8bbqnni17far" path="res://assets/scenes/menus/mainmenu/MenuList.cs" id="5_1dgta"]
+[ext_resource type="Script" uid="uid://xt27ixko7cxu" path="res://assets/scenes/menus/components/MenuEntry.cs" id="5_00vu5"]
+[ext_resource type="Script" uid="uid://d1kxhymmr3qpj" path="res://assets/scenes/menus/mainmenu/MainMenuList.cs" id="5_7uw5t"]
 [ext_resource type="Texture2D" uid="uid://bplt1r5404q1k" path="res://assets/scenes/menus/mainmenu/sprites/flag_arrow_right.png" id="6_00vu5"]
+[ext_resource type="Shader" uid="uid://lad63r7aq3ip" path="res://assets/shaders/dissolve.gdshader" id="6_xnwqi"]
+[ext_resource type="Script" uid="uid://bctnhhua73au1" path="res://assets/scenes/menus/mainmenu/LevelList.cs" id="9_ca5hg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hg3f4"]
 bg_color = Color(0.94902, 0.682353, 0.6, 1)
@@ -18,7 +21,54 @@ bg_color = Color(0.94902, 0.682353, 0.6, 1)
 expand_margin_left = 8.0
 expand_margin_right = 8.0
 
-[node name="UI" type="Control"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_yp1gr"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_48sag"]
+width = 227
+height = 241
+noise = SubResource("FastNoiseLite_yp1gr")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xnwqi"]
+shader = ExtResource("6_xnwqi")
+shader_parameter/dissolve_texture = SubResource("NoiseTexture2D_48sag")
+shader_parameter/dissolve_value = 0.0
+
+[sub_resource type="Shader" id="Shader_xnwqi"]
+code = "shader_type canvas_item;
+
+uniform sampler2D dissolve_texture;
+uniform float dissolve_value : hint_range(0,1);
+uniform sampler2D SCREEN_TEXTURE: hint_screen_texture, filter_nearest;
+
+void fragment(){
+    vec4 main_texture = texture(TEXTURE, UV) * COLOR;
+    vec4 noise_texture = texture(dissolve_texture, UV);
+    main_texture.a *= floor(dissolve_value + min(1, noise_texture.x));
+    COLOR = main_texture;
+}"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xnwqi"]
+seed = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yp1gr"]
+width = 227
+height = 241
+noise = SubResource("FastNoiseLite_xnwqi")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yp1gr"]
+shader = SubResource("Shader_xnwqi")
+shader_parameter/dissolve_texture = SubResource("NoiseTexture2D_yp1gr")
+shader_parameter/dissolve_value = 0.6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_7uw5t"]
+content_margin_top = 0.0
+content_margin_bottom = 8.0
+color = Color(0.788235, 0.45098, 0.45098, 1)
+grow_begin = -16.0
+grow_end = -16.0
+thickness = 2
+
+[node name="UI" type="Control" node_paths=PackedStringArray("mainMenuContainer", "levelSelectContainer", "mainMenuList", "levelSelectList")]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -27,6 +77,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+script = ExtResource("1_7uw5t")
+mainMenuContainer = NodePath("Book/Right Page/Content/MainMenu")
+levelSelectContainer = NodePath("Book/Right Page/Content/LevelSelect")
+mainMenuList = NodePath("Book/Right Page/Content/MainMenu/MainMenuList")
+levelSelectList = NodePath("Book/Right Page/Content/LevelSelect/LevelList")
 
 [node name="Book" type="TextureRect" parent="."]
 texture_filter = 1
@@ -125,6 +180,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_hg3f4")
 text = "Menu"
 horizontal_alignment = 1
 vertical_alignment = 1
+uppercase = true
 
 [node name="Content" type="Control" parent="Book/Right Page"]
 anchors_preset = 0
@@ -133,7 +189,15 @@ offset_top = 65.0
 offset_right = 589.0
 offset_bottom = 306.0
 
-[node name="MenuList" type="VBoxContainer" parent="Book/Right Page/Content"]
+[node name="MainMenu" type="ColorRect" parent="Book/Right Page/Content"]
+clip_children = 1
+material = SubResource("ShaderMaterial_xnwqi")
+layout_mode = 0
+offset_right = 227.0
+offset_bottom = 241.0
+color = Color(0.94902, 0.682353, 0.6, 1)
+
+[node name="MainMenuList" type="VBoxContainer" parent="Book/Right Page/Content/MainMenu"]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -143,9 +207,9 @@ offset_top = -65.5
 offset_bottom = 65.5
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("5_1dgta")
+script = ExtResource("5_7uw5t")
 
-[node name="MenuEntry" type="HBoxContainer" parent="Book/Right Page/Content/MenuList"]
+[node name="MenuEntry" type="HBoxContainer" parent="Book/Right Page/Content/MainMenu/MainMenuList"]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
@@ -153,12 +217,12 @@ script = ExtResource("5_00vu5")
 isEnabled = false
 identifier = "CONTINUE"
 
-[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry"]
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry"]
 layout_mode = 2
 size_flags_horizontal = 10
 texture = ExtResource("6_00vu5")
 
-[node name="Label" type="Label" parent="Book/Right Page/Content/MenuList/MenuEntry"]
+[node name="Label" type="Label" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry"]
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_00vu5")
@@ -166,26 +230,26 @@ text = "Continue"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry"]
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry"]
 layout_mode = 2
 size_flags_horizontal = 2
 texture = ExtResource("6_00vu5")
 flip_h = true
 
-[node name="MenuEntry2" type="HBoxContainer" parent="Book/Right Page/Content/MenuList"]
+[node name="MenuEntry2" type="HBoxContainer" parent="Book/Right Page/Content/MainMenu/MainMenuList"]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 script = ExtResource("5_00vu5")
 identifier = "NEW_GAME"
 
-[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry2"]
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry2"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 10
 texture = ExtResource("6_00vu5")
 
-[node name="Label" type="Label" parent="Book/Right Page/Content/MenuList/MenuEntry2"]
+[node name="Label" type="Label" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry2"]
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_00vu5")
@@ -193,27 +257,27 @@ text = "New Game"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry2"]
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry2"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 2
 texture = ExtResource("6_00vu5")
 flip_h = true
 
-[node name="MenuEntry6" type="HBoxContainer" parent="Book/Right Page/Content/MenuList"]
+[node name="MenuEntry6" type="HBoxContainer" parent="Book/Right Page/Content/MainMenu/MainMenuList"]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 script = ExtResource("5_00vu5")
 identifier = "LEVEL_SELECT"
 
-[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry6"]
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry6"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 10
 texture = ExtResource("6_00vu5")
 
-[node name="Label" type="Label" parent="Book/Right Page/Content/MenuList/MenuEntry6"]
+[node name="Label" type="Label" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry6"]
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_00vu5")
@@ -221,14 +285,14 @@ text = "Level Select"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry6"]
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry6"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 2
 texture = ExtResource("6_00vu5")
 flip_h = true
 
-[node name="MenuEntry3" type="HBoxContainer" parent="Book/Right Page/Content/MenuList"]
+[node name="MenuEntry3" type="HBoxContainer" parent="Book/Right Page/Content/MainMenu/MainMenuList"]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
@@ -236,13 +300,13 @@ script = ExtResource("5_00vu5")
 isEnabled = false
 identifier = "SETTINGS"
 
-[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry3"]
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry3"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 10
 texture = ExtResource("6_00vu5")
 
-[node name="Label" type="Label" parent="Book/Right Page/Content/MenuList/MenuEntry3"]
+[node name="Label" type="Label" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry3"]
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_00vu5")
@@ -250,14 +314,14 @@ text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry3"]
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry3"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 2
 texture = ExtResource("6_00vu5")
 flip_h = true
 
-[node name="MenuEntry4" type="HBoxContainer" parent="Book/Right Page/Content/MenuList"]
+[node name="MenuEntry4" type="HBoxContainer" parent="Book/Right Page/Content/MainMenu/MainMenuList"]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
@@ -265,13 +329,13 @@ script = ExtResource("5_00vu5")
 isEnabled = false
 identifier = "CREDITS"
 
-[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry4"]
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry4"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 10
 texture = ExtResource("6_00vu5")
 
-[node name="Label" type="Label" parent="Book/Right Page/Content/MenuList/MenuEntry4"]
+[node name="Label" type="Label" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry4"]
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_00vu5")
@@ -279,27 +343,27 @@ text = "Credits"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry4"]
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry4"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 2
 texture = ExtResource("6_00vu5")
 flip_h = true
 
-[node name="MenuEntry5" type="HBoxContainer" parent="Book/Right Page/Content/MenuList"]
+[node name="MenuEntry5" type="HBoxContainer" parent="Book/Right Page/Content/MainMenu/MainMenuList"]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 script = ExtResource("5_00vu5")
 identifier = "EXIT"
 
-[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry5"]
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry5"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 10
 texture = ExtResource("6_00vu5")
 
-[node name="Label" type="Label" parent="Book/Right Page/Content/MenuList/MenuEntry5"]
+[node name="Label" type="Label" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry5"]
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_00vu5")
@@ -307,7 +371,114 @@ text = "Exit"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MenuList/MenuEntry5"]
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/MainMenu/MainMenuList/MenuEntry5"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("6_00vu5")
+flip_h = true
+
+[node name="LevelSelect" type="ColorRect" parent="Book/Right Page/Content"]
+visible = false
+clip_children = 1
+material = SubResource("ShaderMaterial_yp1gr")
+layout_mode = 0
+offset_right = 227.0
+offset_bottom = 241.0
+color = Color(0.94902, 0.682353, 0.6, 1)
+
+[node name="LevelList" type="VBoxContainer" parent="Book/Right Page/Content/LevelSelect"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -65.5
+offset_bottom = 65.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_ca5hg")
+
+[node name="MenuEntry" type="HBoxContainer" parent="Book/Right Page/Content/LevelSelect/LevelList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+script = ExtResource("5_00vu5")
+identifier = "TEST_LEVEL"
+
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/LevelSelect/LevelList/MenuEntry"]
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("6_00vu5")
+
+[node name="Label" type="Label" parent="Book/Right Page/Content/LevelSelect/LevelList/MenuEntry"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_00vu5")
+text = "Test Level"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/LevelSelect/LevelList/MenuEntry"]
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("6_00vu5")
+flip_h = true
+
+[node name="MenuEntry2" type="HBoxContainer" parent="Book/Right Page/Content/LevelSelect/LevelList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+script = ExtResource("5_00vu5")
+identifier = "TUTORIAL"
+
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/LevelSelect/LevelList/MenuEntry2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("6_00vu5")
+
+[node name="Label" type="Label" parent="Book/Right Page/Content/LevelSelect/LevelList/MenuEntry2"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_00vu5")
+text = "Tutorial"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/LevelSelect/LevelList/MenuEntry2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("6_00vu5")
+flip_h = true
+
+[node name="HSeparator" type="HSeparator" parent="Book/Right Page/Content/LevelSelect/LevelList"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_7uw5t")
+
+[node name="MenuEntry3" type="HBoxContainer" parent="Book/Right Page/Content/LevelSelect/LevelList"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+script = ExtResource("5_00vu5")
+identifier = "BACK"
+
+[node name="LeftArrow" type="TextureRect" parent="Book/Right Page/Content/LevelSelect/LevelList/MenuEntry3"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("6_00vu5")
+
+[node name="Label" type="Label" parent="Book/Right Page/Content/LevelSelect/LevelList/MenuEntry3"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_00vu5")
+text = "Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightArrow" type="TextureRect" parent="Book/Right Page/Content/LevelSelect/LevelList/MenuEntry3"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 2

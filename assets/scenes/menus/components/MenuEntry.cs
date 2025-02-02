@@ -36,6 +36,7 @@ public partial class MenuEntry : HBoxContainer
         {
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
             {
+                //if (IsVisibleInTree()) 
                 EmitSignal(SignalName.Clicked);
             }
         }

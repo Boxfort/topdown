@@ -11,9 +11,12 @@ config_version=5
 [application]
 
 config/name="TopDown"
-run/main_scene="uid://iiy8nfvj47mb"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SceneSwitcherA="*res://assets/scripts/SceneSwitcher.cs"
 
 [display]
 
@@ -39,6 +42,7 @@ player=""
 player_light=""
 pushable=""
 floor_tiles=""
+door=""
 
 [input]
 

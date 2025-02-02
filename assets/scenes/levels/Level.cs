@@ -18,8 +18,13 @@ public partial class Level : Node2D
     [Export(PropertyHint.NodeType, "Node2D")]
     public TilemapDestructionHandler tilemapDestructionHandler;
 
-    public void SetupLevel(Node2D visionOccluderContainer)
+    public void SetupLevel(Node2D visionOccluderContainer, Node2D doorVisionOccludersContainer)
     {
-        tilemapDestructionHandler.MainOccludersContainer = visionOccluderContainer;
+        tilemapDestructionHandler.SetupTilemapDestructionHandler(visionOccluderContainer);
+
+        foreach (DoorScript door in GetTree().GetNodesInGroup("door"))
+        {
+            door.SetupDoor(doorVisionOccludersContainer);
+        }
     }
 }
